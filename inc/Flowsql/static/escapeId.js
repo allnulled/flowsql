@@ -2,7 +2,7 @@
  * 
  * ### `Flowsql.escapeId(value:any)`
  * 
- * Método que...
+ * Método que sirve para escapar identificadores en la sintaxis sql.
  * 
  */
 module.exports = function(value) {

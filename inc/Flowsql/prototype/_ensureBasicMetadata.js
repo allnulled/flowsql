@@ -11,6 +11,7 @@
  * 
  */
 module.exports = function () {
+  this.trace("_ensureBasicMetadata");
   this.runSql(`
     CREATE TABLE IF NOT EXISTS Database_metadata (
       id INTEGER PRIMARY KEY AUTOINCREMENT,

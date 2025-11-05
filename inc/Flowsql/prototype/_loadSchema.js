@@ -6,6 +6,7 @@
  * 
  */
 module.exports = function () {
+  this.trace("_loadSchema");
   const schemaQuery = this.fetchSql(`
     SELECT *
     FROM Database_metadata

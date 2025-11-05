@@ -6,8 +6,13 @@
  * 
  * Este método interno es usado por `Flowsql.prototype.insertOne` y `Flowsql.prototype.insertMany`. De ahí el parámetro `byMethod:String`.
  * 
+ * Además de insertar el valor principal, insertará todos los elementos relacionales especificados también.
+ * 
+ * Devuelve un array con los ids de las filas (principales, no relacionales) insertadas.
+ * 
  */
 module.exports = function (table, rows, byMethod = "_insertMany") {
+  this.trace("_insertMany");
   this.assertion(typeof table === "string", `Parameter «table» must be a string on «${byMethod}»`);
   this.assertion(table in this.$schema.tables, `Parameter «table» must be a string on «${byMethod}»`);
   this.assertion(Array.isArray(rows), `Parameter «rows» must be an array on «${byMethod}»`);

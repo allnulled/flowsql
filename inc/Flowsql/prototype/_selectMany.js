@@ -1,6 +1,6 @@
 /**
  * 
- * ### `Flowsql.prototype._selectMany(table:String, filters:Array, byMethod:String)`
+ * ### `Flowsql.prototype._selectMany(table:String, filters:Array, byMethod:String):Array`
  * 
  * Método que selecciona múltiples filas según criterios especificados en `filters:Array`.
  * 
@@ -32,9 +32,11 @@
  *    - `has not`: solo contra columnas relacionales
  * - `filters[n][2]`: el complemento comparador
  * 
+ * Devuelve un array con las filas coincidentes.
  * 
  */
 module.exports = function (table, filters, byMethod = "_selectMany") {
+  this.trace("_selectMany");
   this.assertion(typeof table === "string", `Parameter «table» must be a string on «${byMethod}»`);
   this.assertion(table in this.$schema.tables, `Parameter «table» must be a schema table on «${byMethod}»`);
   this.assertion(Array.isArray(filters), `Parameter «filters» must be an array on «${byMethod}»`);

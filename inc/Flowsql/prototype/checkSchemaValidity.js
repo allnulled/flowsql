@@ -2,10 +2,33 @@
  * 
  * ### `Flowsql.prototype.checkSchemaValidity(schema:Object)`
  * 
- * Método que...
+ * Método que comprueba la validez de un esquema.
+ * 
+ * El parámetro `schema:Object` debe cumplir las validaciones correspondientes.
+ * 
+ * En este método se comprueba que:
+ * 
+ * - `schema:Object` es un Object
+ * - `schema.tables:Object` es un Object
+ * - `schema.tables[table]:Object` es un Object
+ * - `schema.tables[table].columns:Object` es un Object
+ * - `schema.tables[table].columns[columnId]:Object` es un Object
+ * - `schema.tables[table].columns[columnId].type:String` es un String
+ * - `schema.tables[table].columns[columnId].type:String` es un tipo conocido por `Flowsql.knownTypes`
+ * - `schema.tables[table].columns[columnId].unique:Boolean` es un Boolean o no existe
+ * - `schema.tables[table].columns[columnId].nullable:Boolean` es un Boolean o no existe
+ * - `schema.tables[table].columns[columnId].defaultBySql:String` es un String o no existe
+ * - `schema.tables[table].columns[columnId].defaultByJs:String` es un String o no existe
+ * - `schema.tables[table].columns[columnId].maxLength:Number` es un Number o no existe
+ * - Si la columna es un `object-reference` o un `array-reference`:
+ *    - `columnMetadata.referredTable` es un String
+ *    - `columnMetadata.referredTable` existe en `this.$schema.tables` como identificador de tabla.
+ * 
+ * Si alguna validación falla, lanza un error especificando el caso de fallo.
  * 
  */
 module.exports = function(schema) {
+  this.trace("checkSchemaValidity");
   const { assertion } = this;
   assertion(typeof schema === "object", `Parameter «schema» must be an object on «checkSchemaValidity»`);
   assertion(typeof schema.tables === "object", `Parameter «schema.tables» must be an object on «checkSchemaValidity»`);

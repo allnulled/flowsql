@@ -2,7 +2,9 @@
  * 
  * ### `Flowsql.prototype.updateOne(table:String, id:String|Number, values:Object)`
  * 
- * Método que...
+ * Método que actualiza una fila basándose en su id.
+ * 
+ * Por debajo utiliza `Flowsql.prototype._updateMany`.
  * 
  */
 module.exports = function(table, id, values) {

@@ -2,7 +2,11 @@
  * 
  * ### `Flowsql.prototype.dropTable(table:String)`
  * 
- * Método que...
+ * Método que elimina una tabla del esquema.
+ * 
+ * El parámetro `table:String` debe existir como tabla en el `this.$schema.tables`.
+ * 
+ * Si encuentra columnas relacionales dentro de la tabla, eliminará todas las tablas relacionales.
  * 
  */
 module.exports = function(table) {

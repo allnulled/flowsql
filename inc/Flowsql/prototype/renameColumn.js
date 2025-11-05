@@ -2,7 +2,13 @@
  * 
  * ### `Flowsql.prototype.renameColumn(table:String, columnId:String, newName:String)`
  * 
- * Método que...
+ * Método que renombra una columna del esquema.
+ * 
+ * El parámetro `table:String` debe ser una tabla del esquema.
+ * 
+ * El parámetro `columnId:String` debe ser una columna del esquema de la tabla.
+ * 
+ * El parámetro `newName:String` no puede ser una columna del esquema de la tabla.
  * 
  */
 module.exports = function (table, columnId, newName) {

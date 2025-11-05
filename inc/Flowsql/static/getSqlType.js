@@ -2,7 +2,23 @@
  * 
  * ### `Flowsql.getSqlType(columnType:String, columnMetadata:Object)`
  * 
- * Método que...
+ * Método que devuelve el código sql correspondiente a un tipo del `this.$schema[table].columns[columnId].type`.
+ * 
+ * Este método mapea los tipos de `flowsql` a `sql`.
+ * 
+ * Solo acepta los tipos:
+ * 
+ *  - `boolean`: a `INTEGER`
+ *  - `real`: a `REAL`
+ *  - `integer`: a `BLOB`
+ *  - `string`: a `TEXT` o `VARCHAR`
+ *  - `blob`: a `BLOB`
+ *  - `date`: a `DATE`
+ *  - `datetime`: a `DATETIME`
+ *  - `object`: a `TEXT`
+ *  - `array`: a `TEXT`
+ *  - `object-reference`: a `INTEGER`
+ *  - `array-reference`: este tipo no se acepta por este método, se procesan por otro lado.
  * 
  */
 module.exports = function(columnType, columnMetadata) {

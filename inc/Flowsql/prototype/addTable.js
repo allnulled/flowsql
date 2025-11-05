@@ -2,7 +2,13 @@
  * 
  * ### `Flowsql.prototype.addTable(table:String, partialSchema:Object)`
  * 
- * Método que...
+ * Método que añade una nueva tabla al esquema sql.
+ * 
+ * El parámetro `table:String` debe existir en el esquema.
+ * 
+ * El parámetro `partialSchema:Object` debe cumplir con las validaciones correspondientes a un esquema parcial de tabla.
+ * 
+ * Además de crear la tabla principal, se crearán las tablas relacionales correspondientes a las columnas relacionales especificadas en `partialSchema:Object`.
  * 
  */
 module.exports = function(table, partialSchema) {

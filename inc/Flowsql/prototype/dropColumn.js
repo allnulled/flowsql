@@ -2,7 +2,13 @@
  * 
  * ### `Flowsql.prototype.dropColumn(table:String, columnId:String)`
  * 
- * Método que...
+ * Método que elimina una columna de una tabla.
+ * 
+ * El parámetro `table:String` debe existir como tabla en el esquema de `this.$schema.tables`.
+ * 
+ * El parámetro `columnId:String` debe existir como columna en el esquema de `this.$schema.tables[table].columns`.
+ * 
+ * Si la columna es relacional, eliminará la tabla relacional entera.
  * 
  */
 module.exports = function (table, columnId) {

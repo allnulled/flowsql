@@ -21,6 +21,7 @@
  * 
  */
 module.exports = function (table, columnId, referredTable) {
+  this.trace("_createRelationalTable");
   const relationalTableId = `Rel_x_${table}_x_${columnId}`;
   let sqlForRelationalTable = "";
   sqlForRelationalTable += `CREATE TABLE ${this.constructor.escapeId(relationalTableId)} (`;

@@ -2,7 +2,27 @@
  * 
  * ### `Flowsql.prototype.addColumn(table:String, columnId:String, partialSchema:Object)`
  * 
- * Método que...
+ * Método que añade una columna al esquema sql.
+ * 
+ * El parámetro `table:String` debe existir en el esquema.
+ * 
+ * El parámetro `columnId:String` no debe existir en el esquema de tabla correspondiente.
+ * 
+ * El parámetro `partialSchema:Object` debe cumplir las validaciones correspondientes a un esquema parcial de columna.
+ * 
+ * Por dentro, aparte de las validaciones pertinentes, este método:
+ * 
+ * - Desactiva las foreign keys de la base de datos.
+ * - Renombra la tabla original con un nombre temporal.
+ * - Crea la misma tabla con el nombre original y la nueva columna.
+ * - Inserta todos los registros originales en la nueva tabla.
+ * - Elimina la tabla original con nombre temporal.
+ * - Activa otra vez las foreign keys.
+ * - Crea las tablas relacionales pertinentes.
+ * - Cambia el esquema interno (`this.$schema.tables[table]`) con el proporcionado.
+ * - Persiste el nuevo esquema en la base de datos
+ * 
+ * Esto se hace así porque el sql no permite añadir limpiamente una columna con claves foráneas.
  * 
  */
 module.exports = function (table, columnId, partialSchema) {

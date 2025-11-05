@@ -8,6 +8,7 @@
  * 
  */
 module.exports = function (table, filters) {
+  this.trace("_sqlForWhere");
   let sql = "";
   Iterating_filters:
   for (let indexFilter = 0; indexFilter < filters.length; indexFilter++) {

@@ -4,8 +4,13 @@
  * 
  * Método que actualiza múltiples filas a la vez.
  * 
+ * Al encontrarse con columnas relacionales en `values:Object`, se eliminarán todos los registros relacionales y se volverán a insertar los nuevos especificados en la columna relacional de `values:Object`.
+ * 
+ * Este método se utiliza por `Flowsql.prototype.updateOne` y `Flowsql.prototype.updateMany`. De ahí el parámetro `byMethod:String`.
+ * 
  */
 module.exports = function (table, filters, values, byMethod = "_updateMany") {
+  this.trace("_updateMany");
   this.assertion(typeof table === "string", `Parameter «table» must be a string on «${byMethod}»`);
   this.assertion(table in this.$schema.tables, `Parameter «table» must be a schema table on «${byMethod}»`);
   this.assertion(Array.isArray(filters), `Parameter «filters» must be an array on «${byMethod}»`);
@@ -33,12 +38,25 @@ module.exports = function (table, filters, values, byMethod = "_updateMany") {
         continue Iterating_relational_columns;
       }
       const relationalTable = `Rel_x_${table}_x_${columnId}`;
-      const relationalValues = values[columnId];
-      const escapedRelationalValue = relationalValues.map(id => this.constructor.escapeValue(id)).join(",");
-      let relationalSql = "";
-      relationalSql += `DELETE FROM ${this.constructor.escapeId(relationalTable)}`;
-      relationalSql += `\n  WHERE id_source IN (${matchedIds.map(id => this.constructor.escapeValue(id)).join(", ")});`;
-      this.runSql(relationalSql);
+      const referredIds = values[columnId];
+      let relationalDeleteSql = "";
+      relationalDeleteSql += `DELETE FROM ${this.constructor.escapeId(relationalTable)}`;
+      relationalDeleteSql += `\n  WHERE id_source IN (${matchedIds.map(id => this.constructor.escapeValue(id)).join(", ")});`;
+      this.runSql(relationalDeleteSql);
+      for(let indexIds=0; indexIds<matchedIds.length; indexIds++) {
+        const matchedId = matchedIds[indexIds];
+        for(let indexReferredId=0; indexReferredId<referredIds.length; indexReferredId++) {
+          const referredId = referredIds[indexReferredId];
+          let relationalInsertSql = "";
+          relationalInsertSql += `INSERT INTO ${this.constructor.escapeId(relationalTable)} (\n  id_source,\n  id_destination,\n  sorter\n)`;
+          relationalInsertSql += ` VALUES (`;
+          relationalInsertSql += `\n  ${this.constructor.escapeValue(matchedId)},`;
+          relationalInsertSql += `\n  ${this.constructor.escapeValue(referredId)},`;
+          relationalInsertSql += `\n  ${1}`;
+          relationalInsertSql += `\n)`;
+          this.insertSql(relationalInsertSql);
+        }
+      }
     }
   }
   const hasNonRelational = this.constructor.arrayContainsAnyOf(Object.keys(values), nonRelationalColumns);

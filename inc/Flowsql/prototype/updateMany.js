@@ -2,7 +2,9 @@
  * 
  * ### `Flowsql.prototype.updateMany(table:String, filters:Array, values:Object)`
  * 
- * Método que...
+ * Método que actualiza varias filas de golpe.
+ * 
+ * Por debajo utiliza `Flowsql.prototype._updateMany`.
  * 
  */
 module.exports = function(table, filters, values) {

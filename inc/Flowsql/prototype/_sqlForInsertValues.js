@@ -8,6 +8,7 @@
  * 
  */
 module.exports = function (table, row) {
+  this.trace("_sqlForInsertValues");
   const allColumns = this.$schema.tables[table].columns;
   const columnIds = Object.keys(allColumns);
   const nonRelationalColumns = columnIds.filter(columnId => allColumns[columnId].type !== "array-reference");

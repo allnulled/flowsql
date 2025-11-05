@@ -2,7 +2,7 @@
  * 
  * ### `new Flowsql.AssertionError(message:String)`
  * 
- * Método que...
+ * Clase que extiende de `Error`. Sirve para especificar errores de tipo aserción.
  * 
  */
 module.exports = class extends Error {

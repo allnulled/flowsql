@@ -1,11 +1,14 @@
 /**
  * 
- * ### `Flowsql.prototype.extractSqlSchema()`
+ * ### `Flowsql.prototype.extractSqlSchema():Object`
  * 
- * Método que...
+ * Método que extrae el esquema del `sql`, no del `this.$schema`.
+ * 
+ * Esto se ha utilizado solamente con fines de debugging, en el framework no se utiliza, pero puede ser interesante para comprender la estructura `sql` que subyace al esquema.
  * 
  */
 module.exports = function() {
+  this.trace("extractSql");
   const schema = { tables: {} };
   // 1. Listar todas las tablas del esquema principal (no las internas de sqlite_)
   const tables = this.$database.prepare(`

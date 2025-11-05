@@ -8,6 +8,7 @@
  * 
  */
 module.exports = function(table, row) {
+  this.trace("_sqlForUpdateSet");
   const rowProperties = Object.keys(row);
   const allColumns = this.$schema.tables[table].columns;
   const columnIds = Object.keys(allColumns);

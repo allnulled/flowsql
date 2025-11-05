@@ -1,8 +1,12 @@
 /**
  * 
- * ### `Flowsql.prototype.deleteMany(table:String, filters:Array)`
+ * ### `Flowsql.prototype.deleteMany(table:String, filters:Array):Array`
  * 
- * Método que...
+ * Método que elimina varias filas de golpe.
+ * 
+ * Este método llama a `Flowsql.prototype._deleteMany` por debajo.
+ * 
+ * Devuelve los ids de las filas eliminadas.
  * 
  */
 module.exports = function(table, filters) {

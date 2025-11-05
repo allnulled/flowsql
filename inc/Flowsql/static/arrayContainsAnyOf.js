@@ -1,3 +1,10 @@
+/**
+ * 
+ * ### `Flowsql.arrayContainsAnyOf(list1:Array, list2:Array):Boolean`
+ * 
+ * Método que comprueba si hay elementos comunes entre 2 listas de elementos.
+ * 
+ */
 module.exports = function(a, b) {
   if (a.length > b.length) {
     [a, b] = [b, a]; // iterar la más corta

@@ -2,7 +2,13 @@
  * 
  * ### `Flowsql.prototype.renameTable(table:String, newName:String)`
  * 
- * Método que...
+ * Método que renombra una tabla del esquema.
+ * 
+ * El parámetro `table:String` debe ser una tabla del esquema.
+ * 
+ * El parámetro `newName:String` no puede ser una tabla del esquema.
+ * 
+ * Hará un `ALTER TABLE x RENAME TO y` a nivel de sql y cambiará y persistirá los cambios del esquema del `this.$schema`.
  * 
  */
 module.exports = function(table, newName) {

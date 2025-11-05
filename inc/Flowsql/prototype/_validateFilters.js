@@ -15,6 +15,7 @@
  * 
  */
 module.exports = function (table, filters) {
+  this.trace("_validateFilters");
   const tableSchema = this.$schema.tables[table];
   const allColumns = tableSchema.columns;
   const columnIds = Object.keys(allColumns).concat(["id"]);

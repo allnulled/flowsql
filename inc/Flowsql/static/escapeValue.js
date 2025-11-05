@@ -2,7 +2,7 @@
  * 
  * ### `Flowsql.escapeValue(value:any)`
  * 
- * Método que...
+ * Método que escapa valores en la sintaxis sql.
  * 
  */
 module.exports = function(value) {

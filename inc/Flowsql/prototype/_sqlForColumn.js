@@ -24,6 +24,7 @@
  * 
  */
 module.exports = function (columnId, columnMetadata) {
+  this.trace("_sqlForColumn");
   const columnType = columnMetadata.type;
   if (columnType === "array-reference") {
     return {

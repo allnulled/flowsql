@@ -147,6 +147,11 @@ module.exports = async function (Flowsql) {
         assertion(allGroups4.length === 1, "allGroups4.length must be 1 here");
         assertion(allGroups4[0].name === 'administrators modified 2', "allGroups4[0].name must be 'administrators modified 2' here");
         assertion(allGroups4[0].permissions.length === 3, "allGroups4[0].permissions.length must be 3 here");
+        Testing_update_one_and_many_relational_behaviour: {
+          flowsql.updateOne("Group", 1, { permissions: [1,2]});
+          const group1 = flowsql.selectOne("Group", 1);
+          assertion(group1.permissions.length === 2, "group1.permissions.length must be 2 here");
+        }
       }
       Testing_delete_one_and_many: {
         let passes1 = false;

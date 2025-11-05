@@ -2,7 +2,9 @@
  * 
  * ### `Flowsql.prototype.trace(method:String, args:Array)`
  * 
- * Método que...
+ * Método que imprime las trazas de los métodos llamados.
+ * 
+ * Utiliza el parámetro `this.$options.trace` para saber si debe o no imprimirlos.
  * 
  */
 module.exports = function(method, args = []) {

@@ -1,0 +1,19 @@
+const fs = require("fs");
+const path = require("path");
+const Flowsql = require(path.resolve(__dirname, "flowsql.js"));
+
+const testDirectory = path.resolve(__dirname, "test");
+const testFolders = fs.readdirSync(testDirectory);
+
+const main = async function () {
+  for (let indexTest = 0; indexTest < testFolders.length; indexTest++) {
+    const testFolder = testFolders[indexTest];
+    const testFolderPath = path.resolve(testDirectory, testFolder);
+    const testPath = path.resolve(testDirectory, testFolder, "test.js");
+    process.chdir(testFolderPath);
+    const testCallback = require(testPath);
+    await testCallback(Flowsql);
+  }
+};
+
+module.exports = main();

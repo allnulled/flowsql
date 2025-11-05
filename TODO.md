@@ -1,0 +1,8 @@
+- [x] selectMany
+- [x] selectOne
+- [ ] insertMany
+- [ ] insertOne
+- [ ] updateMany
+- [ ] updateOne
+- [ ] deleteMany
+- [ ] deleteOne

@@ -1,0 +1,29 @@
+{
+  "name": "@allnulled/flowsql",
+  "version": "1.0.0",
+  "description": "Proxy de better-sqlite3 con gestión nuclear de esquema y soporte para arrays de referencias.",
+  "main": "flowsql.js",
+  "scripts": {
+    "build:docs": "node dev/build-documentation.js",
+    "dev": "npx nodemon -w flowsql.js -w inc -w test -w test.js -e 'js' -x 'node test.js'",
+    "test": "node test.js"
+  },
+  "keywords": [
+    "database",
+    "db",
+    "schema",
+    "schema-driven",
+    "arrays",
+    "sqlite",
+    "sqlite3"
+  ],
+  "author": "allnulled",
+  "license": "WTFPL",
+  "dependencies": {
+    "@allnulled/javadoc-brute": "^1.0.4",
+    "better-sqlite3": "^12.4.1"
+  },
+  "devDependencies": {
+    "javadoc": "^2.0.2"
+  }
+}

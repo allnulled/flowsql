@@ -7,5 +7,5 @@
  */
 module.exports = function(table, id) {
   this.trace("deleteOne");
-  return this.deleteMany(table, [["id", "=", id]]);
+  return this._deleteMany(table, [["id", "=", id]], "deleteOne");
 };

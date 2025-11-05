@@ -6,10 +6,21 @@
  * 
  * Consultará los valores:
  * 
- * - `columnMetadata.type`
- * - `columnMetadata.unique`
- * - `columnMetadata.nullable`
- * - `columnMetadata.defaultBySql`
+ * - `columnMetadata.type` que debe ser uno de los `Flowsql.knownTypes` donde se incluyen:
+ *    - `"boolean"`
+ *    - `"integer"`
+ *    - `"real"`
+ *    - `"string"`
+ *    - `"blob"`
+ *    - `"date"`
+ *    - `"datetime"`
+ *    - `"object"`
+ *    - `"array"`
+ *    - `"object-reference"`
+ *    - `"array-reference"`
+ * - `columnMetadata.unique` que por defecto sería `false`.
+ * - `columnMetadata.nullable` que por defecto sería `false`, es decir, por defecto todas las columnas son `NOT NULL`.
+ * - `columnMetadata.defaultBySql` que no tiene un valor por defecto.
  * 
  */
 module.exports = function (columnId, columnMetadata) {

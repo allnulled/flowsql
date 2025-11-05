@@ -4,7 +4,7 @@
  * 
  * Método que devuelve el código `sql` correspondiente a `INSERT INTO (...)` dada una tabla y una fila.
  * 
- * Se consultarán y omitirán las columnas relacionales en el `this.$schema.tables[table]`.
+ * Se consultarán y omitirán las columnas relacionales especificadas en el `this.$schema.tables[table].columns`.
  * 
  */
 module.exports = function (table, row) {

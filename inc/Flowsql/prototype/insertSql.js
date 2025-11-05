@@ -7,7 +7,7 @@
  */
 module.exports = function (sql) {
   if (this.$options.traceSql) {
-    console.log("[sql]", sql);
+    console.log("[sql]\n", sql);
   }
   const result = this.$database.prepare(sql).run();
   return result.lastInsertRowid;

@@ -27,7 +27,12 @@ Flowsql.prototype._sqlForColumn = requireFile("Flowsql", "prototype", "_sqlForCo
 Flowsql.prototype._sqlForWhere = requireFile("Flowsql", "prototype", "_sqlForWhere.js");
 Flowsql.prototype._sqlForInsertInto = requireFile("Flowsql", "prototype", "_sqlForInsertInto.js");
 Flowsql.prototype._sqlForInsertValues = requireFile("Flowsql", "prototype", "_sqlForInsertValues.js");
+Flowsql.prototype._sqlForUpdateSet = requireFile("Flowsql", "prototype", "_sqlForUpdateSet.js");
 Flowsql.prototype._validateInstance = requireFile("Flowsql", "prototype", "_validateInstance.js");
+Flowsql.prototype._selectMany = requireFile("Flowsql", "prototype", "_selectMany.js");
+Flowsql.prototype._insertMany = requireFile("Flowsql", "prototype", "_insertMany.js");
+Flowsql.prototype._updateMany = requireFile("Flowsql", "prototype", "_updateMany.js");
+Flowsql.prototype._deleteMany = requireFile("Flowsql", "prototype", "_deleteMany.js");
 
 Flowsql.prototype.assertion = Flowsql.assertion.bind(Flowsql);
 

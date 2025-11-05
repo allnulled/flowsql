@@ -4,7 +4,9 @@
  * 
  * Método para actualizar el dato del esquema en la base de datos (tabla `Database_metadata`, clave `db.schema`) con el valor actual de la instancia Flowsql, en `this.$schema`. Se guarda en formato JSON.
  * 
- * Hace el proceso inverso de `Flowsql.prototype._loadSchema()`: de instancia a base de datos.
+ * Hace el proceso inverso de `Flowsql.prototype._loadSchema()`: persiste de instancia a base de datos.
+ * 
+ * Por dentro, hace un `UPDATE` en sql.
  * 
  */
 module.exports = function() {

@@ -4,7 +4,7 @@
  * 
  * Método que devuelve el código `sql` correspondiente a un `WHERE` de un select/update/delete.
  * 
- * El parámetro `filters:Array` tiene que ser un filtro aceptado por `Flowsql.prototype.selectMany(table, filters)`. Se explica más en profundidad en ese método.
+ * El parámetro `filters:Array` tiene que ser un filtro aceptado por `Flowsql.prototype._selectMany(table, filters)`. Se explica más en profundidad en ese método.
  * 
  */
 module.exports = function (table, filters) {

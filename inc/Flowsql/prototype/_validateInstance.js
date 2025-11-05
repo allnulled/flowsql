@@ -8,6 +8,6 @@
  * 
  */
 module.exports = function (table, values, operation) {
-  // @TODO...
   this.assertion(["update", "insert"].indexOf(operation) !== -1, `Parameter «operation» must be «insert|update» on «_validateInstance»`);
+  // @TODO...
 };

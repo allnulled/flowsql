@@ -7,8 +7,6 @@
  */
 module.exports = function(table, id) {
   this.trace("selectOne");
-  const allMatches = this.selectMany(table, [
-    ["id", "=", id]
-  ]);
+  const allMatches = this._selectMany(table, [["id", "=", id]], "selectOne");
   return allMatches[0] || null;
 };

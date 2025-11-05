@@ -7,5 +7,6 @@
  */
 module.exports = function(table, id, values) {
   this.trace("updateOne");
-  return this.updateMany(table, [["id", "=", id]], values);
+  const modifiedIds = this._updateMany(table, [["id", "=", id]], values, "updateOne");
+  return modifiedIds[0];
 };

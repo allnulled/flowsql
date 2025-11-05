@@ -7,7 +7,7 @@
  */
 module.exports = function (sql) {
   if (this.$options.traceSql) {
-    console.log("[sql]", sql);
+    console.log("[sql]\n", sql);
   }
   return this.$database.exec(sql);
 };

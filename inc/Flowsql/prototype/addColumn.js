@@ -33,7 +33,7 @@ module.exports = function (table, columnId, partialSchema) {
   this.assertion(typeof partialSchema.type === "string", `Parameter «partialSchema.type» must be a string on «addColumn»`);
   this.assertion(table in this.$schema.tables, `Parameter «table» must be a schema table on «addColumn»`);
   this.assertion(!(columnId in this.$schema), `Parameter «columnId» cannot be a schema column on «addColumn»`);
-  this.checkSchemaValidity({tables: {[table]: {columns: {[columnId]: partialSchema}}}});
+  this.validateSchema({tables: {[table]: {columns: {[columnId]: partialSchema}}}});
   const tableSchema = this.constructor.copyObject(this.$schema.tables[table]);
   const oldColumns = Object.keys(this.$schema.tables[table].columns).filter(columnId => {
     return this.$schema.tables[table].columns[columnId].type !== "array-reference";

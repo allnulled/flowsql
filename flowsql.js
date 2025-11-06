@@ -43,7 +43,7 @@ Flowsql.prototype.connect = requireFile("Flowsql", "prototype", "connect.js");
 Flowsql.prototype.trace = requireFile("Flowsql", "prototype", "trace.js");
 
 Flowsql.prototype.extractSqlSchema = requireFile("Flowsql", "prototype", "extractSqlSchema.js");
-Flowsql.prototype.checkSchemaValidity = requireFile("Flowsql", "prototype", "checkSchemaValidity.js");
+Flowsql.prototype.validateSchema = requireFile("Flowsql", "prototype", "validateSchema.js");
 Flowsql.prototype.addTable = requireFile("Flowsql", "prototype", "addTable.js");
 Flowsql.prototype.addColumn = requireFile("Flowsql", "prototype", "addColumn.js");
 Flowsql.prototype.renameTable = requireFile("Flowsql", "prototype", "renameTable.js");

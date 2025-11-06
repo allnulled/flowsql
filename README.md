@@ -26,7 +26,7 @@ Interfaz de base de datos en node.js basada en sqlite con soporte para listas y 
       - [`Flowsql.prototype._validateInstance(table:String, values:Object, operation:String)`](#flowsqlprototype_validateinstancetablestring-valuesobject-operationstring)
       - [`Flowsql.prototype.addColumn(table:String, columnId:String, partialSchema:Object)`](#flowsqlprototypeaddcolumntablestring-columnidstring-partialschemaobject)
       - [`Flowsql.prototype.addTable(table:String, partialSchema:Object)`](#flowsqlprototypeaddtabletablestring-partialschemaobject)
-      - [`Flowsql.prototype.checkSchemaValidity(schema:Object)`](#flowsqlprototypecheckschemavalidityschemaobject)
+      - [`Flowsql.prototype.validateSchema(schema:Object)`](#flowsqlprototypevalidateSchemaschemaobject)
       - [`Flowsql.prototype.connect()`](#flowsqlprototypeconnect)
       - [`Flowsql.prototype.deleteByLabel(table:String, label:String):Array`](#flowsqlprototypedeletebylabeltablestring-labelstringarray)
       - [`Flowsql.prototype.deleteMany(table:String, filters:Array):Array`](#flowsqlprototypedeletemanytablestring-filtersarrayarray)
@@ -286,7 +286,7 @@ El parámetro `partialSchema:Object` debe cumplir con las validaciones correspon
 
 Además de crear la tabla principal, se crearán las tablas relacionales correspondientes a las columnas relacionales especificadas en `partialSchema:Object`.
 
-### `Flowsql.prototype.checkSchemaValidity(schema:Object)`
+### `Flowsql.prototype.validateSchema(schema:Object)`
 
 Método que comprueba la validez de un esquema.
 

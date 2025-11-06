@@ -218,7 +218,7 @@ El parámetro `partialSchema:Object` debe cumplir con las validaciones correspon
 
 Además de crear la tabla principal, se crearán las tablas relacionales correspondientes a las columnas relacionales especificadas en `partialSchema:Object`.
 
-### `Flowsql.prototype.checkSchemaValidity(schema:Object)`
+### `Flowsql.prototype.validateSchema(schema:Object)`
 
 Método que comprueba la validez de un esquema.
 

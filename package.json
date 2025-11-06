@@ -5,7 +5,8 @@
   "main": "flowsql.js",
   "scripts": {
     "build:docs": "node dev/build-documentation.js",
-    "dev": "npx nodemon -w flowsql.js -w inc -w test -w test.js -e 'js' -x 'node test.js'",
+    "dev": "npx nodemon -w flowsql.js -w inc -w test -w test.js -e 'js' -x 'npm run coverage'",
+    "coverage": "npx nyc --reporter=html --report-dir 'dev/coverage' npm test",
     "test": "node test.js"
   },
   "keywords": [

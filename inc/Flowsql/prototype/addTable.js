@@ -17,7 +17,7 @@ module.exports = function(table, partialSchema) {
   this.assertion(typeof partialSchema === "object", `Parameter «partialSchema» must be an object on «addTable»`);
   this.assertion(typeof partialSchema.columns === "object", `Parameter «partialSchema.columns» must be an object on «addTable»`);
   this.assertion(!(table in this.$schema), `Parameter «table» cannot be a schema table on «addTable»`);
-  this.checkSchemaValidity({tables: {[table]: partialSchema}});
+  this.validateSchema({tables: {[table]: partialSchema}});
   const relationalColumns = [];
   let sqlForMainTable = "";
   sqlForMainTable += `CREATE TABLE ${this.constructor.escapeId(table)} (`;

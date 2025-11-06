@@ -55,6 +55,7 @@ Flowsql.prototype.insertOne = requireFile("Flowsql", "prototype", "insertOne.js"
 Flowsql.prototype.insertMany = requireFile("Flowsql", "prototype", "insertMany.js");
 Flowsql.prototype.selectOne = requireFile("Flowsql", "prototype", "selectOne.js");
 Flowsql.prototype.selectMany = requireFile("Flowsql", "prototype", "selectMany.js");
+Flowsql.prototype.selectByLabel = requireFile("Flowsql", "prototype", "selectByLabel.js");
 Flowsql.prototype.updateOne = requireFile("Flowsql", "prototype", "updateOne.js");
 Flowsql.prototype.updateMany = requireFile("Flowsql", "prototype", "updateMany.js");
 Flowsql.prototype.deleteOne = requireFile("Flowsql", "prototype", "deleteOne.js");

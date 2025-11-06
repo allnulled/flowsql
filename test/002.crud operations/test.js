@@ -7,7 +7,7 @@ module.exports = async function (Flowsql) {
     const flowsql = Flowsql.create({ filename: __dirname + "/test.sqlite", trace: false, traceSql: false });
     flowsql.addTable("User", {
       columns: {
-        name: { type: "string", maxLength: 255, unique: true, nullable: false },
+        name: { type: "string", maxLength: 255, unique: true, nullable: false, label: true },
         email: { type: "string", maxLength: 255, unique: true, nullable: false },
         password: { type: "string", maxLength: 255, nullable: false },
         description: { type: "string", maxLength: 255, default: "'none'", nullable: true }
@@ -15,20 +15,20 @@ module.exports = async function (Flowsql) {
     });
     flowsql.addTable("Permission", {
       columns: {
-        name: { type: "string", maxLength: 255, unique: true, nullable: false },
+        name: { type: "string", maxLength: 255, unique: true, nullable: false, label: true },
         description: { type: "string", maxLength: 255, unique: true, nullable: true },
       }
     });
     flowsql.addTable("Group", {
       columns: {
-        name: { type: "string", maxLength: 255, unique: true, nullable: false },
+        name: { type: "string", maxLength: 255, unique: true, nullable: false, label: true },
         description: { type: "string", maxLength: 255, unique: true, nullable: false },
         permissions: { type: "array-reference", referredTable: "Permission" },
       }
     });
     flowsql.addTable("Session", {
       columns: {
-        token: { type: "string", maxLength: 100, unique: true, nullable: false },
+        token: { type: "string", maxLength: 100, unique: true, nullable: false, label: true },
         user: { type: "object-reference", referredTable: "User", nullable: false },
       }
     });
@@ -167,6 +167,9 @@ module.exports = async function (Flowsql) {
         flowsql.deleteOne("Group", 1);
         const allGroups5 = flowsql.selectMany("Group");
         assertion(allGroups5.length === 0, "allGroups5.length must be 0 here");
+        const permissionToAdministrate = flowsql.selectByLabel("Permission", "to administrate");
+        assertion(typeof permissionToAdministrate === "object", "permissionToAdministrate must be an object here");
+        assertion(permissionToAdministrate.name === "to administrate", "permissionToAdministrate.name must be 'to administrate' here");
       }
     }
 

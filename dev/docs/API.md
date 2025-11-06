@@ -18,149 +18,6 @@ Luego, además, llama a `this.connect()` directamente. Es decir que en el moment
 
 
 
-### `new Flowsql.AssertionError(message:String)`
-
-Clase que extiende de `Error`. Sirve para especificar errores de tipo aserción.
-
-### `Flowsql.arrayContainsAnyOf(list1:Array, list2:Array):Boolean`
-
-Método que comprueba si hay elementos comunes entre 2 listas de elementos.
-
-### `Flowsql.assertion(condition:boolean, errorMessage:String)`
-
-Método que hace una aserción y, de no cumplirse, lanza un mensaje de error.
-
-Es un método utilitario usado por muchas partes de la aplicación.
-
-Lanza errores de tipo `AssertionError`.
-
-### `Flowsql.copyObject(obj:Object)`
-
-Método que copia un objeto JSON y lo devuelve.
-
-Utiliza `JSON.parse(JSON.stringify(obj))`.
-
-### `Flowsql.create(...args)`
-
-Método que construye una instancia con `Flowsql.constructor`.
-
-Es un *wrapper* del constructor, para no tener que usar `new`.
-
-### `Flowsql.defaultDatabaseOptions:Object`
-
-Objeto con las opciones que se van a pasar a `better-sqlite3` por defecto.
-
-Tiene estos valores:
-
-```js
-{
-  readonly: false,
-  fileMustExist: false,
-  timeout: 5000,
-  verbose: (...args) => { },
-}
-```
-
-### `Flowsql.defaultOptions:Object`
-
-Objeto con las opciones pasados al constructor `Flowsql.constructor` por defecto.
-
-Tiene estos valores:
-
-```js
-{
-  trace: false,
-  traceSql: false,
-  filename: require("path").resolve(process.cwd(), "db.sqlite"),
-}
-```
-
-### `Flowsql.dependencies:Object`
-
-Objeto que sirve para inyectar framework externos en la instancia de `Flowsql`.
-
-Tiene los siguientes valores:
-
-```js
-{
-  sqlite3: require("better-sqlite3"),
-}
-```
-
-### `Flowsql.escapeId(value:any)`
-
-Método que sirve para escapar identificadores en la sintaxis sql.
-
-### `Flowsql.escapeValue(value:any)`
-
-Método que escapa valores en la sintaxis sql.
-
-### `Flowsql.getSqlType(columnType:String, columnMetadata:Object)`
-
-Método que devuelve el código sql correspondiente a un tipo del `this.$schema[table].columns[columnId].type`.
-
-Este método mapea los tipos de `flowsql` a `sql`.
-
-Solo acepta los tipos:
-
- - `boolean`: a `INTEGER`
- - `real`: a `REAL`
- - `integer`: a `BLOB`
- - `string`: a `TEXT` o `VARCHAR`
- - `blob`: a `BLOB`
- - `date`: a `DATE`
- - `datetime`: a `DATETIME`
- - `object`: a `TEXT`
- - `array`: a `TEXT`
- - `object-reference`: a `INTEGER`
- - `array-reference`: este tipo no se acepta por este método, se procesan por otro lado.
-
-### `Flowsql.knownOperators:Array`
-
-Array que contiene los operadores conocidos por `flowsql`.
-
-Tiene los siguientes valores:
-
-```js
-[
-  "=",
-  "!=",
-  "<",
-  "<=",
-  ">",
-  ">=",
-  "is null",
-  "is not null",
-  "is in",
-  "is not in",
-  "is like",
-  "is not like",
-  "has",
-  "has not",
-];
-```
-
-### `Flowsql.knownTypes:Array`
-
-Array que contiene los tipos conocidos por `flowsql`.
-
-Tiene los siguientes valores:
-```js
-[
-  "boolean",
-  "integer",
-  "real",
-  "string",
-  "blob",
-  "date",
-  "datetime",
-  "object",
-  "array",
-  "object-reference",
-  "array-reference",
-];
-```
-
 ### `Flowsql.prototype._createRelationalTable(table:String, columnId:String, referredTable:String)`
 
 Método para generar el SQL y crear en la base de datos una tabla relacional.
@@ -492,6 +349,14 @@ Hará un `ALTER TABLE x RENAME TO y` a nivel de sql y cambiará y persistirá lo
 
 Método que ejecuta un sql, sin devolver nada específico.
 
+### `Flowsql.prototype.selectByLabel(table:String, label:String)`
+
+Este método permite seleccionar una fila de una tabla basándose en la columna que tiene `label: true` en el esquema.
+
+El parámetro `table:String` debe ser una tabla del esquema.
+
+El parámetro `label:String` será el valor que tiene que tener la fila en la columna en la cual, en el esquema, tenga la propiedad `label` en `true`.
+
 ### `Flowsql.prototype.selectMany(table:String, filters:Array):Array`
 
 Método que selecciona múltiples filas de una tabla.
@@ -521,4 +386,147 @@ Por debajo utiliza `Flowsql.prototype._updateMany`.
 Método que actualiza una fila basándose en su id.
 
 Por debajo utiliza `Flowsql.prototype._updateMany`.
+
+### `new Flowsql.AssertionError(message:String)`
+
+Clase que extiende de `Error`. Sirve para especificar errores de tipo aserción.
+
+### `Flowsql.arrayContainsAnyOf(list1:Array, list2:Array):Boolean`
+
+Método que comprueba si hay elementos comunes entre 2 listas de elementos.
+
+### `Flowsql.assertion(condition:boolean, errorMessage:String)`
+
+Método que hace una aserción y, de no cumplirse, lanza un mensaje de error.
+
+Es un método utilitario usado por muchas partes de la aplicación.
+
+Lanza errores de tipo `AssertionError`.
+
+### `Flowsql.copyObject(obj:Object)`
+
+Método que copia un objeto JSON y lo devuelve.
+
+Utiliza `JSON.parse(JSON.stringify(obj))`.
+
+### `Flowsql.create(...args)`
+
+Método que construye una instancia con `Flowsql.constructor`.
+
+Es un *wrapper* del constructor, para no tener que usar `new`.
+
+### `Flowsql.defaultDatabaseOptions:Object`
+
+Objeto con las opciones que se van a pasar a `better-sqlite3` por defecto.
+
+Tiene estos valores:
+
+```js
+{
+  readonly: false,
+  fileMustExist: false,
+  timeout: 5000,
+  verbose: (...args) => { },
+}
+```
+
+### `Flowsql.defaultOptions:Object`
+
+Objeto con las opciones pasados al constructor `Flowsql.constructor` por defecto.
+
+Tiene estos valores:
+
+```js
+{
+  trace: false,
+  traceSql: false,
+  filename: require("path").resolve(process.cwd(), "db.sqlite"),
+}
+```
+
+### `Flowsql.dependencies:Object`
+
+Objeto que sirve para inyectar framework externos en la instancia de `Flowsql`.
+
+Tiene los siguientes valores:
+
+```js
+{
+  sqlite3: require("better-sqlite3"),
+}
+```
+
+### `Flowsql.escapeId(value:any)`
+
+Método que sirve para escapar identificadores en la sintaxis sql.
+
+### `Flowsql.escapeValue(value:any)`
+
+Método que escapa valores en la sintaxis sql.
+
+### `Flowsql.getSqlType(columnType:String, columnMetadata:Object)`
+
+Método que devuelve el código sql correspondiente a un tipo del `this.$schema[table].columns[columnId].type`.
+
+Este método mapea los tipos de `flowsql` a `sql`.
+
+Solo acepta los tipos:
+
+ - `boolean`: a `INTEGER`
+ - `real`: a `REAL`
+ - `integer`: a `BLOB`
+ - `string`: a `TEXT` o `VARCHAR`
+ - `blob`: a `BLOB`
+ - `date`: a `DATE`
+ - `datetime`: a `DATETIME`
+ - `object`: a `TEXT`
+ - `array`: a `TEXT`
+ - `object-reference`: a `INTEGER`
+ - `array-reference`: este tipo no se acepta por este método, se procesan por otro lado.
+
+### `Flowsql.knownOperators:Array`
+
+Array que contiene los operadores conocidos por `flowsql`.
+
+Tiene los siguientes valores:
+
+```js
+[
+  "=",
+  "!=",
+  "<",
+  "<=",
+  ">",
+  ">=",
+  "is null",
+  "is not null",
+  "is in",
+  "is not in",
+  "is like",
+  "is not like",
+  "has",
+  "has not",
+];
+```
+
+### `Flowsql.knownTypes:Array`
+
+Array que contiene los tipos conocidos por `flowsql`.
+
+Tiene los siguientes valores:
+```js
+[
+  "boolean",
+  "integer",
+  "real",
+  "string",
+  "blob",
+  "date",
+  "datetime",
+  "object",
+  "array",
+  "object-reference",
+  "array-reference",
+];
+```
 

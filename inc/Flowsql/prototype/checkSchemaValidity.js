@@ -38,6 +38,7 @@ module.exports = function(schema) {
     const tableMetadata = schema.tables[tableId];
     assertion(typeof tableMetadata === "object", `Parameter «schema.tables[${tableId}]» must be an object on «checkSchemaValidity»`);
     assertion(typeof tableMetadata.columns === "object", `Parameter «schema.tables[${tableId}].columns» must be an object on «checkSchemaValidity»`);
+    let labelColumn = undefined;
     const columnIds = Object.keys(tableMetadata.columns);
     for(let indexColumn=0; indexColumn<columnIds.length; indexColumn++) {
       const columnId = columnIds[indexColumn];
@@ -55,6 +56,12 @@ module.exports = function(schema) {
       assertion(["undefined", "string"].indexOf(typeof columnMetadata.defaultBySql) !== -1, `Parameter «schema.tables[${tableId}].columns[${columnId}].defaultBySql» must be a string or undefined on «checkSchemaValidity»`);
       assertion(["undefined", "string"].indexOf(typeof columnMetadata.defaultByJs) !== -1, `Parameter «schema.tables[${tableId}].columns[${columnId}].defaultByJs» must be a string or undefined on «checkSchemaValidity»`);
       assertion(["undefined", "number"].indexOf(typeof columnMetadata.maxLength) !== -1, `Parameter «schema.tables[${tableId}].columns[${columnId}].maxLength» must be a number or undefined on «checkSchemaValidity»`);
+      if(columnMetadata.label) {
+        assertion(typeof labelColumn === "undefined", `Parameter «label» is duplicated on table «${tableId}» on «checkSchemaValidity»`);
+        assertion(columnMetadata.unique, `Parameter «unique» on column «${columnId}» is required to be true on table «${tableId}» if you want it to be considered as label on «checkSchemaValidity»`);
+        assertion(!columnMetadata.nullable, `Parameter «nullable» on column «${columnId}» is required to be false on table «${tableId}» if you want it to be considered as label on «checkSchemaValidity»`);
+        labelColumn = columnId;
+      }
     }
   }
 };

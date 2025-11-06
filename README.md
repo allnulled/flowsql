@@ -28,6 +28,7 @@ Interfaz de base de datos en node.js basada en sqlite con soporte para listas y 
       - [`Flowsql.prototype.addTable(table:String, partialSchema:Object)`](#flowsqlprototypeaddtabletablestring-partialschemaobject)
       - [`Flowsql.prototype.checkSchemaValidity(schema:Object)`](#flowsqlprototypecheckschemavalidityschemaobject)
       - [`Flowsql.prototype.connect()`](#flowsqlprototypeconnect)
+      - [`Flowsql.prototype.deleteByLabel(table:String, label:String):Array`](#flowsqlprototypedeletebylabeltablestring-labelstringarray)
       - [`Flowsql.prototype.deleteMany(table:String, filters:Array):Array`](#flowsqlprototypedeletemanytablestring-filtersarrayarray)
       - [`Flowsql.prototype.deleteOne(table:String, id:String|Number):Number`](#flowsqlprototypedeleteonetablestring-idstringnumbernumber)
       - [`Flowsql.prototype.dropColumn(table:String, columnId:String)`](#flowsqlprototypedropcolumntablestring-columnidstring)
@@ -44,6 +45,7 @@ Interfaz de base de datos en node.js basada en sqlite con soporte para listas y 
       - [`Flowsql.prototype.selectMany(table:String, filters:Array):Array`](#flowsqlprototypeselectmanytablestring-filtersarrayarray)
       - [`Flowsql.prototype.selectOne(table:String, id:String|Number):Object`](#flowsqlprototypeselectonetablestring-idstringnumberobject)
       - [`Flowsql.prototype.trace(method:String, args:Array)`](#flowsqlprototypetracemethodstring-argsarray)
+      - [`Flowsql.prototype.updateByLabel(table:String, label:String, values:Object)`](#flowsqlprototypeupdatebylabeltablestring-labelstring-valuesobject)
       - [`Flowsql.prototype.updateMany(table:String, filters:Array, values:Object)`](#flowsqlprototypeupdatemanytablestring-filtersarray-valuesobject)
       - [`Flowsql.prototype.updateOne(table:String, id:String|Number, values:Object)`](#flowsqlprototypeupdateonetablestring-idstringnumber-valuesobject)
       - [`new Flowsql.AssertionError(message:String)`](#new-flowsqlassertionerrormessagestring)
@@ -323,6 +325,10 @@ Luego, además, asegura que existen los metadatos básicos en la base de datos c
 
 Luego, además, recarga el esquema propio con el existente en la base de datos, con `Flowsql.prototype._loadSchema()`.
 
+### `Flowsql.prototype.deleteByLabel(table:String, label:String):Array`
+
+Método que elimina una fila de una tabla basándose en su columna `label:true`.
+
 ### `Flowsql.prototype.deleteMany(table:String, filters:Array):Array`
 
 Método que elimina varias filas de golpe.
@@ -440,6 +446,10 @@ Por debajo, usa `Flowsql.prototype._selectMany`.
 Método que imprime las trazas de los métodos llamados.
 
 Utiliza el parámetro `this.$options.trace` para saber si debe o no imprimirlos.
+
+### `Flowsql.prototype.updateByLabel(table:String, label:String, values:Object)`
+
+Método que actualiza una fila basándose en su columna `label:true`.
 
 ### `Flowsql.prototype.updateMany(table:String, filters:Array, values:Object)`
 

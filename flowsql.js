@@ -58,7 +58,9 @@ Flowsql.prototype.selectMany = requireFile("Flowsql", "prototype", "selectMany.j
 Flowsql.prototype.selectByLabel = requireFile("Flowsql", "prototype", "selectByLabel.js");
 Flowsql.prototype.updateOne = requireFile("Flowsql", "prototype", "updateOne.js");
 Flowsql.prototype.updateMany = requireFile("Flowsql", "prototype", "updateMany.js");
+Flowsql.prototype.updateByLabel = requireFile("Flowsql", "prototype", "updateByLabel.js");
 Flowsql.prototype.deleteOne = requireFile("Flowsql", "prototype", "deleteOne.js");
 Flowsql.prototype.deleteMany = requireFile("Flowsql", "prototype", "deleteMany.js");
+Flowsql.prototype.deleteByLabel = requireFile("Flowsql", "prototype", "deleteByLabel.js");
 
 module.exports = Flowsql;

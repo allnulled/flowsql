@@ -167,9 +167,18 @@ module.exports = async function (Flowsql) {
         flowsql.deleteOne("Group", 1);
         const allGroups5 = flowsql.selectMany("Group");
         assertion(allGroups5.length === 0, "allGroups5.length must be 0 here");
-        const permissionToAdministrate = flowsql.selectByLabel("Permission", "to administrate");
-        assertion(typeof permissionToAdministrate === "object", "permissionToAdministrate must be an object here");
-        assertion(permissionToAdministrate.name === "to administrate", "permissionToAdministrate.name must be 'to administrate' here");
+      }
+      Testing_select_update_delete_by_label: {
+        const permissionToAdministrate1 = flowsql.selectByLabel("Permission", "to administrate");
+        assertion(typeof permissionToAdministrate1 === "object", "permissionToAdministrate1 must be an object here");
+        assertion(permissionToAdministrate1.name === "to administrate", "permissionToAdministrate1.name must be 'to administrate' here");
+        assertion(permissionToAdministrate1.description === null, "permissionToAdministrate1.description must be null here");
+        flowsql.updateByLabel("Permission", "to administrate", { description: "Permission to administrate"});
+        const permissionToAdministrate2 = flowsql.selectByLabel("Permission", "to administrate");
+        assertion(permissionToAdministrate2.description === "Permission to administrate", "permissionToAdministrate2.description must be 'Permission to administrate' here");
+        flowsql.deleteByLabel("Permission", "to administrate");
+        const permissionToAdministrate3 = flowsql.selectByLabel("Permission", "to administrate");
+        assertion(permissionToAdministrate3 === null, "permissionToAdministrate2 must be null here");
       }
     }
 

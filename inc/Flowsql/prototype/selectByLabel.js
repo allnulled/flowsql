@@ -10,6 +10,7 @@
  * 
  */
 module.exports = function(table, label) {
+  this.trace("selectByLabel");
   this.assertion(typeof table === "string", `Parameter «table» must be a string on «selectByLabel»`);
   this.assertion(table in this.$schema.tables, `Parameter «table» must be a schema table on «selectByLabel»`);
   this.assertion(typeof label === "string", `Parameter «label» must be a string on «selectByLabel»`);
@@ -18,6 +19,6 @@ module.exports = function(table, label) {
   const labelColumns = columnIds.filter(columnId => allColumns[columnId].label === true);
   this.assertion(labelColumns.length === 1, `Parameter «label» cannot be applied because table «${table}» has not a column as «label» on «selectByLabel»`);
   const labelColumn = labelColumns[0];
-  const matchedRows = this._selectMany(table, [[labelColumn, "=", label]]);
+  const matchedRows = this._selectMany(table, [[labelColumn, "=", label]], "selectByLabel");
   return matchedRows[0] || null;
 };

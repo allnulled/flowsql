@@ -257,6 +257,10 @@ Luego, además, asegura que existen los metadatos básicos en la base de datos c
 
 Luego, además, recarga el esquema propio con el existente en la base de datos, con `Flowsql.prototype._loadSchema()`.
 
+### `Flowsql.prototype.deleteByLabel(table:String, label:String):Array`
+
+Método que elimina una fila de una tabla basándose en su columna `label:true`.
+
 ### `Flowsql.prototype.deleteMany(table:String, filters:Array):Array`
 
 Método que elimina varias filas de golpe.
@@ -374,6 +378,10 @@ Por debajo, usa `Flowsql.prototype._selectMany`.
 Método que imprime las trazas de los métodos llamados.
 
 Utiliza el parámetro `this.$options.trace` para saber si debe o no imprimirlos.
+
+### `Flowsql.prototype.updateByLabel(table:String, label:String, values:Object)`
+
+Método que actualiza una fila basándose en su columna `label:true`.
 
 ### `Flowsql.prototype.updateMany(table:String, filters:Array, values:Object)`
 

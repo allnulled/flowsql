@@ -14,7 +14,7 @@
 module.exports = function (table, rows, byMethod = "_insertMany") {
   this.trace("_insertMany");
   this.assertion(typeof table === "string", `Parameter «table» must be a string on «${byMethod}»`);
-  this.assertion(table in this.$schema.tables, `Parameter «table» must be a string on «${byMethod}»`);
+  this.assertion(table in this.$schema.tables, `Parameter «table» must be a table schema on «${byMethod}»`);
   this.assertion(Array.isArray(rows), `Parameter «rows» must be an array on «${byMethod}»`);
   this.assertion(rows.length > 0, `Parameter «rows» must contain at least 1 item on «${byMethod}»`);
   const mainIds = [];
@@ -45,7 +45,7 @@ module.exports = function (table, rows, byMethod = "_insertMany") {
         for (let indexValue = 0; indexValue < relationalValues.length; indexValue++) {
           const value = relationalValues[indexValue];
           let relationalSql = ``;
-          relationalSql += `INSERT INTO ${this.constructor.escapeId(relationalTable)} (\n  id_source,\n  id_destination,\n  sorter\n)`;
+          relationalSql += `INSERT INTO ${this.constructor.escapeId(relationalTable)} (\n  \`id_source\`,\n  \`id_destination\`,\n  \`sorter\`\n)`;
           relationalSql += ` VALUES (`;
           relationalSql += `\n  ${insertedId},`;
           relationalSql += `\n  ${this.constructor.escapeValue(value)},`;

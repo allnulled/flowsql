@@ -1,0 +1,66 @@
+<%
+
+%>
+
+const Flowsql = <%- includeFile(["inc", "Flowsql", "constructor.js"]) %>
+
+Flowsql.create = <%- includeFile(["inc", "Flowsql", "static", "create.js"]) %>
+Flowsql.assertion = <%- includeFile(["inc", "Flowsql", "static", "assertion.js"]) %>
+Flowsql.AssertionError = <%- includeFile(["inc", "Flowsql", "static", "AssertionError.js"]) %>
+Flowsql.defaultOptions = <%- includeFile(["inc", "Flowsql", "static", "defaultOptions.js"]) %>
+Flowsql.defaultDatabaseOptions = <%- includeFile(["inc", "Flowsql", "static", "defaultDatabaseOptions.js"]) %>
+Flowsql.dependencies = <%- includeFile(["inc", "Flowsql", "static", "dependencies.js"]) %>
+Flowsql.escapeId = <%- includeFile(["inc", "Flowsql", "static", "escapeId.js"]) %>
+Flowsql.escapeValue = <%- includeFile(["inc", "Flowsql", "static", "escapeValue.js"]) %>
+Flowsql.getSqlType = <%- includeFile(["inc", "Flowsql", "static", "getSqlType.js"]) %>
+Flowsql.knownTypes = <%- includeFile(["inc", "Flowsql", "static", "knownTypes.js"]) %>
+Flowsql.knownOperators = <%- includeFile(["inc", "Flowsql", "static", "knownOperators.js"]) %>
+Flowsql.copyObject = <%- includeFile(["inc", "Flowsql", "static", "copyObject.js"]) %>
+Flowsql.arrayContainsAnyOf = <%- includeFile(["inc", "Flowsql", "static", "arrayContainsAnyOf.js"]) %>
+
+Flowsql.prototype._ensureBasicMetadata = <%- includeFile(["inc", "Flowsql", "prototype", "_ensureBasicMetadata.js"]) %>
+Flowsql.prototype._loadSchema = <%- includeFile(["inc", "Flowsql", "prototype", "_loadSchema.js"]) %>
+Flowsql.prototype._persistSchema = <%- includeFile(["inc", "Flowsql", "prototype", "_persistSchema.js"]) %>
+Flowsql.prototype._createRelationalTable = <%- includeFile(["inc", "Flowsql", "prototype", "_createRelationalTable.js"]) %>
+Flowsql.prototype._validateFilters = <%- includeFile(["inc", "Flowsql", "prototype", "_validateFilters.js"]) %>
+Flowsql.prototype._sqlForColumn = <%- includeFile(["inc", "Flowsql", "prototype", "_sqlForColumn.js"]) %>
+Flowsql.prototype._sqlForWhere = <%- includeFile(["inc", "Flowsql", "prototype", "_sqlForWhere.js"]) %>
+Flowsql.prototype._sqlForInsertInto = <%- includeFile(["inc", "Flowsql", "prototype", "_sqlForInsertInto.js"]) %>
+Flowsql.prototype._sqlForInsertValues = <%- includeFile(["inc", "Flowsql", "prototype", "_sqlForInsertValues.js"]) %>
+Flowsql.prototype._sqlForUpdateSet = <%- includeFile(["inc", "Flowsql", "prototype", "_sqlForUpdateSet.js"]) %>
+Flowsql.prototype._validateInstance = <%- includeFile(["inc", "Flowsql", "prototype", "_validateInstance.js"]) %>
+Flowsql.prototype._selectMany = <%- includeFile(["inc", "Flowsql", "prototype", "_selectMany.js"]) %>
+Flowsql.prototype._insertMany = <%- includeFile(["inc", "Flowsql", "prototype", "_insertMany.js"]) %>
+Flowsql.prototype._updateMany = <%- includeFile(["inc", "Flowsql", "prototype", "_updateMany.js"]) %>
+Flowsql.prototype._deleteMany = <%- includeFile(["inc", "Flowsql", "prototype", "_deleteMany.js"]) %>
+
+Flowsql.prototype.assertion = Flowsql.assertion.bind(Flowsql);
+
+Flowsql.prototype.fetchSql = <%- includeFile(["inc", "Flowsql", "prototype", "fetchSql.js"]) %>
+Flowsql.prototype.insertSql = <%- includeFile(["inc", "Flowsql", "prototype", "insertSql.js"]) %>
+Flowsql.prototype.runSql = <%- includeFile(["inc", "Flowsql", "prototype", "runSql.js"]) %>
+Flowsql.prototype.connect = <%- includeFile(["inc", "Flowsql", "prototype", "connect.js"]) %>
+Flowsql.prototype.trace = <%- includeFile(["inc", "Flowsql", "prototype", "trace.js"]) %>
+
+Flowsql.prototype.extractSqlSchema = <%- includeFile(["inc", "Flowsql", "prototype", "extractSqlSchema.js"]) %>
+Flowsql.prototype.validateSchema = <%- includeFile(["inc", "Flowsql", "prototype", "validateSchema.js"]) %>
+Flowsql.prototype.addTable = <%- includeFile(["inc", "Flowsql", "prototype", "addTable.js"]) %>
+Flowsql.prototype.addColumn = <%- includeFile(["inc", "Flowsql", "prototype", "addColumn.js"]) %>
+Flowsql.prototype.renameTable = <%- includeFile(["inc", "Flowsql", "prototype", "renameTable.js"]) %>
+Flowsql.prototype.renameColumn = <%- includeFile(["inc", "Flowsql", "prototype", "renameColumn.js"]) %>
+Flowsql.prototype.dropTable = <%- includeFile(["inc", "Flowsql", "prototype", "dropTable.js"]) %>
+Flowsql.prototype.dropColumn = <%- includeFile(["inc", "Flowsql", "prototype", "dropColumn.js"]) %>
+
+Flowsql.prototype.insertOne = <%- includeFile(["inc", "Flowsql", "prototype", "insertOne.js"]) %>
+Flowsql.prototype.insertMany = <%- includeFile(["inc", "Flowsql", "prototype", "insertMany.js"]) %>
+Flowsql.prototype.selectOne = <%- includeFile(["inc", "Flowsql", "prototype", "selectOne.js"]) %>
+Flowsql.prototype.selectMany = <%- includeFile(["inc", "Flowsql", "prototype", "selectMany.js"]) %>
+Flowsql.prototype.selectByLabel = <%- includeFile(["inc", "Flowsql", "prototype", "selectByLabel.js"]) %>
+Flowsql.prototype.updateOne = <%- includeFile(["inc", "Flowsql", "prototype", "updateOne.js"]) %>
+Flowsql.prototype.updateMany = <%- includeFile(["inc", "Flowsql", "prototype", "updateMany.js"]) %>
+Flowsql.prototype.updateByLabel = <%- includeFile(["inc", "Flowsql", "prototype", "updateByLabel.js"]) %>
+Flowsql.prototype.deleteOne = <%- includeFile(["inc", "Flowsql", "prototype", "deleteOne.js"]) %>
+Flowsql.prototype.deleteMany = <%- includeFile(["inc", "Flowsql", "prototype", "deleteMany.js"]) %>
+Flowsql.prototype.deleteByLabel = <%- includeFile(["inc", "Flowsql", "prototype", "deleteByLabel.js"]) %>
+
+module.exports = Flowsql;

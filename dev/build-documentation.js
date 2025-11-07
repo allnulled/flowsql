@@ -51,17 +51,17 @@ const generateMarkdownTOCInMarkdown = function(texto) {
 };
 
 require("@allnulled/javadoc-brute").extractComments({
-  include: [path.resolve(__dirname, "..", "**/*.js")],
-  exclude: [path.resolve(__dirname, "..", "node_modules", "**/*.js")],
-  output: apiMarkdownFile,
+  include: [path.resolve(__dirname, "..", "flowsql-browser.js")],
+  exclude: [
+    path.resolve(__dirname, "..", "node_modules", "**/*.js"),
+  ],
+  output: path.resolve(__dirname, "..", "README-BROWSER.md"),
 });
 
-const apiMarkdown = fs.readFileSync(apiMarkdownFile).toString().trim();
-
-let readmeOutput = readmeTemplate;
-
-readmeOutput = readmeOutput.replace("{{ API.md }}", apiMarkdown).trim();
-
-readmeOutput = readmeOutput.replace("{{ ÍNDICE }}", generateMarkdownTOCInMarkdown(readmeOutput)).trim();
-
-fs.writeFileSync(readmeFile, readmeOutput, "utf8");
+require("@allnulled/javadoc-brute").extractComments({
+  include: [path.resolve(__dirname, "..", "flowsql-node.js")],
+  exclude: [
+    path.resolve(__dirname, "..", "node_modules", "**/*.js"),
+  ],
+  output: path.resolve(__dirname, "..", "README-NODE.md"),
+});

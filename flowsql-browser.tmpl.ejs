@@ -1,0 +1,70 @@
+<%
+
+%>
+
+(function() {
+
+    const FlowsqlBrowser = <%- includeFile(["inc", "FlowsqlBrowser", "constructor.js"], true) %>
+
+    FlowsqlBrowser.create = <%- includeFile(["inc", "Flowsql", "static", "create.js"], false) %>
+    FlowsqlBrowser.assertion = <%- includeFile(["inc", "Flowsql", "static", "assertion.js"], false) %>
+    FlowsqlBrowser.AssertionError = <%- includeFile(["inc", "Flowsql", "static", "AssertionError.js"], false) %>
+    FlowsqlBrowser.defaultOptions = <%- includeFile(["inc", "FlowsqlBrowser", "static", "defaultOptions.js"], true) %>
+    FlowsqlBrowser.defaultDatabaseOptions = <%- includeFile(["inc", "Flowsql", "static", "defaultDatabaseOptions.js"], false) %>
+    FlowsqlBrowser.dependencies = <%- includeFile(["inc", "FlowsqlBrowser", "static", "dependencies.js"], true) %>
+    FlowsqlBrowser.escapeId = <%- includeFile(["inc", "Flowsql", "static", "escapeId.js"], false) %>
+    FlowsqlBrowser.escapeValue = <%- includeFile(["inc", "Flowsql", "static", "escapeValue.js"], false) %>
+    FlowsqlBrowser.getSqlType = <%- includeFile(["inc", "Flowsql", "static", "getSqlType.js"], false) %>
+    FlowsqlBrowser.knownTypes = <%- includeFile(["inc", "Flowsql", "static", "knownTypes.js"], false) %>
+    FlowsqlBrowser.knownOperators = <%- includeFile(["inc", "Flowsql", "static", "knownOperators.js"], false) %>
+    FlowsqlBrowser.copyObject = <%- includeFile(["inc", "Flowsql", "static", "copyObject.js"], false) %>
+    FlowsqlBrowser.arrayContainsAnyOf = <%- includeFile(["inc", "Flowsql", "static", "arrayContainsAnyOf.js"], false) %>
+
+    FlowsqlBrowser.prototype._ensureBasicMetadata = <%- includeFile(["inc", "Flowsql", "prototype", "_ensureBasicMetadata.js"], false) %>
+    FlowsqlBrowser.prototype._loadSchema = <%- includeFile(["inc", "Flowsql", "prototype", "_loadSchema.js"], false) %>
+    FlowsqlBrowser.prototype._persistSchema = <%- includeFile(["inc", "Flowsql", "prototype", "_persistSchema.js"], false) %>
+    FlowsqlBrowser.prototype._createRelationalTable = <%- includeFile(["inc", "Flowsql", "prototype", "_createRelationalTable.js"], false) %>
+    FlowsqlBrowser.prototype._validateFilters = <%- includeFile(["inc", "Flowsql", "prototype", "_validateFilters.js"], false) %>
+    FlowsqlBrowser.prototype._sqlForColumn = <%- includeFile(["inc", "Flowsql", "prototype", "_sqlForColumn.js"], false) %>
+    FlowsqlBrowser.prototype._sqlForWhere = <%- includeFile(["inc", "Flowsql", "prototype", "_sqlForWhere.js"], false) %>
+    FlowsqlBrowser.prototype._sqlForInsertInto = <%- includeFile(["inc", "Flowsql", "prototype", "_sqlForInsertInto.js"], false) %>
+    FlowsqlBrowser.prototype._sqlForInsertValues = <%- includeFile(["inc", "Flowsql", "prototype", "_sqlForInsertValues.js"], false) %>
+    FlowsqlBrowser.prototype._sqlForUpdateSet = <%- includeFile(["inc", "Flowsql", "prototype", "_sqlForUpdateSet.js"], false) %>
+    FlowsqlBrowser.prototype._validateInstance = <%- includeFile(["inc", "Flowsql", "prototype", "_validateInstance.js"], false) %>
+    FlowsqlBrowser.prototype._selectMany = <%- includeFile(["inc", "Flowsql", "prototype", "_selectMany.js"], false) %>
+    FlowsqlBrowser.prototype._insertMany = <%- includeFile(["inc", "Flowsql", "prototype", "_insertMany.js"], false) %>
+    FlowsqlBrowser.prototype._updateMany = <%- includeFile(["inc", "Flowsql", "prototype", "_updateMany.js"], false) %>
+    FlowsqlBrowser.prototype._deleteMany = <%- includeFile(["inc", "Flowsql", "prototype", "_deleteMany.js"], false) %>
+
+    FlowsqlBrowser.prototype.assertion = FlowsqlBrowser.assertion.bind(FlowsqlBrowser);
+
+    FlowsqlBrowser.prototype.fetchSql = <%- includeFile(["inc", "FlowsqlBrowser", "prototype", "fetchSql.js"], false) %>
+    FlowsqlBrowser.prototype.insertSql = <%- includeFile(["inc", "FlowsqlBrowser", "prototype", "insertSql.js"], false) %>
+    FlowsqlBrowser.prototype.runSql = <%- includeFile(["inc", "FlowsqlBrowser", "prototype", "runSql.js"], false) %>
+    FlowsqlBrowser.prototype.connect = <%- includeFile(["inc", "FlowsqlBrowser", "prototype", "connect.js"], true) %>
+    FlowsqlBrowser.prototype.trace = <%- includeFile(["inc", "Flowsql", "prototype", "trace.js"], false) %>
+
+    FlowsqlBrowser.prototype.extractSqlSchema = <%- includeFile(["inc", "Flowsql", "prototype", "extractSqlSchema.js"], false) %>
+    FlowsqlBrowser.prototype.validateSchema = <%- includeFile(["inc", "Flowsql", "prototype", "validateSchema.js"], false) %>
+    FlowsqlBrowser.prototype.addTable = <%- includeFile(["inc", "Flowsql", "prototype", "addTable.js"], false) %>
+    FlowsqlBrowser.prototype.addColumn = <%- includeFile(["inc", "Flowsql", "prototype", "addColumn.js"], false) %>
+    FlowsqlBrowser.prototype.renameTable = <%- includeFile(["inc", "Flowsql", "prototype", "renameTable.js"], false) %>
+    FlowsqlBrowser.prototype.renameColumn = <%- includeFile(["inc", "Flowsql", "prototype", "renameColumn.js"], false) %>
+    FlowsqlBrowser.prototype.dropTable = <%- includeFile(["inc", "Flowsql", "prototype", "dropTable.js"], false) %>
+    FlowsqlBrowser.prototype.dropColumn = <%- includeFile(["inc", "Flowsql", "prototype", "dropColumn.js"], false) %>
+
+    FlowsqlBrowser.prototype.insertOne = <%- includeFile(["inc", "Flowsql", "prototype", "insertOne.js"], false) %>
+    FlowsqlBrowser.prototype.insertMany = <%- includeFile(["inc", "Flowsql", "prototype", "insertMany.js"], false) %>
+    FlowsqlBrowser.prototype.selectOne = <%- includeFile(["inc", "Flowsql", "prototype", "selectOne.js"], false) %>
+    FlowsqlBrowser.prototype.selectMany = <%- includeFile(["inc", "Flowsql", "prototype", "selectMany.js"], false) %>
+    FlowsqlBrowser.prototype.selectByLabel = <%- includeFile(["inc", "Flowsql", "prototype", "selectByLabel.js"], false) %>
+    FlowsqlBrowser.prototype.updateOne = <%- includeFile(["inc", "Flowsql", "prototype", "updateOne.js"], false) %>
+    FlowsqlBrowser.prototype.updateMany = <%- includeFile(["inc", "Flowsql", "prototype", "updateMany.js"], false) %>
+    FlowsqlBrowser.prototype.updateByLabel = <%- includeFile(["inc", "Flowsql", "prototype", "updateByLabel.js"], false) %>
+    FlowsqlBrowser.prototype.deleteOne = <%- includeFile(["inc", "Flowsql", "prototype", "deleteOne.js"], false) %>
+    FlowsqlBrowser.prototype.deleteMany = <%- includeFile(["inc", "Flowsql", "prototype", "deleteMany.js"], false) %>
+    FlowsqlBrowser.prototype.deleteByLabel = <%- includeFile(["inc", "Flowsql", "prototype", "deleteByLabel.js"], false) %>
+
+    window.FlowsqlBrowser = FlowsqlBrowser;
+
+})()

@@ -1,8 +1,8 @@
 const fs = require("fs");
 const path = require("path");
-const Flowsql = require(path.resolve(__dirname, "flowsql.js"));
+const Flowsql = require(path.resolve(__dirname, "flowsql-node.js"));
 
-const testDirectory = path.resolve(__dirname, "test");
+const testDirectory = path.resolve(__dirname, "test-node");
 const testFolders = fs.readdirSync(testDirectory);
 
 const main = async function () {

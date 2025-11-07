@@ -10,7 +10,7 @@ module.exports = async function (Flowsql) {
         name: { type: "string", maxLength: 255, unique: true, nullable: false, label: true },
         email: { type: "string", maxLength: 255, unique: true, nullable: false },
         password: { type: "string", maxLength: 255, nullable: false },
-        description: { type: "string", maxLength: 255, default: "'none'", nullable: true }
+        description: { type: "string", maxLength: 255, defaultBySql: "'none'", nullable: true }
       }
     });
     flowsql.addTable("Permission", {

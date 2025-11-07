@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+    <title>FlowsqlBrowser Test</title>
+</head>
+
+<body>
+    <script src="sql-wasm.js"></script>
+    <script src="flowsql-browser.js"></script>
+    <script>
+        const main = async function () {
+            try {
+                const flowdb = FlowsqlBrowser.create({});
+                console.log(flowdb);
+                await flowdb.connect();
+                await flowdb.runSql("CREATE TABLE Table_1 (id INT AUTOINCREMENT);");
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        main();
+    </script>
+</body>
+
+</html>

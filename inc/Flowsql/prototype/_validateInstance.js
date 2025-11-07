@@ -17,5 +17,14 @@ module.exports = function (table, values, operation) {
     const propertyId = allProperties[indexProperty];
     this.assertion(columnIds.indexOf(propertyId) !== -1, `Parameter «values[${propertyId}]» does not match with any known column on operation «${operation}» on «_validateInstance»`);
     // @TODO:
+    const columnMetadata = allColumns[propertyId];
+    const propertyValue = values[propertyId];
+    if((typeof propertyValue === "undefined") || (propertyValue === null)) {
+      if(columnMetadata.defaultByJs) {
+        const defaultFactory = new Function("table", "values", columnMetadata.defaultByJs);
+        const defaultOutput = defaultFactory.call(this, table, values);
+        values[propertyId] = defaultOutput;
+      }
+    }
   }
 };

@@ -4,6 +4,14 @@
 
 
 
+
+
+
+
+
+
+
+
 ### `Flowsql.constructor(options:Object)`
 
 Método que construye una instancia `Flowsql`.
@@ -13,6 +21,8 @@ El parámetro `options:Object` sobreescribirá las `this.constructor.defaultOpti
 El parámetro `options.databaseOptions:Object` sobreescribirá las `this.constructor.defaultDatabaseOptions`.
 
 Luego, además, llama a `this.connect()` directamente. Es decir que en el momento de crear la instancia, ya se abre la conexión sqlite.
+
+
 
 
 
@@ -218,32 +228,6 @@ El parámetro `partialSchema:Object` debe cumplir con las validaciones correspon
 
 Además de crear la tabla principal, se crearán las tablas relacionales correspondientes a las columnas relacionales especificadas en `partialSchema:Object`.
 
-### `Flowsql.prototype.validateSchema(schema:Object)`
-
-Método que comprueba la validez de un esquema.
-
-El parámetro `schema:Object` debe cumplir las validaciones correspondientes.
-
-En este método se comprueba que:
-
-- `schema:Object` es un Object
-- `schema.tables:Object` es un Object
-- `schema.tables[table]:Object` es un Object
-- `schema.tables[table].columns:Object` es un Object
-- `schema.tables[table].columns[columnId]:Object` es un Object
-- `schema.tables[table].columns[columnId].type:String` es un String
-- `schema.tables[table].columns[columnId].type:String` es un tipo conocido por `Flowsql.knownTypes`
-- `schema.tables[table].columns[columnId].unique:Boolean` es un Boolean o no existe
-- `schema.tables[table].columns[columnId].nullable:Boolean` es un Boolean o no existe
-- `schema.tables[table].columns[columnId].defaultBySql:String` es un String o no existe
-- `schema.tables[table].columns[columnId].defaultByJs:String` es un String o no existe
-- `schema.tables[table].columns[columnId].maxLength:Number` es un Number o no existe
-- Si la columna es un `object-reference` o un `array-reference`:
-   - `columnMetadata.referredTable` es un String
-   - `columnMetadata.referredTable` existe en `this.$schema.tables` como identificador de tabla.
-
-Si alguna validación falla, lanza un error especificando el caso de fallo.
-
 ### `Flowsql.prototype.connect()`
 
 Método que crea una instancia de `sqlite3` y actualiza el esquema.
@@ -394,6 +378,35 @@ Por debajo utiliza `Flowsql.prototype._updateMany`.
 Método que actualiza una fila basándose en su id.
 
 Por debajo utiliza `Flowsql.prototype._updateMany`.
+
+### `Flowsql.prototype.validateSchema(schema:Object)`
+
+Método que comprueba la validez de un esquema.
+
+El parámetro `schema:Object` debe cumplir las validaciones correspondientes.
+
+En este método se comprueba que:
+
+- `schema:Object` es un Object
+- `schema.tables:Object` es un Object
+- `schema.tables[table]:Object` es un Object
+- `schema.tables[table].columns:Object` es un Object
+- `schema.tables[table].columns[columnId]:Object` es un Object
+- `schema.tables[table].columns[columnId].type:String` es un String
+- `schema.tables[table].columns[columnId].type:String` es un tipo conocido por `Flowsql.knownTypes`
+- `schema.tables[table].columns[columnId].unique:Boolean` es un Boolean o no existe
+- `schema.tables[table].columns[columnId].nullable:Boolean` es un Boolean o no existe
+- `schema.tables[table].columns[columnId].label:Boolean` es un Boolean o no existe.
+   - debe aparecer combinado con `unique:true`
+   - debe aparecer combinado con `nullable:false` u omitirse especificar `nullable`
+- `schema.tables[table].columns[columnId].defaultBySql:String` es un String o no existe
+- `schema.tables[table].columns[columnId].defaultByJs:String` es un String o no existe
+- `schema.tables[table].columns[columnId].maxLength:Number` es un Number o no existe
+- Si la columna es un `object-reference` o un `array-reference`:
+   - `columnMetadata.referredTable` es un String
+   - `columnMetadata.referredTable` existe en `this.$schema.tables` como identificador de tabla.
+
+Si alguna validación falla, lanza un error especificando el caso de fallo.
 
 ### `new Flowsql.AssertionError(message:String)`
 

@@ -168,47 +168,88 @@ function(options = {}) {
   return false;
 };
 
-    FlowsqlBrowser.prototype._ensureBasicMetadata = function() {
-  this.trace("_ensureBasicMetadata");
-  this.runSql(`
+    FlowsqlBrowser.prototype._ensureBasicMetadata = async function() {
+  this.trace("_ensureBasicMetadata|Browser");
+  await this.runSql(`
     CREATE TABLE IF NOT EXISTS Database_metadata (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name VARCHAR(255) UNIQUE NOT NULL,
       value TEXT
     );
   `);
-  const schemaQuery = this.fetchSql(`
+  const schemaQuery = await this.fetchSql(`
     SELECT *
     FROM Database_metadata
     WHERE name = 'db.schema';
   `);
-  if (schemaQuery.length !== 0) {
+  console.log(schemaQuery);
+  const schemaData = this._compactResults(schemaQuery);
+  console.log(schemaData);
+  if (schemaData.length !== 0) {
+    console.log("not inserting");
     return;
   }
+  console.log("inserting");
   const defaultSchema = this.constructor.escapeValue(JSON.stringify({ tables: {} }));
-  this.runSql(`
+  await this.runSql(`
     INSERT INTO Database_metadata (name, value)
     VALUES ('db.schema', ${defaultSchema});
   `);
 };
-    FlowsqlBrowser.prototype._loadSchema = function() {
-  this.trace("_loadSchema");
-  const schemaQuery = this.fetchSql(`
+    FlowsqlBrowser.prototype._loadSchema = /**
+ * 
+ * ### `FlowsqlBrowser.prototype._loadSchema()`
+ * 
+ * Método para cargar el `this.$schema` de la instancia `Flowsql` con el valor que hay en la base de datos, en `Database_metadata` con `name=db.schema`.
+ * 
+ */
+async function() {
+  this.trace("_loadSchema|Browser");
+  const schemaQuery = await this.fetchSql(`
     SELECT *
     FROM Database_metadata
     WHERE name = 'db.schema';
   `);
-  this.constructor.assertion(schemaQuery.length === 1, `Could not reach schema from database on «loadSchema»`);
-  const schema = JSON.parse(schemaQuery[0].value);
+  const schemaData = this._compactResults(schemaQuery);
+  this.constructor.assertion(Array.isArray(schemaData), `Could not match «db.schema» on database «Database_metadata» on «_loadSchema»`);
+  this.constructor.assertion(schemaData.length === 1, `Could not find «db.schema» on database «Database_metadata» on «_loadSchema»`);
+  const schemaJson = schemaData[0].value;
+  this.constructor.assertion(typeof schemaJson === "string", `Value of «db.schema» on database «Database_metadata» must be a string on «_loadSchema»`);
+  const schema = JSON.parse(schemaJson);
   this.$schema = schema;
 };
     FlowsqlBrowser.prototype._persistSchema = function() {
   this.trace("_persistSchema");
-  this.runSql(`
+  return this.runSql(`
     UPDATE Database_metadata
     SET value = ${this.constructor.escapeValue(JSON.stringify(this.$schema))}
     WHERE name = 'db.schema';
   `);
+};
+    FlowsqlBrowser.prototype._compactResults = /**
+ * 
+ * ### `FlowsqlBrowser.prototype._compactResults(input:Array)`
+ * 
+ * Método para compactar los resultados de una query tipo `SELECT` en el entorno de navegador.
+ * 
+ * Este método hace homogénea la salida de `sql.js` en el browser y `better-sqlite3` en node.js.
+ * 
+ * Pasa de [{column,values}] ===> [{column,value},...]
+ * 
+ */
+
+function(input) {
+  this.trace("_compactResults|Browser");
+  if (input.length === 0) { return input }
+  const results = input[0];
+  const { columns, values } = results;
+  const out = values.map(row =>
+    columns.reduce((obj, col, i) => {
+      obj[col] = row[i];
+      return obj;
+    }, {})
+  );
+  return out;
 };
     FlowsqlBrowser.prototype._createRelationalTable = function(table, columnId, referredTable) {
   this.trace("_createRelationalTable");
@@ -603,14 +644,26 @@ function(options = {}) {
     FlowsqlBrowser.prototype.assertion = FlowsqlBrowser.assertion.bind(FlowsqlBrowser);
 
     FlowsqlBrowser.prototype.fetchSql = async function(sql) {
+  this.trace("fetchSql|Browser");
+  if (this.$options.traceSql) {
+    console.log("[sql]\n", sql);
+  }
   const data1 = await this.$database.exec(sql);
   return data1;
 };
     FlowsqlBrowser.prototype.insertSql = async function(sql) {
+  this.trace("insertSql|Browser");
+  if (this.$options.traceSql) {
+    console.log("[sql]\n", sql);
+  }
   const data1 = await this.$database.exec(sql);
   return data1;
 };
     FlowsqlBrowser.prototype.runSql = async function(sql) {
+  this.trace("runSql|Browser");
+  if (this.$options.traceSql) {
+    console.log("[sql]\n", sql);
+  }
   const data1 = await this.$database.exec(sql);
   return data1;
 };
@@ -631,12 +684,13 @@ function(options = {}) {
  * 
  */
 async function() {
-  this.trace("connect", [...arguments]);
-  const SQL = await initSqlJs({ file: "db.sqlite" });
-  console.log(SQL);
-  this.$database = new SQL.Database(this.$options.filename, this.$options.databaseOptions);
-  this._ensureBasicMetadata();
-  this._loadSchema();
+  this.trace("connect|Browser");
+  const SQL = await initSqlJs({
+    locateFile: file => `sql-wasm.wasm`
+  });
+  this.$database = new SQL.Database(this.$options.databaseOptions);
+  await this._ensureBasicMetadata();
+  await this._loadSchema();
   return this;
 };
     FlowsqlBrowser.prototype.trace = function(method, args = []) {

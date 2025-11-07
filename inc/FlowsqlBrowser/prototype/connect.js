@@ -14,12 +14,13 @@
  * Luego, además, recarga el esquema propio con el existente en la base de datos, con `Flowsql.prototype._loadSchema()`.
  * 
  */
-module.exports = async function() {
-  this.trace("connect", [...arguments]);
-  const SQL = await initSqlJs({ file: "db.sqlite" });
-  console.log(SQL);
-  this.$database = new SQL.Database(this.$options.filename, this.$options.databaseOptions);
-  this._ensureBasicMetadata();
-  this._loadSchema();
+module.exports = async function () {
+  this.trace("connect|Browser");
+  const SQL = await initSqlJs({
+    locateFile: file => `sql-wasm.wasm`
+  });
+  this.$database = new SQL.Database(this.$options.databaseOptions);
+  await this._ensureBasicMetadata();
+  await this._loadSchema();
   return this;
 };

@@ -11,7 +11,7 @@
  */
 module.exports = function() {
   this.trace("_persistSchema");
-  this.runSql(`
+  return this.runSql(`
     UPDATE Database_metadata
     SET value = ${this.constructor.escapeValue(JSON.stringify(this.$schema))}
     WHERE name = 'db.schema';

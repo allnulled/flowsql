@@ -9,20 +9,46 @@
 </head>
 
 <body>
+    <script src="qunit.min.js"></script>
+    <link rel="stylesheet"
+        href="qunit.min.css">
     <script src="sql-wasm.js"></script>
     <script src="flowsql-browser.js"></script>
+    <div id="qunit"></div>
     <script>
-        const main = async function () {
-            try {
-                const flowdb = FlowsqlBrowser.create({});
-                console.log(flowdb);
-                await flowdb.connect();
-                await flowdb.runSql("CREATE TABLE Table_1 (id INT AUTOINCREMENT);");
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        main();
+        QUnit.config.autostart = false;
+        window.addEventListener("load", () => {
+            const main = async function () {
+                try {
+                    QUnit.module("Introducción", function() {
+                        QUnit.test("Test de acceso a globales", async function (assert) {
+                            assert.ok(typeof FlowsqlBrowser === "function", "«FlowsqlBrowser» must be a function");
+                        });
+                    });
+                    window.flowdb = FlowsqlBrowser.create({ trace: true, traceSql: true });
+                    QUnit.module("Contratos", function() {
+                        QUnit.test("Test de acceso a propiedades y métodos", async function (assert) {
+                            assert.ok(typeof flowdb.$database === "object", "«flowsqlBrowser.$database» must be an object");
+                        });
+                    });
+                    await flowdb.connect();
+                    console.log("CONNECTED");
+                    console.log("CONNECTED");
+                    console.log("CONNECTED");
+                    console.log("CONNECTED");
+                    console.log("CONNECTED");
+                    QUnit.module("Estado tras conexión", function() {
+                        QUnit.test("Test de acceso a propiedades y métodos", async function (assert) {
+                            assert.ok(typeof flowdb.$database === "object", "«flowsqlBrowser.$database» must be an object");
+                        });
+                    });
+                    QUnit.start();
+                } catch (error) {
+                    console.log(error);
+                }
+            };
+            main();
+        })
     </script>
 </body>
 

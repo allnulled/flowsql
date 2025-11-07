@@ -6,7 +6,7 @@
   "scripts": {
     "build": "node dev/build-browser-node.js",
     "build:docs": "node dev/build-documentation.js",
-    "dev": "npx nodemon -w flowsql-browser.tmpl.ejs -w flowsql-node.tmpl.ejs -w inc -e 'js,ejs' -x 'npm run test'",
+    "dev": "npx nodemon -w flowsql-browser.tmpl.ejs -w flowsql-node.tmpl.ejs -w inc -w test-browser/index.html -e 'js,ejs' -x 'npm run test'",
     "coverage": "npx nyc --reporter=html --report-dir 'dev/coverage' npm test",
     "test": "npm run test:node",
     "test:browser": "npm run build && npx http-server -c-1 test-browser -o index.html",

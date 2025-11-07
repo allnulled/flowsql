@@ -12,7 +12,8 @@ module.exports = function () {
     FROM Database_metadata
     WHERE name = 'db.schema';
   `);
-  this.constructor.assertion(schemaQuery.length === 1, `Could not reach schema from database on «loadSchema»`);
+  this.constructor.assertion(Array.isArray(schemaQuery), `Could not match «db.schema» on database «Database_metadata» on «_loadSchema»`);
+  this.constructor.assertion(schemaQuery.length === 1, `Could not find «db.schema» on database «Database_metadata» on «_loadSchema»`);
   const schema = JSON.parse(schemaQuery[0].value);
   this.$schema = schema;
 };

@@ -2,7 +2,7 @@
 
 Interfaz de base de datos en node.js basada en sqlite con soporte para listas y objetos referenciados.
 
-![shield1](https://img.shields.io/badge/database-sqlite-green)
+![shield1](https://img.shields.io/badge/database-sqlite-green) ![shield2](https://img.shields.io/badge/objects-yes-green) ![shield1](https://img.shields.io/badge/lists-yes-green) ![shield1](https://img.shields.io/badge/schema-yes-green) ![shield1](https://img.shields.io/badge/crud-yes-green)
 
 ## ✅ Features
 

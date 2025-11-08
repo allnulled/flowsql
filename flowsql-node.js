@@ -568,6 +568,12 @@ function(table, filters) {
     } else if (operator === "is not like") {
       sql += sql === "" ? `\n  WHERE ` : `\n    AND `;
       sql += `${this.constructor.escapeId(columnId)} NOT LIKE ${this.constructor.escapeValue(complement)}`;
+    } else if (operator === "is in") {
+      sql += sql === "" ? `\n  WHERE ` : `\n    AND `;
+      sql += `${this.constructor.escapeId(columnId)} IN (${complement.map(it => this.constructor.escapeValue(it)).join(",")})`;
+    } else if (operator === "is not in") {
+      sql += sql === "" ? `\n  WHERE ` : `\n    AND `;
+      sql += `${this.constructor.escapeId(columnId)} NOT IN (${complement.map(it => this.constructor.escapeValue(it)).join(",")})`;
     } else {
       throw new Error("Not supported yet operator: " + operator);
     }

@@ -7,12 +7,11 @@
  */
 module.exports = async function () {
   this.trace("_loadSchema|Browser");
-  const schemaQuery = await this.fetchSql(`
+  const schemaData = await this.fetchSql(`
     SELECT *
     FROM Database_metadata
     WHERE name = 'db.schema';
   `);
-  const schemaData = this._compactResults(schemaQuery);
   this.constructor.assertion(Array.isArray(schemaData), `Could not match «db.schema» on database «Database_metadata» on «_loadSchema»`);
   this.constructor.assertion(schemaData.length === 1, `Could not find «db.schema» on database «Database_metadata» on «_loadSchema»`);
   const schemaJson = schemaData[0].value;

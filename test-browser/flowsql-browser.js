@@ -205,12 +205,11 @@ function(options = {}) {
  */
 async function() {
   this.trace("_loadSchema|Browser");
-  const schemaQuery = await this.fetchSql(`
+  const schemaData = await this.fetchSql(`
     SELECT *
     FROM Database_metadata
     WHERE name = 'db.schema';
   `);
-  const schemaData = this._compactResults(schemaQuery);
   this.constructor.assertion(Array.isArray(schemaData), `Could not match «db.schema» on database «Database_metadata» on «_loadSchema»`);
   this.constructor.assertion(schemaData.length === 1, `Could not find «db.schema» on database «Database_metadata» on «_loadSchema»`);
   const schemaJson = schemaData[0].value;
@@ -240,8 +239,9 @@ async function() {
 
 function(input) {
   this.trace("_compactResults|Browser");
+  console.log("compacting:", input);
   if (input.length === 0) { return input }
-  const results = input[0];
+  const results = input[input.length-1];
   const { columns, values } = results;
   const out = values.map(row =>
     columns.reduce((obj, col, i) => {
@@ -353,6 +353,12 @@ function(input) {
     } else if (operator === "is not like") {
       sql += sql === "" ? `\n  WHERE ` : `\n    AND `;
       sql += `${this.constructor.escapeId(columnId)} NOT LIKE ${this.constructor.escapeValue(complement)}`;
+    } else if (operator === "is in") {
+      sql += sql === "" ? `\n  WHERE ` : `\n    AND `;
+      sql += `${this.constructor.escapeId(columnId)} IN (${complement.map(it => this.constructor.escapeValue(it)).join(",")})`;
+    } else if (operator === "is not in") {
+      sql += sql === "" ? `\n  WHERE ` : `\n    AND `;
+      sql += `${this.constructor.escapeId(columnId)} NOT IN (${complement.map(it => this.constructor.escapeValue(it)).join(",")})`;
     } else {
       throw new Error("Not supported yet operator: " + operator);
     }
@@ -643,20 +649,23 @@ function(input) {
 
     FlowsqlBrowser.prototype.assertion = FlowsqlBrowser.assertion.bind(FlowsqlBrowser);
 
-    FlowsqlBrowser.prototype.fetchSql = async function(sql) {
+    FlowsqlBrowser.prototype.fetchSql = function(sql) {
   this.trace("fetchSql|Browser");
   if (this.$options.traceSql) {
     console.log("[sql]\n", sql);
   }
-  const data1 = await this.$database.exec(sql);
+  const data1 = this.$database.exec(sql);
+  if(Array.isArray(data1)) {
+    return this._compactResults(data1);
+  }
   return data1;
 };
-    FlowsqlBrowser.prototype.insertSql = async function(sql) {
+    FlowsqlBrowser.prototype.insertSql = function(sql) {
   this.trace("insertSql|Browser");
   if (this.$options.traceSql) {
     console.log("[sql]\n", sql);
   }
-  const data1 = await this.$database.exec(sql);
+  const data1 = this.$database.exec(sql);
   return data1;
 };
     FlowsqlBrowser.prototype.runSql = async function(sql) {

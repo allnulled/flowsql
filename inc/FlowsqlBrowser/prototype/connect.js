@@ -2,16 +2,13 @@
  * 
  * ### `FlowsqlBrowser.prototype.connect()`
  * 
- * Método que crea una instancia de `sqlite3` y actualiza el esquema.
+ * Método que llama, en entorno browser, a `SQL = await initSqlJs({ locateFile: file => "sql-wasm.wasm" })`.
  * 
- * Este método utiliza los siguientes parámetros:
+ * Después, llama a `this.$database = new SQL.Database(this.$options.databaseOptions)`.
  * 
- * - `this.$options.filename:String` como ruta al fichero `*.sqlite`
- * - `this.$options.databaseOptions:Object` como parámetros para la instancia `sqlite3`
- * 
- * Luego, además, asegura que existen los metadatos básicos en la base de datos con `Flowsql.prototype._ensureBasicMetadata()`.
- * 
- * Luego, además, recarga el esquema propio con el existente en la base de datos, con `Flowsql.prototype._loadSchema()`.
+ * Después hace el `_ensureBasicMetadata()` igual que en la versión de node.js.
+ 
+ * Después hace el `_loadSchema()` igual que en la versión de node.js.
  * 
  */
 module.exports = async function () {

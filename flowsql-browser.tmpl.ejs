@@ -20,8 +20,8 @@
     FlowsqlBrowser.copyObject = <%- includeFile(["inc", "Flowsql", "static", "copyObject.js"], false) %>
     FlowsqlBrowser.arrayContainsAnyOf = <%- includeFile(["inc", "Flowsql", "static", "arrayContainsAnyOf.js"], false) %>
 
-    FlowsqlBrowser.prototype._ensureBasicMetadata = <%- includeFile(["inc", "FlowsqlBrowser", "prototype", "_ensureBasicMetadata.js"], true) %>
-    FlowsqlBrowser.prototype._loadSchema = <%- includeFile(["inc", "FlowsqlBrowser", "prototype", "_loadSchema.js"], true) %>
+    FlowsqlBrowser.prototype._ensureBasicMetadata = <%- includeFile(["inc", "Flowsql", "prototype", "_ensureBasicMetadata.js"], false) %>
+    FlowsqlBrowser.prototype._loadSchema = <%- includeFile(["inc", "Flowsql", "prototype", "_loadSchema.js"], false) %>
     FlowsqlBrowser.prototype._persistSchema = <%- includeFile(["inc", "Flowsql", "prototype", "_persistSchema.js"], false) %>
     FlowsqlBrowser.prototype._compactResults = <%- includeFile(["inc", "FlowsqlBrowser", "prototype", "_compactResults.js"], true) %>
     FlowsqlBrowser.prototype._createRelationalTable = <%- includeFile(["inc", "Flowsql", "prototype", "_createRelationalTable.js"], false) %>

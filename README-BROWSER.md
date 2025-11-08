@@ -30,19 +30,6 @@ Tiene los siguientes valores:
 }
 ```
 
-### `await FlowsqlBrowser.prototype._ensureBasicMetadata():Promise`
-
-Método que construye las tablas necesarias para gestionar los metadatos de `flowsql`.
-
-Con este método se crea la tabla `Database_metadata` y se inserta el esquema con:
-
-- `name=db.schema` este es el campo de la clave o id del parámetro del metadato.
-- `value=...` iría el esquema de datos dentro en formato JSON
-
-### `FlowsqlBrowser.prototype._loadSchema()`
-
-Método para cargar el `this.$schema` de la instancia `Flowsql` con el valor que hay en la base de datos, en `Database_metadata` con `name=db.schema`.
-
 ### `FlowsqlBrowser.prototype._compactResults(input:Array)`
 
 Método para compactar los resultados de una query tipo `SELECT` en el entorno de navegador.
@@ -71,14 +58,11 @@ Pero se sobreescribe para tener todas las entradas de SQL sobreescritas fácilme
 
 ### `FlowsqlBrowser.prototype.connect()`
 
-Método que crea una instancia de `sqlite3` y actualiza el esquema.
+Método que llama, en entorno browser, a `SQL = await initSqlJs({ locateFile: file => "sql-wasm.wasm" })`.
 
-Este método utiliza los siguientes parámetros:
+Después, llama a `this.$database = new SQL.Database(this.$options.databaseOptions)`.
 
-- `this.$options.filename:String` como ruta al fichero `*.sqlite`
-- `this.$options.databaseOptions:Object` como parámetros para la instancia `sqlite3`
+Después hace el `_ensureBasicMetadata()` igual que en la versión de node.js.
 
-Luego, además, asegura que existen los metadatos básicos en la base de datos con `Flowsql.prototype._ensureBasicMetadata()`.
-
-Luego, además, recarga el esquema propio con el existente en la base de datos, con `Flowsql.prototype._loadSchema()`.
+Después hace el `_loadSchema()` igual que en la versión de node.js.
 

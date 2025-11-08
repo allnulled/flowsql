@@ -168,61 +168,39 @@ function(options = {}) {
   return false;
 };
 
-    FlowsqlBrowser.prototype._ensureBasicMetadata = /**
- * 
- * ### `await FlowsqlBrowser.prototype._ensureBasicMetadata():Promise`
- * 
- * Método que construye las tablas necesarias para gestionar los metadatos de `flowsql`.
- * 
- * Con este método se crea la tabla `Database_metadata` y se inserta el esquema con:
- * 
- * - `name=db.schema` este es el campo de la clave o id del parámetro del metadato.
- * - `value=...` iría el esquema de datos dentro en formato JSON
- * 
- */
-async function() {
-  this.trace("_ensureBasicMetadata|Browser");
-  await this.runSql(`
+    FlowsqlBrowser.prototype._ensureBasicMetadata = function() {
+  this.trace("_ensureBasicMetadata");
+  this.runSql(`
     CREATE TABLE IF NOT EXISTS Database_metadata (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name VARCHAR(255) UNIQUE NOT NULL,
       value TEXT
     );
   `);
-  const schemaData = await this.fetchSql(`
+  const schemaQuery = this.fetchSql(`
     SELECT *
     FROM Database_metadata
     WHERE name = 'db.schema';
   `);
-  if (schemaData.length !== 0) {
-    console.log("not inserting");
+  if (schemaQuery.length !== 0) {
     return;
   }
   const defaultSchema = this.constructor.escapeValue(JSON.stringify({ tables: {} }));
-  await this.runSql(`
+  this.runSql(`
     INSERT INTO Database_metadata (name, value)
     VALUES ('db.schema', ${defaultSchema});
   `);
 };
-    FlowsqlBrowser.prototype._loadSchema = /**
- * 
- * ### `FlowsqlBrowser.prototype._loadSchema()`
- * 
- * Método para cargar el `this.$schema` de la instancia `Flowsql` con el valor que hay en la base de datos, en `Database_metadata` con `name=db.schema`.
- * 
- */
-async function() {
-  this.trace("_loadSchema|Browser");
-  const schemaData = await this.fetchSql(`
+    FlowsqlBrowser.prototype._loadSchema = function() {
+  this.trace("_loadSchema");
+  const schemaQuery = this.fetchSql(`
     SELECT *
     FROM Database_metadata
     WHERE name = 'db.schema';
   `);
-  this.constructor.assertion(Array.isArray(schemaData), `Could not match «db.schema» on database «Database_metadata» on «_loadSchema»`);
-  this.constructor.assertion(schemaData.length === 1, `Could not find «db.schema» on database «Database_metadata» on «_loadSchema»`);
-  const schemaJson = schemaData[0].value;
-  this.constructor.assertion(typeof schemaJson === "string", `Value of «db.schema» on database «Database_metadata» must be a string on «_loadSchema»`);
-  const schema = JSON.parse(schemaJson);
+  this.constructor.assertion(Array.isArray(schemaQuery), `Could not match «db.schema» on database «Database_metadata» on «_loadSchema»`);
+  this.constructor.assertion(schemaQuery.length === 1, `Could not find «db.schema» on database «Database_metadata» on «_loadSchema»`);
+  const schema = JSON.parse(schemaQuery[0].value);
   this.$schema = schema;
 };
     FlowsqlBrowser.prototype._persistSchema = function() {
@@ -715,16 +693,13 @@ async function(sql) {
  * 
  * ### `FlowsqlBrowser.prototype.connect()`
  * 
- * Método que crea una instancia de `sqlite3` y actualiza el esquema.
+ * Método que llama, en entorno browser, a `SQL = await initSqlJs({ locateFile: file => "sql-wasm.wasm" })`.
  * 
- * Este método utiliza los siguientes parámetros:
+ * Después, llama a `this.$database = new SQL.Database(this.$options.databaseOptions)`.
  * 
- * - `this.$options.filename:String` como ruta al fichero `*.sqlite`
- * - `this.$options.databaseOptions:Object` como parámetros para la instancia `sqlite3`
- * 
- * Luego, además, asegura que existen los metadatos básicos en la base de datos con `Flowsql.prototype._ensureBasicMetadata()`.
- * 
- * Luego, además, recarga el esquema propio con el existente en la base de datos, con `Flowsql.prototype._loadSchema()`.
+ * Después hace el `_ensureBasicMetadata()` igual que en la versión de node.js.
+ 
+ * Después hace el `_loadSchema()` igual que en la versión de node.js.
  * 
  */
 async function() {

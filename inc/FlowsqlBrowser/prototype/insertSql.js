@@ -2,7 +2,9 @@
  * 
  * ### `FlowsqlBrowser.prototype.insertSql(sql:string)`
  * 
- * En principio es lo mismo.
+ * En principio hace lo mismo, devuelve los ids insertados.
+ * 
+ * Este método creo que no está completado todavía, porque hay alguna diferencia con la otra API.
  * 
  */
 module.exports = function(sql) {

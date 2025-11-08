@@ -20,7 +20,7 @@
     FlowsqlBrowser.copyObject = <%- includeFile(["inc", "Flowsql", "static", "copyObject.js"], false) %>
     FlowsqlBrowser.arrayContainsAnyOf = <%- includeFile(["inc", "Flowsql", "static", "arrayContainsAnyOf.js"], false) %>
 
-    FlowsqlBrowser.prototype._ensureBasicMetadata = <%- includeFile(["inc", "FlowsqlBrowser", "prototype", "_ensureBasicMetadata.js"], false) %>
+    FlowsqlBrowser.prototype._ensureBasicMetadata = <%- includeFile(["inc", "FlowsqlBrowser", "prototype", "_ensureBasicMetadata.js"], true) %>
     FlowsqlBrowser.prototype._loadSchema = <%- includeFile(["inc", "FlowsqlBrowser", "prototype", "_loadSchema.js"], true) %>
     FlowsqlBrowser.prototype._persistSchema = <%- includeFile(["inc", "Flowsql", "prototype", "_persistSchema.js"], false) %>
     FlowsqlBrowser.prototype._compactResults = <%- includeFile(["inc", "FlowsqlBrowser", "prototype", "_compactResults.js"], true) %>
@@ -39,9 +39,9 @@
 
     FlowsqlBrowser.prototype.assertion = FlowsqlBrowser.assertion.bind(FlowsqlBrowser);
 
-    FlowsqlBrowser.prototype.fetchSql = <%- includeFile(["inc", "FlowsqlBrowser", "prototype", "fetchSql.js"], false) %>
-    FlowsqlBrowser.prototype.insertSql = <%- includeFile(["inc", "FlowsqlBrowser", "prototype", "insertSql.js"], false) %>
-    FlowsqlBrowser.prototype.runSql = <%- includeFile(["inc", "FlowsqlBrowser", "prototype", "runSql.js"], false) %>
+    FlowsqlBrowser.prototype.fetchSql = <%- includeFile(["inc", "FlowsqlBrowser", "prototype", "fetchSql.js"], true) %>
+    FlowsqlBrowser.prototype.insertSql = <%- includeFile(["inc", "FlowsqlBrowser", "prototype", "insertSql.js"], true) %>
+    FlowsqlBrowser.prototype.runSql = <%- includeFile(["inc", "FlowsqlBrowser", "prototype", "runSql.js"], true) %>
     FlowsqlBrowser.prototype.connect = <%- includeFile(["inc", "FlowsqlBrowser", "prototype", "connect.js"], true) %>
     FlowsqlBrowser.prototype.trace = <%- includeFile(["inc", "Flowsql", "prototype", "trace.js"], false) %>
 

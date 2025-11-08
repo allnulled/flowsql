@@ -19,19 +19,15 @@ module.exports = async function () {
       value TEXT
     );
   `);
-  const schemaQuery = await this.fetchSql(`
+  const schemaData = await this.fetchSql(`
     SELECT *
     FROM Database_metadata
     WHERE name = 'db.schema';
   `);
-  console.log(schemaQuery);
-  const schemaData = this._compactResults(schemaQuery);
-  console.log(schemaData);
   if (schemaData.length !== 0) {
     console.log("not inserting");
     return;
   }
-  console.log("inserting");
   const defaultSchema = this.constructor.escapeValue(JSON.stringify({ tables: {} }));
   await this.runSql(`
     INSERT INTO Database_metadata (name, value)

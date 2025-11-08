@@ -4,7 +4,7 @@
  * 
  * En la versión de browser de `flowsql`, el `prototype.fetch` tiene que compactar los resultados para homogeneizar las salidas.
  * 
- * Para esto llama a `this._compactResults(data1)`.
+ * Para esto llama a `this._compactResults(data1)` si lo devuelto es un `Array`.
  * 
  */
 module.exports = function(sql) {

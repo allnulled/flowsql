@@ -2,6 +2,10 @@
  * 
  * ### `FlowsqlBrowser.prototype.runSql(sql:string)`
  * 
+ * En principio hace lo mismo, porque este método no tiene que devolver nada.
+ * 
+ * Pero se sobreescribe para tener todas las entradas de SQL sobreescritas fácilmente..
+ * 
  */
 module.exports = async function(sql) {
   this.trace("runSql|Browser");

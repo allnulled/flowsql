@@ -225,7 +225,6 @@ function(options = {}) {
 
 function(input) {
   this.trace("_compactResults|Browser");
-  console.log("compacting:", input);
   if (input.length === 0) { return input }
   const results = input[input.length-1];
   const { columns, values } = results;
@@ -710,6 +709,9 @@ async function() {
   this.$database = new SQL.Database(this.$options.databaseOptions);
   await this._ensureBasicMetadata();
   await this._loadSchema();
+  if (!(window.GlobalSqlite)) {
+    window.GlobalSqlite = SQL;
+  }
   return this;
 };
     FlowsqlBrowser.prototype.trace = function(method, args = []) {
@@ -1014,6 +1016,57 @@ async function() {
   this.assertion(labelColumns.length === 1, `Parameter «label» cannot be applied because table «${table}» has not a column as «label» on «deleteByLabel»`);
   const labelColumn = labelColumns[0];
   return this._deleteMany(table, [[labelColumn, "=", label]], "deleteByLabel");
+};
+    
+    FlowsqlBrowser.prototype.dehydrate = /**
+ * 
+ * ### `FlowsqlBrowser.prototype.dehydrate():String`
+ * 
+ * En la versión de node.js este método no existe, porque ya se está trabajando con un fichero `sqlite`.
+ * 
+ * En la versión de browser de `flowsql`, el `prototype.dehydrate` pasa la base de datos a string.
+ * 
+ * Esto lo hace llamando a 3 funciones:
+ * 
+ *  - `SqlDatabase.prototype.export()`
+ *  - `String.fromCharCode(...exportedData)`
+ *  - `btoa(charcodedData)`
+ * 
+ */
+function() {
+  const binaryArray = this.$database.export();
+  let base64 = "";
+  const chunkSize = 0x8000;
+  for (let i = 0; i < binaryArray.length; i += chunkSize) {
+    const chunk = binaryArray.subarray(i, i + chunkSize);
+    base64 += String.fromCharCode(...chunk);
+  }
+  base64 = btoa(base64);
+  return base64;
+};
+    FlowsqlBrowser.prototype.hydrate = /**
+ * 
+ * ### `FlowsqlBrowser.prototype.hydrate(base64:String):String`
+ * 
+ * En la versión de node.js este método no existe, porque ya se está trabajando con un fichero `sqlite`.
+ * 
+ * En la versión de browser de `flowsql`, el `prototype.hydrate` cambia la instancia de la base de datos según la base de datos resultante del string en base64 proporcionado.
+ * 
+ * Esto lo hace llamando a 3 funciones:
+ * 
+ *  - `Uint8Array.from(...)`
+ *  - `atob(base64)`
+ *  - `new SQL.Database(binaryData)`
+ * 
+ */
+async function(base64) {
+  const binary = Uint8Array.from(
+    atob(base64),
+    c => c.charCodeAt(0)
+  );
+  const db = new GlobalSqlite.Database(binary);
+  this.$database = db;
+  this._loadSchema();
 };
 
     window.FlowsqlBrowser = FlowsqlBrowser;

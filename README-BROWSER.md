@@ -66,3 +66,27 @@ Después hace el `_ensureBasicMetadata()` igual que en la versión de node.js.
 
 Después hace el `_loadSchema()` igual que en la versión de node.js.
 
+### `FlowsqlBrowser.prototype.dehydrate():String`
+
+En la versión de node.js este método no existe, porque ya se está trabajando con un fichero `sqlite`.
+
+En la versión de browser de `flowsql`, el `prototype.dehydrate` pasa la base de datos a string.
+
+Esto lo hace llamando a 3 funciones:
+
+ - `SqlDatabase.prototype.export()`
+ - `String.fromCharCode(...exportedData)`
+ - `btoa(charcodedData)`
+
+### `FlowsqlBrowser.prototype.hydrate(base64:String):String`
+
+En la versión de node.js este método no existe, porque ya se está trabajando con un fichero `sqlite`.
+
+En la versión de browser de `flowsql`, el `prototype.hydrate` cambia la instancia de la base de datos según la base de datos resultante del string en base64 proporcionado.
+
+Esto lo hace llamando a 3 funciones:
+
+ - `Uint8Array.from(...)`
+ - `atob(base64)`
+ - `new SQL.Database(binaryData)`
+

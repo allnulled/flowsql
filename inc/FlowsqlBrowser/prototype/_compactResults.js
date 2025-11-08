@@ -12,7 +12,6 @@
 
 module.exports = function (input) {
   this.trace("_compactResults|Browser");
-  console.log("compacting:", input);
   if (input.length === 0) { return input }
   const results = input[input.length-1];
   const { columns, values } = results;

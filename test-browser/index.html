@@ -142,27 +142,95 @@
             }]);
             assert.ok(Array.isArray(ids), "«flowsqlBrowser.insertMany» must return an array");
             assert.ok(ids.length === 3, "«flowsqlBrowser.insertMany» must return an array of 3 items");
-            console.log(ids);
             const all1 = flowsqlBrowser.selectMany("Tabla_1", []);
             assert.ok(Array.isArray(all1), "«flowsqlBrowser.selectMany» must return basic format");
             assert.ok(all1.length === 3, "«flowsqlBrowser.selectMany» must return 3 recently inserted rows");
             flowsqlBrowser.updateMany("Tabla_3", [
-                ["id", "is in", [1,2]]
+                ["id", "is in", [1, 2]]
             ], {
                 position_x: 0
             });
             const all2 = flowsqlBrowser.selectMany("Tabla_1", [
-                ["id", "is in", [1,2]]
+                ["id", "is in", [1, 2]]
             ]);
             assert.ok(Array.isArray(all2), "«flowsqlBrowser.selectMany» must return basic format");
             assert.ok(all2.length === 2, "«flowsqlBrowser.selectMany» must return 2 recently inserted rows");
             assert.ok(all2[0].id === 1, "«flowsqlBrowser.selectMany» must return «all2[0].id» as 1");
             assert.ok(all2[1].id === 2, "«flowsqlBrowser.selectMany» must return «all2[1].id» as 2");
-            flowsqlBrowser.deleteMany("Tabla_1", [["id", "is not in", [1,2]]]);
+            flowsqlBrowser.deleteMany("Tabla_1", [["id", "is not in", [1, 2]]]);
             const all3 = flowsqlBrowser.selectMany("Tabla_1", []);
             assert.ok(Array.isArray(all3), "«flowsqlBrowser.selectMany» must return basic format");
             assert.ok(all3.length === 2, "«flowsqlBrowser.selectMany» must return 2 rows");
-            
+        };
+        Tests.PersistenceAPI = async function (assert) {
+            assert.ok(typeof FlowsqlBrowser === "function", "«FlowsqlBrowser» must be a function");
+            const flowsqlBrowser = FlowsqlBrowser.create({ trace: true, traceSql: true });
+            assert.ok(flowsqlBrowser instanceof FlowsqlBrowser, "«flowsqlBrowser» must be instance of «FlowsqlBrowser»");
+            await flowsqlBrowser.connect();
+            assert.ok(typeof flowsqlBrowser.$schema.tables === "object", "«flowsqlBrowser.$schema.tables» must be an object");
+            assert.ok(typeof flowsqlBrowser.$database === "object", "«flowsqlBrowser.$database» must be an object");
+            flowsqlBrowser.addTable("Tabla_1", {
+                columns: {
+                    name: { type: "string", maxLength: 255, unique: true, label: true },
+                    position_x: { type: "real" },
+                    position_y: { type: "real" },
+                    position_z: { type: "real" },
+                }
+            });
+            flowsqlBrowser.addTable("Tabla_2", {
+                columns: {
+                    name: { type: "string", maxLength: 255, unique: true, label: true },
+                    position_x: { type: "real" },
+                    position_y: { type: "real" },
+                    position_z: { type: "real" },
+                }
+            });
+            flowsqlBrowser.addTable("Tabla_3", {
+                columns: {
+                    name: { type: "string", maxLength: 255, unique: true, label: true },
+                    position_x: { type: "real" },
+                    position_y: { type: "real" },
+                    position_z: { type: "real" },
+                }
+            });
+            flowsqlBrowser.addTable("Tabla_4", {
+                columns: {
+                    name: { type: "string", maxLength: 255, unique: true, label: true },
+                    position_x: { type: "real" },
+                    position_y: { type: "real" },
+                    position_z: { type: "real" },
+                }
+            });
+            assert.ok(typeof flowsqlBrowser.$schema.tables.Tabla_1 === "object", "«flowsqlBrowser.$schema.tables.Tabla_1» must be an object");
+            assert.ok(typeof flowsqlBrowser.$schema.tables.Tabla_2 === "object", "«flowsqlBrowser.$schema.tables.Tabla_2» must be an object");
+            assert.ok(typeof flowsqlBrowser.$schema.tables.Tabla_3 === "object", "«flowsqlBrowser.$schema.tables.Tabla_3» must be an object");
+            const ids = flowsqlBrowser.insertMany("Tabla_1", [{
+                name: "unique1",
+                position_x: 10.01,
+                position_y: 20.02,
+                position_z: 30.03,
+            }, {
+                name: "unique2",
+                position_x: 210.01,
+                position_y: 220.02,
+                position_z: 230.03,
+            }, {
+                name: "unique3",
+                position_x: 510.01,
+                position_y: 520.02,
+                position_z: 530.03,
+            }]);
+            assert.ok(Array.isArray(ids), "«flowsqlBrowser.insertMany» must return an array");
+            assert.ok(ids.length === 3, "«flowsqlBrowser.insertMany» must return an array of 3 items");
+            const exportation = flowsqlBrowser.dehydrate();
+            assert.ok(typeof exportation === "string", "«exportation» must be a string");
+            const flowsqlBrowser2 = FlowsqlBrowser.create({});
+            await flowsqlBrowser2.hydrate(flowsqlBrowser.dehydrate());
+            assert.ok(typeof flowsqlBrowser2.$schema.tables.Tabla_1 === "object", "«flowsqlBrowser.$schema.tables.Tabla_1» must be an object");
+            assert.ok(typeof flowsqlBrowser2.$schema.tables.Tabla_2 === "object", "«flowsqlBrowser.$schema.tables.Tabla_2» must be an object");
+            assert.ok(typeof flowsqlBrowser2.$schema.tables.Tabla_3 === "object", "«flowsqlBrowser.$schema.tables.Tabla_3» must be an object");
+            const allT1 = flowsqlBrowser2.selectMany("Tabla_1");
+            assert.ok(allT1.length === 3, "«allT1.length» must be 3");
         };
     </script>
     <script>
@@ -173,6 +241,7 @@
                 QUnit.module("FlowsqlBrowser API", async function () {
                     QUnit.test("Test de Schema CRUD API", Tests.SchemaCRUDAPI);
                     QUnit.test("Test de Data CRUD API", Tests.DataCRUDAPI);
+                    QUnit.test("Test de Persistence API", Tests.PersistenceAPI);
                 });
                 QUnit.start();
             } catch (error) {

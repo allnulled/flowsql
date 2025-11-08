@@ -19,5 +19,8 @@ module.exports = async function () {
   this.$database = new SQL.Database(this.$options.databaseOptions);
   await this._ensureBasicMetadata();
   await this._loadSchema();
+  if (!(window.GlobalSqlite)) {
+    window.GlobalSqlite = SQL;
+  }
   return this;
 };

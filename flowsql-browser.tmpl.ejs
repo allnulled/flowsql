@@ -65,6 +65,9 @@
     FlowsqlBrowser.prototype.deleteOne = <%- includeFile(["inc", "Flowsql", "prototype", "deleteOne.js"], false) %>
     FlowsqlBrowser.prototype.deleteMany = <%- includeFile(["inc", "Flowsql", "prototype", "deleteMany.js"], false) %>
     FlowsqlBrowser.prototype.deleteByLabel = <%- includeFile(["inc", "Flowsql", "prototype", "deleteByLabel.js"], false) %>
+    
+    FlowsqlBrowser.prototype.dehydrate = <%- includeFile(["inc", "FlowsqlBrowser", "prototype", "dehydrate.js"], true) %>
+    FlowsqlBrowser.prototype.hydrate = <%- includeFile(["inc", "FlowsqlBrowser", "prototype", "hydrate.js"], true) %>
 
     window.FlowsqlBrowser = FlowsqlBrowser;
 

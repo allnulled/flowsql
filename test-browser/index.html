@@ -225,7 +225,7 @@
             const exportation = flowsqlBrowser.dehydrate();
             assert.ok(typeof exportation === "string", "«exportation» must be a string");
             const flowsqlBrowser2 = FlowsqlBrowser.create({});
-            await flowsqlBrowser2.hydrate(flowsqlBrowser.dehydrate());
+            flowsqlBrowser2.hydrate(flowsqlBrowser.dehydrate());
             assert.ok(typeof flowsqlBrowser2.$schema.tables.Tabla_1 === "object", "«flowsqlBrowser.$schema.tables.Tabla_1» must be an object");
             assert.ok(typeof flowsqlBrowser2.$schema.tables.Tabla_2 === "object", "«flowsqlBrowser.$schema.tables.Tabla_2» must be an object");
             assert.ok(typeof flowsqlBrowser2.$schema.tables.Tabla_3 === "object", "«flowsqlBrowser.$schema.tables.Tabla_3» must be an object");

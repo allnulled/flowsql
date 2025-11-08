@@ -13,7 +13,7 @@
  *  - `new SQL.Database(binaryData)`
  * 
  */
-module.exports = async function (base64) {
+module.exports = function (base64) {
   const binary = Uint8Array.from(
     atob(base64),
     c => c.charCodeAt(0)

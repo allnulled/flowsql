@@ -531,3 +531,77 @@ Devuelve los ids de las filas eliminadas.
 
 Método que elimina una fila de una tabla basándose en su columna `label:true`.
 
+#### `new Flowsql.DataProxy(dataset:Array, database:Flowsql|FlowsqlBrowser)`
+
+Método para crear un data proxy de flowsql.
+
+Los data proxy permiten iterar sobre un conjunto de datos mediante method chaining o procesar matrices de operaciones, entre otras.
+
+Los data proxy pueden necesitar acceso a la base de datos, por lo cual se pide como segundo parámetro `database:Flowsql|FlowsqlBrowser`.
+
+### `async DataProxy.prototype.map(callback):Promise<DataProxy>`
+
+Método para hacer mapeos asíncronos.
+
+### `DataProxy.prototype.mapSync():DataProxy`
+
+Método para...
+
+### `async DataProxy.prototype.mapByEval(code:String):Promise<DataProxy>`
+
+Método para hacer mapeos asíncronos por evaluación de código en texto.
+
+### `async DataProxy.prototype.filter(callback):Promise<DataProxy>`
+
+Método para hacer filtrados asíncronos.
+
+### `DataProxy.prototype.filterSync(callback:Function):DataProxy`
+
+Método para...
+
+### `async DataProxy.prototype.filterByEval(code:String):Promise<DataProxy»`
+
+Método para...
+
+### `async DataProxy.reduce():Promise<DataProxy»`
+
+Método para...
+
+### `DataProxy.prototype.reduceSync():DataProxy`
+
+Método para...
+
+### `async DataProxy.reduceByEval(code:String):Promise<DataProxy»`
+
+Método para reducir como con `Array.prototype.reduce` pero asíncronamente y mediante un string de código js.
+
+El método seguirá devolviendo un array, pero lo puedes decorar a placer.
+
+### `async DataProxy.prototype.modify():Promise<DataProxy»`
+
+Método para...
+
+### `DataProxy.prototype.modifySync():DataProxy`
+
+Método para...
+
+### `async DataProxy.prototype.modifyByEval():Promise<DataProxy»`
+
+Método para...
+
+### `async DataProxy.amplify(callback:Function):Promise<DataProxy»`
+
+Método para...
+
+### `DataProxy.prototype.amplifySync(callback:Function):DataProxy`
+
+Método para...
+
+### `async DataProxy.prototype.amplifyByEval(code:String):Promise<DataProxy»`
+
+Método para...
+
+### `DataProxy.prototype.setMemory(keys:Object):DataProxy`
+
+### `DataProxy.prototype.byMatrix(matrix:Array):DataProxy`
+

@@ -18,7 +18,7 @@ const includeFile = function (subpaths, includeComment = true) {
 const fabricateFromTemplate = function (templatePath, outputPath) {
   const browserTemplateFile = path.resolve(__dirname, "..", templatePath);
   const mainbrowserTemplate = fs.readFileSync(browserTemplateFile).toString();
-  const mainOutput = ejs.render(mainbrowserTemplate, { require, includeFile, fs, path });
+  const mainOutput = ejs.render(mainbrowserTemplate, { require, includeFile, fs, path, __dirname: path.resolve(__dirname, ".."), });
   const mainFile = path.resolve(__dirname, "..", outputPath);
   fs.writeFileSync(mainFile, mainOutput, "utf8");
   return [mainFile, mainOutput];

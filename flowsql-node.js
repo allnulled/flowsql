@@ -1595,4 +1595,209 @@ function(table, label) {
   return this._deleteMany(table, [[labelColumn, "=", label]], "deleteByLabel");
 };
 
+
+    Include_data_proxy_api: {
+        Flowsql.prototype.createDataProxy = function(dataset, memory) {
+  return new this.constructor.DataProxy(dataset, this, memory);
+};
+        Flowsql.DataProxy = /**
+ * 
+ * #### `new Flowsql.DataProxy(dataset:Array, database:Flowsql|FlowsqlBrowser)`
+ * 
+ * Método para crear un data proxy de flowsql. 
+ * 
+ * Los data proxy permiten iterar sobre un conjunto de datos mediante method chaining o procesar matrices de operaciones, entre otras.
+ * 
+ * Los data proxy pueden necesitar acceso a la base de datos, por lo cual se pide como segundo parámetro `database:Flowsql|FlowsqlBrowser`.
+ * 
+ */
+function(dataset, database, memory = {}) {
+  this.constructor.Flowsql.assertion(Array.isArray(dataset), "Parameter «dataset» must be an array on «DataProxy»");
+  this.constructor.Flowsql.assertion(typeof database === "object", "Parameter «database» must be an object on «DataProxy»");
+  this.constructor.Flowsql.assertion(database instanceof this.constructor.Flowsql, "Parameter «database» must be a child of «DataProxy.Flowsql» on «DataProxy»");
+  this.constructor.Flowsql.assertion(typeof memory === "object", "Parameter «memory» must be an object on «DataProxy»");
+  this.$database = database;
+  this.$dataset = dataset;
+  this.$memory = memory;
+  return this;
+};
+        Flowsql.DataProxy.Flowsql = Flowsql;
+
+        Flowsql.DataProxy.prototype.map = /**
+ * 
+ * ### `async DataProxy.prototype.map(callback):Promise<DataProxy>`
+ * 
+ * Método para hacer mapeos asíncronos.
+ * 
+ */
+async function() {
+
+};
+        Flowsql.DataProxy.prototype.mapSync = /**
+ * 
+ * ### `DataProxy.prototype.mapSync():DataProxy`
+ * 
+ * Método para...
+ * 
+ */
+function() {
+
+};
+        Flowsql.DataProxy.prototype.mapByEval = /**
+ * 
+ * ### `async DataProxy.prototype.mapByEval(code:String):Promise<DataProxy>`
+ * 
+ * Método para hacer mapeos asíncronos por evaluación de código en texto.
+ * 
+ */
+async function() {
+
+};
+
+        Flowsql.DataProxy.prototype.filter = /**
+ * 
+ * ### `async DataProxy.prototype.filter(callback):Promise<DataProxy>`
+ * 
+ * Método para hacer filtrados asíncronos.
+ * 
+ */
+async function() {
+
+};
+        Flowsql.DataProxy.prototype.filterSync = /**
+ * 
+ * ### `DataProxy.prototype.filterSync(callback:Function):DataProxy`
+ * 
+ * Método para...
+ * 
+ */
+function() {
+
+};
+        Flowsql.DataProxy.prototype.filterByEval = /**
+ * 
+ * ### `async DataProxy.prototype.filterByEval(code:String):Promise<DataProxy»`
+ * 
+ * Método para...
+ * 
+ */
+async function() {
+
+};
+
+        Flowsql.DataProxy.prototype.reduce = /**
+ * 
+ * ### `async DataProxy.reduce():Promise<DataProxy»`
+ * 
+ * Método para...
+ * 
+ */
+async function() {
+
+};
+        Flowsql.DataProxy.prototype.reduceSync = /**
+ * 
+ * ### `DataProxy.prototype.reduceSync():DataProxy`
+ * 
+ * Método para...
+ * 
+ */
+function() {
+
+};
+        Flowsql.DataProxy.prototype.reduceByEval = /**
+ * 
+ * ### `async DataProxy.reduceByEval(code:String):Promise<DataProxy»`
+ * 
+ * Método para reducir como con `Array.prototype.reduce` pero asíncronamente y mediante un string de código js.
+ * 
+ * El método seguirá devolviendo un array, pero lo puedes decorar a placer.
+ * 
+ */
+async function() {
+
+};
+
+        Flowsql.DataProxy.prototype.modify = /**
+ * 
+ * ### `async DataProxy.prototype.modify():Promise<DataProxy»`
+ * 
+ * Método para...
+ * 
+ */
+async function() {
+
+};
+        Flowsql.DataProxy.prototype.modifySync = /**
+ * 
+ * ### `DataProxy.prototype.modifySync():DataProxy`
+ * 
+ * Método para...
+ * 
+ */
+function() {
+
+};
+        Flowsql.DataProxy.prototype.modifyByEval = /**
+ * 
+ * ### `async DataProxy.prototype.modifyByEval():Promise<DataProxy»`
+ * 
+ * Método para...
+ * 
+ */
+async function() {
+
+};
+
+        Flowsql.DataProxy.prototype.amplify = /**
+ * 
+ * ### `async DataProxy.amplify(callback:Function):Promise<DataProxy»`
+ * 
+ * Método para...
+ * 
+ */
+async function() {
+
+};
+        Flowsql.DataProxy.prototype.amplifySync = /**
+ * 
+ * ### `DataProxy.prototype.amplifySync(callback:Function):DataProxy`
+ * 
+ * Método para...
+ * 
+ */
+function() {
+
+};
+        Flowsql.DataProxy.prototype.amplifyByEval = /**
+ * 
+ * ### `async DataProxy.prototype.amplifyByEval(code:String):Promise<DataProxy»`
+ * 
+ * Método para...
+ * 
+ */
+async function() {
+
+};
+        
+        Flowsql.DataProxy.prototype.setMemory = /**
+ * 
+ * ### `DataProxy.prototype.setMemory(keys:Object):DataProxy`
+ * 
+ */
+function(keys) {
+  this.constructor.Flowsql.assertion(typeof keys === "object", "Parameter «keys» must be an object on «DataProxy.setMemory»");
+  return this;
+};
+        Flowsql.DataProxy.prototype.byMatrix = /**
+ * 
+ * ### `DataProxy.prototype.byMatrix(matrix:Array):DataProxy`
+ * 
+ */
+function(matrix) {
+  this.constructor.Flowsql.assertion(Array.isArray(matrix), "Parameter «matrix» must be an array on «DataProxy.byMatrix»");
+  return this;
+};
+    }
+
 module.exports = Flowsql;

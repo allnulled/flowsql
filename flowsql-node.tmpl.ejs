@@ -63,4 +63,8 @@ Flowsql.prototype.deleteOne = <%- includeFile(["inc", "Flowsql", "prototype", "d
 Flowsql.prototype.deleteMany = <%- includeFile(["inc", "Flowsql", "prototype", "deleteMany.js"]) %>
 Flowsql.prototype.deleteByLabel = <%- includeFile(["inc", "Flowsql", "prototype", "deleteByLabel.js"]) %>
 
+<%- include(path.resolve(__dirname, "flowsql-dependencies.tmpl.ejs"), {
+    fromEnvironment: "node.js"
+}) %>
+
 module.exports = Flowsql;

@@ -1,5 +1,11 @@
 /**
  * 
+ * ## `Node.js API de Flowsql`
+ * 
+ * La `Node.js API de Flowsql` es la API que se carga en entorno de node.js.
+ * 
+ * Aquí se explican los métodos que esta API tiene, y que son la base para la `Browser API de Flowsql` también.
+ * 
  * ### `Flowsql.constructor(options:Object)`
  * 
  * Método que construye una instancia `Flowsql`.

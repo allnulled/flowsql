@@ -1,6 +1,14 @@
 /**
  * 
- * #### `new Flowsql.DataProxy(dataset:Array, database:Flowsql|FlowsqlBrowser)`
+ * ## Data Proxy API
+ * 
+ * La `Data Proxy API de Flowsql` sirve para gestionar subconjuntos de datos de forma independiente.
+ * 
+ * Hay un vínculo débil con la base de datos, que puede usarse como complemento, aunque algunos métodos dependen de el parámetro «database» ser seguro.
+ * 
+ * La `Data Proxy API` es útil para iterar sobre 1 conjunto de datos muchas veces.
+ * 
+ * ### `new Flowsql.DataProxy(dataset:Array, database:Flowsql|FlowsqlBrowser)`
  * 
  * Método para crear un data proxy de flowsql. 
  * 

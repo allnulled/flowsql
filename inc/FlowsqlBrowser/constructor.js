@@ -1,5 +1,11 @@
 /**
  * 
+ * ## `Browser API de Flowsql`
+ * 
+ * La `Browser API de Flowsql` es la API que se carga en entorno de navegador.
+ * 
+ * Aquí se explican los métodos que esta API sobreescribe de la `API de Node.js de Flowsql`.
+ * 
  * ### `FlowsqlBrowser.constructor(options:Object)`
  * 
  * Método que construye una instancia `FlowsqlBrowser`.

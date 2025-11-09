@@ -68,6 +68,35 @@
     
     FlowsqlBrowser.prototype.dehydrate = <%- includeFile(["inc", "FlowsqlBrowser", "prototype", "dehydrate.js"], true) %>
     FlowsqlBrowser.prototype.hydrate = <%- includeFile(["inc", "FlowsqlBrowser", "prototype", "hydrate.js"], true) %>
+    
+    Include_data_proxy_api: {
+        FlowsqlBrowser.prototype.createDataProxy = <%- includeFile(["inc", "Flowsql", "prototype", "createDataProxy.js"], true) %>
+        FlowsqlBrowser.DataProxy = <%- includeFile(["inc", "FlowsqlDataProxy", "constructor.js"], true) %>
+        FlowsqlBrowser.DataProxy.Flowsql = FlowsqlBrowser;
+
+        FlowsqlBrowser.DataProxy.prototype.map = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "map.js"], true) %>
+        FlowsqlBrowser.DataProxy.prototype.mapSync = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "mapSync.js"], true) %>
+        FlowsqlBrowser.DataProxy.prototype.mapByEval = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "mapByEval.js"], true) %>
+
+        FlowsqlBrowser.DataProxy.prototype.filter = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "filter.js"], true) %>
+        FlowsqlBrowser.DataProxy.prototype.filterSync = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "filterSync.js"], true) %>
+        FlowsqlBrowser.DataProxy.prototype.filterByEval = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "filterByEval.js"], true) %>
+
+        FlowsqlBrowser.DataProxy.prototype.reduce = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "reduce.js"], true) %>
+        FlowsqlBrowser.DataProxy.prototype.reduceSync = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "reduceSync.js"], true) %>
+        FlowsqlBrowser.DataProxy.prototype.reduceByEval = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "reduceByEval.js"], true) %>
+
+        FlowsqlBrowser.DataProxy.prototype.modify = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "modify.js"], true) %>
+        FlowsqlBrowser.DataProxy.prototype.modifySync = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "modifySync.js"], true) %>
+        FlowsqlBrowser.DataProxy.prototype.modifyByEval = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "modifyByEval.js"], true) %>
+
+        FlowsqlBrowser.DataProxy.prototype.amplify = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "amplify.js"], true) %>
+        FlowsqlBrowser.DataProxy.prototype.amplifySync = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "amplifySync.js"], true) %>
+        FlowsqlBrowser.DataProxy.prototype.amplifyByEval = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "amplifyByEval.js"], true) %>
+        
+        FlowsqlBrowser.DataProxy.prototype.setMemory = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "setMemory.js"], true) %>
+        FlowsqlBrowser.DataProxy.prototype.byMatrix = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "byMatrix.js"], true) %>
+    }
 
     window.FlowsqlBrowser = FlowsqlBrowser;
 

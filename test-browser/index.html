@@ -232,6 +232,75 @@
             const allT1 = flowsqlBrowser2.selectMany("Tabla_1");
             assert.ok(allT1.length === 3, "«allT1.length» must be 3");
         };
+
+        Tests.DataProxyAPI = async function(assert) {
+            assert.ok(typeof FlowsqlBrowser === "function", "«FlowsqlBrowser» must be a function");
+            const flowsqlBrowser = FlowsqlBrowser.create({ trace: true, traceSql: true });
+            assert.ok(flowsqlBrowser instanceof FlowsqlBrowser, "«flowsqlBrowser» must be instance of «FlowsqlBrowser»");
+            await flowsqlBrowser.connect();
+            assert.ok(typeof flowsqlBrowser.$schema.tables === "object", "«flowsqlBrowser.$schema.tables» must be an object");
+            assert.ok(typeof flowsqlBrowser.$database === "object", "«flowsqlBrowser.$database» must be an object");
+            flowsqlBrowser.addTable("Tabla_1", {
+                columns: {
+                    name: { type: "string", maxLength: 255, unique: true, label: true },
+                    position_x: { type: "real" },
+                    position_y: { type: "real" },
+                    position_z: { type: "real" },
+                }
+            });
+            flowsqlBrowser.addTable("Tabla_2", {
+                columns: {
+                    name: { type: "string", maxLength: 255, unique: true, label: true },
+                    position_x: { type: "real" },
+                    position_y: { type: "real" },
+                    position_z: { type: "real" },
+                }
+            });
+            flowsqlBrowser.addTable("Tabla_3", {
+                columns: {
+                    name: { type: "string", maxLength: 255, unique: true, label: true },
+                    position_x: { type: "real" },
+                    position_y: { type: "real" },
+                    position_z: { type: "real" },
+                }
+            });
+            flowsqlBrowser.addTable("Tabla_4", {
+                columns: {
+                    name: { type: "string", maxLength: 255, unique: true, label: true },
+                    position_x: { type: "real" },
+                    position_y: { type: "real" },
+                    position_z: { type: "real" },
+                }
+            });
+            assert.ok(typeof flowsqlBrowser.$schema.tables.Tabla_1 === "object", "«flowsqlBrowser.$schema.tables.Tabla_1» must be an object");
+            assert.ok(typeof flowsqlBrowser.$schema.tables.Tabla_2 === "object", "«flowsqlBrowser.$schema.tables.Tabla_2» must be an object");
+            assert.ok(typeof flowsqlBrowser.$schema.tables.Tabla_3 === "object", "«flowsqlBrowser.$schema.tables.Tabla_3» must be an object");
+            
+            const dataproxy1 = flowsqlBrowser.createDataProxy([]);
+            
+            assert.ok(typeof dataproxy1 === "object", "«dataproxy1» must be an object");
+            assert.ok(typeof dataproxy1.$memory === "object", "«dataproxy1.$memory» must be an object");
+            assert.ok(typeof dataproxy1.$dataset === "object", "«dataproxy1.$dataset» must be an object");
+
+            assert.ok(typeof dataproxy1.filter === "function", "«dataproxy1.filter» must be an function");
+            assert.ok(typeof dataproxy1.filterSync === "function", "«dataproxy1.filterSync» must be an function");
+            assert.ok(typeof dataproxy1.filterByEval === "function", "«dataproxy1.filterByEval» must be an function");
+            assert.ok(typeof dataproxy1.map === "function", "«dataproxy1.map» must be an function");
+            assert.ok(typeof dataproxy1.mapSync === "function", "«dataproxy1.mapSync» must be an function");
+            assert.ok(typeof dataproxy1.mapByEval === "function", "«dataproxy1.mapByEval» must be an function");
+            assert.ok(typeof dataproxy1.reduce === "function", "«dataproxy1.reduce» must be an function");
+            assert.ok(typeof dataproxy1.reduceSync === "function", "«dataproxy1.reduceSync» must be an function");
+            assert.ok(typeof dataproxy1.reduceByEval === "function", "«dataproxy1.reduceByEval» must be an function");
+            assert.ok(typeof dataproxy1.modify === "function", "«dataproxy1.modify» must be an function");
+            assert.ok(typeof dataproxy1.modifySync === "function", "«dataproxy1.modifySync» must be an function");
+            assert.ok(typeof dataproxy1.modifyByEval === "function", "«dataproxy1.modifyByEval» must be an function");
+            assert.ok(typeof dataproxy1.amplify === "function", "«dataproxy1.amplify» must be an function");
+            assert.ok(typeof dataproxy1.amplifySync === "function", "«dataproxy1.amplifySync» must be an function");
+            assert.ok(typeof dataproxy1.amplifyByEval === "function", "«dataproxy1.amplifyByEval» must be an function");
+
+            assert.ok(typeof dataproxy1.setMemory === "function", "«dataproxy1.setMemory» must be an function");
+            assert.ok(typeof dataproxy1.byMatrix === "function", "«dataproxy1.byMatrix» must be an function");
+        };
     </script>
     <script>
 
@@ -242,6 +311,7 @@
                     QUnit.test("Test de Schema CRUD API", Tests.SchemaCRUDAPI);
                     QUnit.test("Test de Data CRUD API", Tests.DataCRUDAPI);
                     QUnit.test("Test de Persistence API", Tests.PersistenceAPI);
+                    QUnit.test("Test de Data Proxy API", Tests.DataProxyAPI);
                 });
                 QUnit.start();
             } catch (error) {

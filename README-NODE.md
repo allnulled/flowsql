@@ -1,3 +1,88 @@
+## Flowsql for node.js
+
+### Índice de documento
+
+- [`Node.js API de Flowsql`](#nodejs-api-de-flowsql)
+   - [`Flowsql.constructor(options:Object)`](#flowsqlconstructoroptionsobject)
+   - [`Flowsql.create(...args)`](#flowsqlcreateargs)
+   - [`Flowsql.assertion(condition:boolean, errorMessage:String)`](#flowsqlassertionconditionboolean-errormessagestring)
+   - [`new Flowsql.AssertionError(message:String)`](#new-flowsqlassertionerrormessagestring)
+   - [`Flowsql.defaultOptions:Object`](#flowsqldefaultoptionsobject)
+   - [`Flowsql.defaultDatabaseOptions:Object`](#flowsqldefaultdatabaseoptionsobject)
+   - [`Flowsql.dependencies:Object`](#flowsqldependenciesobject)
+   - [`Flowsql.escapeId(value:any)`](#flowsqlescapeidvalueany)
+   - [`Flowsql.escapeValue(value:any)`](#flowsqlescapevaluevalueany)
+   - [`Flowsql.getSqlType(columnType:String, columnMetadata:Object)`](#flowsqlgetsqltypecolumntypestring-columnmetadataobject)
+   - [`Flowsql.knownTypes:Array`](#flowsqlknowntypesarray)
+   - [`Flowsql.knownOperators:Array`](#flowsqlknownoperatorsarray)
+   - [`Flowsql.copyObject(obj:Object)`](#flowsqlcopyobjectobjobject)
+   - [`Flowsql.arrayContainsAnyOf(list1:Array, list2:Array):Boolean`](#flowsqlarraycontainsanyoflist1array-list2arrayboolean)
+   - [`Flowsql.prototype._ensureBasicMetadata()`](#flowsqlprototype_ensurebasicmetadata)
+   - [`Flowsql.prototype._loadSchema()`](#flowsqlprototype_loadschema)
+   - [`Flowsql.prototype._persistSchema()`](#flowsqlprototype_persistschema)
+   - [`Flowsql.prototype._createRelationalTable(table:String, columnId:String, referredTable:String)`](#flowsqlprototype_createrelationaltabletablestring-columnidstring-referredtablestring)
+   - [`Flowsql.prototype._validateFilters(table:String, filters:Array)`](#flowsqlprototype_validatefilterstablestring-filtersarray)
+   - [`Flowsql.prototype._sqlForColumn(columnId:String, columnMetadata:Object)`](#flowsqlprototype_sqlforcolumncolumnidstring-columnmetadataobject)
+   - [`Flowsql.prototype._sqlForWhere(table:String, filters:Array)`](#flowsqlprototype_sqlforwheretablestring-filtersarray)
+   - [`Flowsql.prototype._sqlForInsertInto(table:String, row:Object)`](#flowsqlprototype_sqlforinsertintotablestring-rowobject)
+   - [`Flowsql.prototype._sqlForInsertValues(table:String, row:Object)`](#flowsqlprototype_sqlforinsertvaluestablestring-rowobject)
+   - [`Flowsql.prototype._sqlForUpdateSet(table:String, row:Object)`](#flowsqlprototype_sqlforupdatesettablestring-rowobject)
+   - [`Flowsql.prototype._validateInstance(table:String, values:Object, operation:String)`](#flowsqlprototype_validateinstancetablestring-valuesobject-operationstring)
+   - [`Flowsql.prototype._selectMany(table:String, filters:Array, byMethod:String):Array`](#flowsqlprototype_selectmanytablestring-filtersarray-bymethodstringarray)
+   - [`Flowsql.prototype._insertMany(table:String, rows:Array, byMethod:String)`](#flowsqlprototype_insertmanytablestring-rowsarray-bymethodstring)
+   - [`Flowsql.prototype._updateMany(table:String, filters:Array, values:Object, byMethod:String)`](#flowsqlprototype_updatemanytablestring-filtersarray-valuesobject-bymethodstring)
+   - [`Flowsql.prototype._deleteMany(table:String, filters:Array, byMethod:String):Array`](#flowsqlprototype_deletemanytablestring-filtersarray-bymethodstringarray)
+   - [`Flowsql.prototype.fetchSql(sql:String):Array`](#flowsqlprototypefetchsqlsqlstringarray)
+   - [`Flowsql.prototype.insertSql(sql:String):Number`](#flowsqlprototypeinsertsqlsqlstringnumber)
+   - [`Flowsql.prototype.runSql(sql:String)`](#flowsqlprototyperunsqlsqlstring)
+   - [`Flowsql.prototype.connect()`](#flowsqlprototypeconnect)
+   - [`Flowsql.prototype.trace(method:String, args:Array)`](#flowsqlprototypetracemethodstring-argsarray)
+   - [`Flowsql.prototype.extractSqlSchema():Object`](#flowsqlprototypeextractsqlschemaobject)
+   - [`Flowsql.prototype.validateSchema(schema:Object)`](#flowsqlprototypevalidateschemaschemaobject)
+   - [`Flowsql.prototype.addTable(table:String, partialSchema:Object)`](#flowsqlprototypeaddtabletablestring-partialschemaobject)
+   - [`Flowsql.prototype.addColumn(table:String, columnId:String, partialSchema:Object)`](#flowsqlprototypeaddcolumntablestring-columnidstring-partialschemaobject)
+   - [`Flowsql.prototype.renameTable(table:String, newName:String)`](#flowsqlprototyperenametabletablestring-newnamestring)
+   - [`Flowsql.prototype.renameColumn(table:String, columnId:String, newName:String)`](#flowsqlprototyperenamecolumntablestring-columnidstring-newnamestring)
+   - [`Flowsql.prototype.dropTable(table:String)`](#flowsqlprototypedroptabletablestring)
+   - [`Flowsql.prototype.dropColumn(table:String, columnId:String)`](#flowsqlprototypedropcolumntablestring-columnidstring)
+   - [`Flowsql.prototype.insertOne(table:String, item:Object):Number`](#flowsqlprototypeinsertonetablestring-itemobjectnumber)
+   - [`Flowsql.prototype.insertMany(table:String, rows:Array):Array<Number>`](#flowsqlprototypeinsertmanytablestring-rowsarrayarraynumber)
+   - [`Flowsql.prototype.selectOne(table:String, id:String|Number):Object`](#flowsqlprototypeselectonetablestring-idstringnumberobject)
+   - [`Flowsql.prototype.selectMany(table:String, filters:Array):Array`](#flowsqlprototypeselectmanytablestring-filtersarrayarray)
+   - [`Flowsql.prototype.selectByLabel(table:String, label:String)`](#flowsqlprototypeselectbylabeltablestring-labelstring)
+   - [`Flowsql.prototype.updateOne(table:String, id:String|Number, values:Object)`](#flowsqlprototypeupdateonetablestring-idstringnumber-valuesobject)
+   - [`Flowsql.prototype.updateMany(table:String, filters:Array, values:Object)`](#flowsqlprototypeupdatemanytablestring-filtersarray-valuesobject)
+   - [`Flowsql.prototype.updateByLabel(table:String, label:String, values:Object)`](#flowsqlprototypeupdatebylabeltablestring-labelstring-valuesobject)
+   - [`Flowsql.prototype.deleteOne(table:String, id:String|Number):Number`](#flowsqlprototypedeleteonetablestring-idstringnumbernumber)
+   - [`Flowsql.prototype.deleteMany(table:String, filters:Array):Array`](#flowsqlprototypedeletemanytablestring-filtersarrayarray)
+   - [`Flowsql.prototype.deleteByLabel(table:String, label:String):Array`](#flowsqlprototypedeletebylabeltablestring-labelstringarray)
+- [Data Proxy API de Flowsql](#data-proxy-api-de-flowsql)
+   - [`new Flowsql.DataProxy(dataset:Array, database:Flowsql|FlowsqlBrowser)`](#new-flowsqldataproxydatasetarray-databaseflowsqlflowsqlbrowser)
+   - [`async DataProxy.prototype.map(callback):Promise<DataProxy>`](#async-dataproxyprototypemapcallbackpromisedataproxy)
+   - [`DataProxy.prototype.mapSync():DataProxy`](#dataproxyprototypemapsyncdataproxy)
+   - [`async DataProxy.prototype.mapByEval(code:String):Promise<DataProxy>`](#async-dataproxyprototypemapbyevalcodestringpromisedataproxy)
+   - [`async DataProxy.prototype.filter(callback):Promise<DataProxy>`](#async-dataproxyprototypefiltercallbackpromisedataproxy)
+   - [`DataProxy.prototype.filterSync(callback:Function):DataProxy`](#dataproxyprototypefiltersynccallbackfunctiondataproxy)
+   - [`async DataProxy.prototype.filterByEval(code:String):Promise<DataProxy»`](#async-dataproxyprototypefilterbyevalcodestringpromisedataproxy)
+   - [`async DataProxy.reduce():Promise<DataProxy»`](#async-dataproxyreducepromisedataproxy)
+   - [`DataProxy.prototype.reduceSync():DataProxy`](#dataproxyprototypereducesyncdataproxy)
+   - [`async DataProxy.reduceByEval(code:String):Promise<DataProxy»`](#async-dataproxyreducebyevalcodestringpromisedataproxy)
+   - [`async DataProxy.prototype.modify():Promise<DataProxy»`](#async-dataproxyprototypemodifypromisedataproxy)
+   - [`DataProxy.prototype.modifySync():DataProxy`](#dataproxyprototypemodifysyncdataproxy)
+   - [`async DataProxy.prototype.modifyByEval():Promise<DataProxy»`](#async-dataproxyprototypemodifybyevalpromisedataproxy)
+   - [`async DataProxy.amplify(callback:Function):Promise<DataProxy»`](#async-dataproxyamplifycallbackfunctionpromisedataproxy)
+   - [`DataProxy.prototype.amplifySync(callback:Function):DataProxy`](#dataproxyprototypeamplifysynccallbackfunctiondataproxy)
+   - [`async DataProxy.prototype.amplifyByEval(code:String):Promise<DataProxy»`](#async-dataproxyprototypeamplifybyevalcodestringpromisedataproxy)
+   - [`DataProxy.prototype.setMemory(keys:Object):DataProxy`](#dataproxyprototypesetmemorykeysobjectdataproxy)
+   - [`DataProxy.prototype.byMatrix(matrix:Array):DataProxy`](#dataproxyprototypebymatrixmatrixarraydataproxy)
+
+
+## `Node.js API de Flowsql`
+
+La `Node.js API de Flowsql` es la API que se carga en entorno de node.js.
+
+Aquí se explican los métodos que esta API tiene, y que son la base para la `Browser API de Flowsql` también.
+
 ### `Flowsql.constructor(options:Object)`
 
 Método que construye una instancia `Flowsql`.
@@ -531,7 +616,15 @@ Devuelve los ids de las filas eliminadas.
 
 Método que elimina una fila de una tabla basándose en su columna `label:true`.
 
-#### `new Flowsql.DataProxy(dataset:Array, database:Flowsql|FlowsqlBrowser)`
+## Data Proxy API de Flowsql
+
+La `Data Proxy API de Flowsql` sirve para gestionar subconjuntos de datos de forma independiente.
+
+Hay un vínculo débil con la base de datos, que puede usarse como complemento, aunque algunos métodos dependen de el parámetro «database» ser seguro.
+
+La `Data Proxy API` es útil para iterar sobre 1 conjunto de datos muchas veces.
+
+### `new Flowsql.DataProxy(dataset:Array, database:Flowsql|FlowsqlBrowser)`
 
 Método para crear un data proxy de flowsql.
 

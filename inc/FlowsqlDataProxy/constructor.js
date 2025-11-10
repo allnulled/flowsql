@@ -1,6 +1,6 @@
 /**
  * 
- * ## Data Proxy API
+ * ## Data Proxy API de Flowsql
  * 
  * La `Data Proxy API de Flowsql` sirve para gestionar subconjuntos de datos de forma independiente.
  * 

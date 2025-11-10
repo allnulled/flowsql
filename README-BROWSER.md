@@ -1,3 +1,30 @@
+## Flowsql for browser
+
+Este documento solo amplía la información de `Flowsql for node.js` para ver las diferencias entre las 2 APIs.
+
+Cada entorno requiere de su fichero `js` propio.
+
+### Índice de documento
+
+- [`Browser API de Flowsql`](#browser-api-de-flowsql)
+   - [`FlowsqlBrowser.constructor(options:Object)`](#flowsqlbrowserconstructoroptionsobject)
+   - [`FlowsqlBrowser.defaultOptions:Object`](#flowsqlbrowserdefaultoptionsobject)
+   - [`Flowsql.dependencies:Object`](#flowsqldependenciesobject)
+   - [`FlowsqlBrowser.prototype._compactResults(input:Array)`](#flowsqlbrowserprototype_compactresultsinputarray)
+   - [`FlowsqlBrowser.prototype.fetchSql(sql:string)`](#flowsqlbrowserprototypefetchsqlsqlstring)
+   - [`FlowsqlBrowser.prototype.insertSql(sql:string)`](#flowsqlbrowserprototypeinsertsqlsqlstring)
+   - [`FlowsqlBrowser.prototype.runSql(sql:string)`](#flowsqlbrowserprototyperunsqlsqlstring)
+   - [`FlowsqlBrowser.prototype.connect()`](#flowsqlbrowserprototypeconnect)
+   - [`FlowsqlBrowser.prototype.dehydrate():String`](#flowsqlbrowserprototypedehydratestring)
+   - [`FlowsqlBrowser.prototype.hydrate(base64:String):String`](#flowsqlbrowserprototypehydratebase64stringstring)
+
+
+## `Browser API de Flowsql`
+
+La `Browser API de Flowsql` es la API que se carga en entorno de navegador.
+
+Aquí se explican los métodos que esta API sobreescribe de la `API de Node.js de Flowsql`.
+
 ### `FlowsqlBrowser.constructor(options:Object)`
 
 Método que construye una instancia `FlowsqlBrowser`.

@@ -2,6 +2,12 @@
 
 const Flowsql = /**
  * 
+ * ## `Node.js API de Flowsql`
+ * 
+ * La `Node.js API de Flowsql` es la API que se carga en entorno de node.js.
+ * 
+ * Aquí se explican los métodos que esta API tiene, y que son la base para la `Browser API de Flowsql` también.
+ * 
  * ### `Flowsql.constructor(options:Object)`
  * 
  * Método que construye una instancia `Flowsql`.
@@ -1602,7 +1608,15 @@ function(table, label) {
 };
         Flowsql.DataProxy = /**
  * 
- * #### `new Flowsql.DataProxy(dataset:Array, database:Flowsql|FlowsqlBrowser)`
+ * ## Data Proxy API de Flowsql
+ * 
+ * La `Data Proxy API de Flowsql` sirve para gestionar subconjuntos de datos de forma independiente.
+ * 
+ * Hay un vínculo débil con la base de datos, que puede usarse como complemento, aunque algunos métodos dependen de el parámetro «database» ser seguro.
+ * 
+ * La `Data Proxy API` es útil para iterar sobre 1 conjunto de datos muchas veces.
+ * 
+ * ### `new Flowsql.DataProxy(dataset:Array, database:Flowsql|FlowsqlBrowser)`
  * 
  * Método para crear un data proxy de flowsql. 
  * 

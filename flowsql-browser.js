@@ -1081,16 +1081,18 @@ function(base64) {
   return new this.constructor.DataProxy(dataset, this, memory);
 };
         FlowsqlBrowser.DataProxy = function(dataset, database, memory = {}) {
-  this.constructor.Flowsql.assertion(Array.isArray(dataset), "Parameter «dataset» must be an array on «DataProxy»");
-  this.constructor.Flowsql.assertion(typeof database === "object", "Parameter «database» must be an object on «DataProxy»");
-  this.constructor.Flowsql.assertion(database instanceof this.constructor.Flowsql, "Parameter «database» must be a child of «DataProxy.Flowsql» on «DataProxy»");
-  this.constructor.Flowsql.assertion(typeof memory === "object", "Parameter «memory» must be an object on «DataProxy»");
+  this.constructor.assertion(Array.isArray(dataset), "Parameter «dataset» must be an array on «DataProxy»");
+  this.constructor.assertion(typeof database === "object", "Parameter «database» must be an object on «DataProxy»");
+  this.constructor.assertion(database instanceof this.constructor.Flowsql, "Parameter «database» must be a child of «DataProxy.Flowsql» on «DataProxy»");
+  this.constructor.assertion(typeof memory === "object", "Parameter «memory» must be an object on «DataProxy»");
   this.$database = database;
   this.$dataset = dataset;
   this.$memory = memory;
   return this;
 };
         FlowsqlBrowser.DataProxy.Flowsql = FlowsqlBrowser;
+        
+        FlowsqlBrowser.DataProxy.assertion = FlowsqlBrowser.assertion.bind(FlowsqlBrowser);
 
         FlowsqlBrowser.DataProxy.prototype.map = async function() {
 
@@ -1132,7 +1134,7 @@ function(base64) {
 
 };
 
-        FlowsqlBrowser.DataProxy.prototype.amplify = async function() {
+        FlowsqlBrowser.DataProxy.prototype.amplify = async function(callback) {
 
 };
         FlowsqlBrowser.DataProxy.prototype.amplifySync = function() {
@@ -1142,8 +1144,23 @@ function(base64) {
 
 };
         
-        FlowsqlBrowser.DataProxy.prototype.setMemory = function(keys) {
-  this.constructor.Flowsql.assertion(typeof keys === "object", "Parameter «keys» must be an object on «DataProxy.setMemory»");
+        FlowsqlBrowser.DataProxy.prototype.groupBy = 
+        FlowsqlBrowser.DataProxy.prototype.groupBySync = 
+        FlowsqlBrowser.DataProxy.prototype.groupByEval = 
+        FlowsqlBrowser.DataProxy.prototype.groupByEvals = 
+        
+        FlowsqlBrowser.DataProxy.prototype.accessProperty = async function(callback) {
+
+};
+        FlowsqlBrowser.DataProxy.prototype.memorize = function(keys) {
+  this.constructor.assertion(typeof keys === "object", "Parameter «keys» must be an object on «DataProxy.memorize»");
+  return this;
+};
+        FlowsqlBrowser.DataProxy.prototype.remember = function(id) {
+  
+};
+        FlowsqlBrowser.DataProxy.prototype.deduplicate = function(keys) {
+  this.constructor.assertion(typeof keys === "object", "Parameter «keys» must be an object on «DataProxy.setMemory»");
   return this;
 };
         FlowsqlBrowser.DataProxy.prototype.byMatrix = function(matrix) {

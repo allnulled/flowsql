@@ -73,6 +73,9 @@
    - [`async DataProxy.amplify(callback:Function):Promise<DataProxy»`](#async-dataproxyamplifycallbackfunctionpromisedataproxy)
    - [`DataProxy.prototype.amplifySync(callback:Function):DataProxy`](#dataproxyprototypeamplifysynccallbackfunctiondataproxy)
    - [`async DataProxy.prototype.amplifyByEval(code:String):Promise<DataProxy»`](#async-dataproxyprototypeamplifybyevalcodestringpromisedataproxy)
+   - [`async DataProxy.accessProperty(callback:Function):Promise<DataProxy»`](#async-dataproxyaccesspropertycallbackfunctionpromisedataproxy)
+   - [`DataProxy.prototype.memorize(keys:Object):DataProxy`](#dataproxyprototypememorizekeysobjectdataproxy)
+   - [`DataProxy.prototype.remember(keys:Object):any`](#dataproxyprototyperememberkeysobjectany)
    - [`DataProxy.prototype.setMemory(keys:Object):DataProxy`](#dataproxyprototypesetmemorykeysobjectdataproxy)
    - [`DataProxy.prototype.byMatrix(matrix:Array):DataProxy`](#dataproxyprototypebymatrixmatrixarraydataproxy)
 
@@ -693,6 +696,14 @@ Método para...
 ### `async DataProxy.prototype.amplifyByEval(code:String):Promise<DataProxy»`
 
 Método para...
+
+### `async DataProxy.accessProperty(callback:Function):Promise<DataProxy»`
+
+Método para...
+
+### `DataProxy.prototype.memorize(keys:Object):DataProxy`
+
+### `DataProxy.prototype.remember(keys:Object):any`
 
 ### `DataProxy.prototype.setMemory(keys:Object):DataProxy`
 

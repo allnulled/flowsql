@@ -1,6 +1,6 @@
 /**
  * 
- * ### `async DataProxy.amplify(callback:Function):Promise<DataProxy»`
+ * ### `async DataProxy.accessProperty(callback:Function):Promise<DataProxy»`
  * 
  * Método para...
  * 

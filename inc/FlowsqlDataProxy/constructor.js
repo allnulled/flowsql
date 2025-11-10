@@ -18,10 +18,10 @@
  * 
  */
 module.exports = function(dataset, database, memory = {}) {
-  this.constructor.Flowsql.assertion(Array.isArray(dataset), "Parameter «dataset» must be an array on «DataProxy»");
-  this.constructor.Flowsql.assertion(typeof database === "object", "Parameter «database» must be an object on «DataProxy»");
-  this.constructor.Flowsql.assertion(database instanceof this.constructor.Flowsql, "Parameter «database» must be a child of «DataProxy.Flowsql» on «DataProxy»");
-  this.constructor.Flowsql.assertion(typeof memory === "object", "Parameter «memory» must be an object on «DataProxy»");
+  this.constructor.assertion(Array.isArray(dataset), "Parameter «dataset» must be an array on «DataProxy»");
+  this.constructor.assertion(typeof database === "object", "Parameter «database» must be an object on «DataProxy»");
+  this.constructor.assertion(database instanceof this.constructor.Flowsql, "Parameter «database» must be a child of «DataProxy.Flowsql» on «DataProxy»");
+  this.constructor.assertion(typeof memory === "object", "Parameter «memory» must be an object on «DataProxy»");
   this.$database = database;
   this.$dataset = dataset;
   this.$memory = memory;

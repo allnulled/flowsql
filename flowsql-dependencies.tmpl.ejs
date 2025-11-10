@@ -8,6 +8,8 @@ const isInNodejs = fromEnvironment === "node.js";
         <%-currentGlobal%>.prototype.createDataProxy = <%- includeFile(["inc", "Flowsql", "prototype", "createDataProxy.js"], isInNodejs) %>
         <%-currentGlobal%>.DataProxy = <%- includeFile(["inc", "FlowsqlDataProxy", "constructor.js"], isInNodejs) %>
         <%-currentGlobal%>.DataProxy.Flowsql = <%-currentGlobal%>;
+        
+        <%-currentGlobal%>.DataProxy.assertion = <%-currentGlobal%>.assertion.bind(<%-currentGlobal%>);
 
         <%-currentGlobal%>.DataProxy.prototype.map = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "map.js"], isInNodejs) %>
         <%-currentGlobal%>.DataProxy.prototype.mapSync = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "mapSync.js"], isInNodejs) %>
@@ -29,6 +31,14 @@ const isInNodejs = fromEnvironment === "node.js";
         <%-currentGlobal%>.DataProxy.prototype.amplifySync = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "amplifySync.js"], isInNodejs) %>
         <%-currentGlobal%>.DataProxy.prototype.amplifyByEval = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "amplifyByEval.js"], isInNodejs) %>
         
-        <%-currentGlobal%>.DataProxy.prototype.setMemory = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "setMemory.js"], isInNodejs) %>
+        <%-currentGlobal%>.DataProxy.prototype.groupBy = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "groupBy.js"], isInNodejs) %>
+        <%-currentGlobal%>.DataProxy.prototype.groupBySync = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "groupBySync.js"], isInNodejs) %>
+        <%-currentGlobal%>.DataProxy.prototype.groupByEval = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "groupByEval.js"], isInNodejs) %>
+        <%-currentGlobal%>.DataProxy.prototype.groupByEvals = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "groupByEvals.js"], isInNodejs) %>
+        
+        <%-currentGlobal%>.DataProxy.prototype.accessProperty = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "accessProperty.js"], isInNodejs) %>
+        <%-currentGlobal%>.DataProxy.prototype.memorize = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "memorize.js"], isInNodejs) %>
+        <%-currentGlobal%>.DataProxy.prototype.remember = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "remember.js"], isInNodejs) %>
+        <%-currentGlobal%>.DataProxy.prototype.deduplicate = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "deduplicate.js"], isInNodejs) %>
         <%-currentGlobal%>.DataProxy.prototype.byMatrix = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "byMatrix.js"], isInNodejs) %>
     }

@@ -2,7 +2,7 @@
 
 ### Índice de documento
 
-- [`Node.js API de Flowsql`](#nodejs-api-de-flowsql)
+- [Node.js API de Flowsql](#nodejs-api-de-flowsql)
    - [`Flowsql.constructor(options:Object)`](#flowsqlconstructoroptionsobject)
    - [`Flowsql.create(...args)`](#flowsqlcreateargs)
    - [`Flowsql.assertion(condition:boolean, errorMessage:String)`](#flowsqlassertionconditionboolean-errormessagestring)
@@ -80,7 +80,7 @@
    - [`DataProxy.prototype.byMatrix(matrix:Array):DataProxy`](#dataproxyprototypebymatrixmatrixarraydataproxy)
 
 
-## `Node.js API de Flowsql`
+## Node.js API de Flowsql
 
 La `Node.js API de Flowsql` es la API que se carga en entorno de node.js.
 

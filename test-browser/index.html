@@ -282,23 +282,15 @@
             assert.ok(typeof dataproxy1.$memory === "object", "«dataproxy1.$memory» must be an object");
             assert.ok(typeof dataproxy1.$dataset === "object", "«dataproxy1.$dataset» must be an object");
 
-            assert.ok(typeof dataproxy1.filter === "function", "«dataproxy1.filter» must be an function");
-            assert.ok(typeof dataproxy1.filterSync === "function", "«dataproxy1.filterSync» must be an function");
             assert.ok(typeof dataproxy1.filterByEval === "function", "«dataproxy1.filterByEval» must be an function");
-            assert.ok(typeof dataproxy1.map === "function", "«dataproxy1.map» must be an function");
-            assert.ok(typeof dataproxy1.mapSync === "function", "«dataproxy1.mapSync» must be an function");
             assert.ok(typeof dataproxy1.mapByEval === "function", "«dataproxy1.mapByEval» must be an function");
-            assert.ok(typeof dataproxy1.reduce === "function", "«dataproxy1.reduce» must be an function");
-            assert.ok(typeof dataproxy1.reduceSync === "function", "«dataproxy1.reduceSync» must be an function");
             assert.ok(typeof dataproxy1.reduceByEval === "function", "«dataproxy1.reduceByEval» must be an function");
-            assert.ok(typeof dataproxy1.modify === "function", "«dataproxy1.modify» must be an function");
-            assert.ok(typeof dataproxy1.modifySync === "function", "«dataproxy1.modifySync» must be an function");
             assert.ok(typeof dataproxy1.modifyByEval === "function", "«dataproxy1.modifyByEval» must be an function");
-            assert.ok(typeof dataproxy1.amplify === "function", "«dataproxy1.amplify» must be an function");
-            assert.ok(typeof dataproxy1.amplifySync === "function", "«dataproxy1.amplifySync» must be an function");
             assert.ok(typeof dataproxy1.amplifyByEval === "function", "«dataproxy1.amplifyByEval» must be an function");
+            assert.ok(typeof dataproxy1.groupByEvals === "function", "«dataproxy1.groupByEvals» must be an function");
 
-            assert.ok(typeof dataproxy1.setMemory === "function", "«dataproxy1.setMemory» must be an function");
+            assert.ok(typeof dataproxy1.memorize === "function", "«dataproxy1.memorize» must be an function");
+            assert.ok(typeof dataproxy1.remember === "function", "«dataproxy1.remember» must be an function");
             assert.ok(typeof dataproxy1.byMatrix === "function", "«dataproxy1.byMatrix» must be an function");
         };
     </script>

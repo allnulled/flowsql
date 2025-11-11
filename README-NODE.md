@@ -56,28 +56,30 @@
    - [`Flowsql.prototype.deleteOne(table:String, id:String|Number):Number`](#flowsqlprototypedeleteonetablestring-idstringnumbernumber)
    - [`Flowsql.prototype.deleteMany(table:String, filters:Array):Array`](#flowsqlprototypedeletemanytablestring-filtersarrayarray)
    - [`Flowsql.prototype.deleteByLabel(table:String, label:String):Array`](#flowsqlprototypedeletebylabeltablestring-labelstringarray)
+   - [`Flowsql.prototype.createDataProxy(dataset:Array, memory:Object):FlowsqlDataProxy`](#flowsqlprototypecreatedataproxydatasetarray-memoryobjectflowsqldataproxy)
 - [Data Proxy API de Flowsql](#data-proxy-api-de-flowsql)
    - [`new Flowsql.DataProxy(dataset:Array, database:Flowsql|FlowsqlBrowser)`](#new-flowsqldataproxydatasetarray-databaseflowsqlflowsqlbrowser)
-   - [`async DataProxy.prototype.map(callback):Promise<DataProxy>`](#async-dataproxyprototypemapcallbackpromisedataproxy)
-   - [`DataProxy.prototype.mapSync():DataProxy`](#dataproxyprototypemapsyncdataproxy)
    - [`async DataProxy.prototype.mapByEval(code:String):Promise<DataProxy>`](#async-dataproxyprototypemapbyevalcodestringpromisedataproxy)
-   - [`async DataProxy.prototype.filter(callback):Promise<DataProxy>`](#async-dataproxyprototypefiltercallbackpromisedataproxy)
-   - [`DataProxy.prototype.filterSync(callback:Function):DataProxy`](#dataproxyprototypefiltersynccallbackfunctiondataproxy)
    - [`async DataProxy.prototype.filterByEval(code:String):Promise<DataProxy»`](#async-dataproxyprototypefilterbyevalcodestringpromisedataproxy)
-   - [`async DataProxy.reduce():Promise<DataProxy»`](#async-dataproxyreducepromisedataproxy)
-   - [`DataProxy.prototype.reduceSync():DataProxy`](#dataproxyprototypereducesyncdataproxy)
    - [`async DataProxy.reduceByEval(code:String):Promise<DataProxy»`](#async-dataproxyreducebyevalcodestringpromisedataproxy)
-   - [`async DataProxy.prototype.modify():Promise<DataProxy»`](#async-dataproxyprototypemodifypromisedataproxy)
-   - [`DataProxy.prototype.modifySync():DataProxy`](#dataproxyprototypemodifysyncdataproxy)
    - [`async DataProxy.prototype.modifyByEval():Promise<DataProxy»`](#async-dataproxyprototypemodifybyevalpromisedataproxy)
-   - [`async DataProxy.amplify(callback:Function):Promise<DataProxy»`](#async-dataproxyamplifycallbackfunctionpromisedataproxy)
-   - [`DataProxy.prototype.amplifySync(callback:Function):DataProxy`](#dataproxyprototypeamplifysynccallbackfunctiondataproxy)
    - [`async DataProxy.prototype.amplifyByEval(code:String):Promise<DataProxy»`](#async-dataproxyprototypeamplifybyevalcodestringpromisedataproxy)
    - [`async DataProxy.accessProperty(callback:Function):Promise<DataProxy»`](#async-dataproxyaccesspropertycallbackfunctionpromisedataproxy)
    - [`DataProxy.prototype.memorize(keys:Object):DataProxy`](#dataproxyprototypememorizekeysobjectdataproxy)
    - [`DataProxy.prototype.remember(keys:Object):any`](#dataproxyprototyperememberkeysobjectany)
    - [`DataProxy.prototype.setMemory(keys:Object):DataProxy`](#dataproxyprototypesetmemorykeysobjectdataproxy)
    - [`DataProxy.prototype.byMatrix(matrix:Array):DataProxy`](#dataproxyprototypebymatrixmatrixarraydataproxy)
+   - [`Flowsql.prototype.createFileSystem(table:String):FlowsqlFileSystem`](#flowsqlprototypecreatefilesystemtablestringflowsqlfilesystem)
+- [FileSystem API de Flowsql](#filesystem-api-de-flowsql)
+   - [`new FlowsqlFileSystem(database:Flowsql, table:String, options:Object): FlowsqlFileSystem`](#new-flowsqlfilesystemdatabaseflowsql-tablestring-optionsobject-flowsqlfilesystem)
+   - [`FileSystem.prototype.readFile(filepath:String)`](#filesystemprototypereadfilefilepathstring)
+   - [`FileSystem.prototype.readdir(directory:String)`](#filesystemprototypereaddirdirectorystring)
+   - [`FileSystem.prototype.writeFile(filepath:String, content:String)`](#filesystemprototypewritefilefilepathstring-contentstring)
+   - [`FileSystem.prototype.mkdir(filepath:String)`](#filesystemprototypemkdirfilepathstring)
+   - [`FileSystem.prototype.rm(filepath:String, options:Object)`](#filesystemprototypermfilepathstring-optionsobject)
+   - [`FileSystem.prototype.rm(directory:String, options:Object)`](#filesystemprototypermdirectorystring-optionsobject)
+   - [`FileSystem.prototype.copyFile(oathSource:String, pathDestination:String)`](#filesystemprototypecopyfileoathsourcestring-pathdestinationstring)
+   - [`FileSystem.prototype.lstat(nodepath:String)`](#filesystemprototypelstatnodepathstring)
 
 
 ## Node.js API de Flowsql
@@ -619,6 +621,12 @@ Devuelve los ids de las filas eliminadas.
 
 Método que elimina una fila de una tabla basándose en su columna `label:true`.
 
+### `Flowsql.prototype.createDataProxy(dataset:Array, memory:Object):FlowsqlDataProxy`
+
+Método que construye un `DataProxy`.
+
+Consulta la interfaz de `DataProxy` para más información.
+
 ## Data Proxy API de Flowsql
 
 La `Data Proxy API de Flowsql` sirve para gestionar subconjuntos de datos de forma independiente.
@@ -635,35 +643,11 @@ Los data proxy permiten iterar sobre un conjunto de datos mediante method chaini
 
 Los data proxy pueden necesitar acceso a la base de datos, por lo cual se pide como segundo parámetro `database:Flowsql|FlowsqlBrowser`.
 
-### `async DataProxy.prototype.map(callback):Promise<DataProxy>`
-
-Método para hacer mapeos asíncronos.
-
-### `DataProxy.prototype.mapSync():DataProxy`
-
-Método para...
-
 ### `async DataProxy.prototype.mapByEval(code:String):Promise<DataProxy>`
 
 Método para hacer mapeos asíncronos por evaluación de código en texto.
 
-### `async DataProxy.prototype.filter(callback):Promise<DataProxy>`
-
-Método para hacer filtrados asíncronos.
-
-### `DataProxy.prototype.filterSync(callback:Function):DataProxy`
-
-Método para...
-
 ### `async DataProxy.prototype.filterByEval(code:String):Promise<DataProxy»`
-
-Método para...
-
-### `async DataProxy.reduce():Promise<DataProxy»`
-
-Método para...
-
-### `DataProxy.prototype.reduceSync():DataProxy`
 
 Método para...
 
@@ -673,23 +657,7 @@ Método para reducir como con `Array.prototype.reduce` pero asíncronamente y me
 
 El método seguirá devolviendo un array, pero lo puedes decorar a placer.
 
-### `async DataProxy.prototype.modify():Promise<DataProxy»`
-
-Método para...
-
-### `DataProxy.prototype.modifySync():DataProxy`
-
-Método para...
-
 ### `async DataProxy.prototype.modifyByEval():Promise<DataProxy»`
-
-Método para...
-
-### `async DataProxy.amplify(callback:Function):Promise<DataProxy»`
-
-Método para...
-
-### `DataProxy.prototype.amplifySync(callback:Function):DataProxy`
 
 Método para...
 
@@ -708,4 +676,52 @@ Método para...
 ### `DataProxy.prototype.setMemory(keys:Object):DataProxy`
 
 ### `DataProxy.prototype.byMatrix(matrix:Array):DataProxy`
+
+### `Flowsql.prototype.createFileSystem(table:String):FlowsqlFileSystem`
+
+Método que construye un `FileSystem`.
+
+Consulta la interfaz de `FileSystem` para más información.
+
+## FileSystem API de Flowsql
+
+La `FileSystem API de Flowsql` permite crear una interfaz programática para interactuar con un sistema de ficheros basándose en una tabla de la base de datos.
+
+La tabla debe cumplir con unos requisitos en el `$schema`.
+
+### `new FlowsqlFileSystem(database:Flowsql, table:String, options:Object): FlowsqlFileSystem`
+
+Método constructor.
+
+### `FileSystem.prototype.readFile(filepath:String)`
+
+Método para leer un fichero basándose en una ruta.
+
+### `FileSystem.prototype.readdir(directory:String)`
+
+Método para leer un directorio basándose en una ruta.
+
+### `FileSystem.prototype.writeFile(filepath:String, content:String)`
+
+Método para escribir en un fichero basándose en una ruta.
+
+### `FileSystem.prototype.mkdir(filepath:String)`
+
+Método para crear un directorio basándose en una ruta.
+
+### `FileSystem.prototype.rm(filepath:String, options:Object)`
+
+Método para eliminar un directorio basándose en una ruta.
+
+### `FileSystem.prototype.rm(directory:String, options:Object)`
+
+Método para eliminar un directorio basándose en una ruta.
+
+### `FileSystem.prototype.copyFile(oathSource:String, pathDestination:String)`
+
+Método para copiar un fichero de una ruta origen a una ruta destino.
+
+### `FileSystem.prototype.lstat(nodepath:String)`
+
+Método para eliminar un directorio basándose en una ruta.
 

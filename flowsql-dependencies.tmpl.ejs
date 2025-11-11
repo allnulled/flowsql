@@ -10,30 +10,12 @@ const isInNodejs = fromEnvironment === "node.js";
         <%-currentGlobal%>.DataProxy.Flowsql = <%-currentGlobal%>;
         
         <%-currentGlobal%>.DataProxy.assertion = <%-currentGlobal%>.assertion.bind(<%-currentGlobal%>);
-
-        <%-currentGlobal%>.DataProxy.prototype.map = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "map.js"], isInNodejs) %>
-        <%-currentGlobal%>.DataProxy.prototype.mapSync = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "mapSync.js"], isInNodejs) %>
         <%-currentGlobal%>.DataProxy.prototype.mapByEval = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "mapByEval.js"], isInNodejs) %>
-
-        <%-currentGlobal%>.DataProxy.prototype.filter = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "filter.js"], isInNodejs) %>
-        <%-currentGlobal%>.DataProxy.prototype.filterSync = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "filterSync.js"], isInNodejs) %>
         <%-currentGlobal%>.DataProxy.prototype.filterByEval = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "filterByEval.js"], isInNodejs) %>
-
-        <%-currentGlobal%>.DataProxy.prototype.reduce = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "reduce.js"], isInNodejs) %>
-        <%-currentGlobal%>.DataProxy.prototype.reduceSync = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "reduceSync.js"], isInNodejs) %>
         <%-currentGlobal%>.DataProxy.prototype.reduceByEval = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "reduceByEval.js"], isInNodejs) %>
-
-        <%-currentGlobal%>.DataProxy.prototype.modify = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "modify.js"], isInNodejs) %>
-        <%-currentGlobal%>.DataProxy.prototype.modifySync = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "modifySync.js"], isInNodejs) %>
         <%-currentGlobal%>.DataProxy.prototype.modifyByEval = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "modifyByEval.js"], isInNodejs) %>
-
-        <%-currentGlobal%>.DataProxy.prototype.amplify = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "amplify.js"], isInNodejs) %>
-        <%-currentGlobal%>.DataProxy.prototype.amplifySync = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "amplifySync.js"], isInNodejs) %>
         <%-currentGlobal%>.DataProxy.prototype.amplifyByEval = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "amplifyByEval.js"], isInNodejs) %>
         
-        <%-currentGlobal%>.DataProxy.prototype.groupBy = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "groupBy.js"], isInNodejs) %>
-        <%-currentGlobal%>.DataProxy.prototype.groupBySync = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "groupBySync.js"], isInNodejs) %>
-        <%-currentGlobal%>.DataProxy.prototype.groupByEval = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "groupByEval.js"], isInNodejs) %>
         <%-currentGlobal%>.DataProxy.prototype.groupByEvals = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "groupByEvals.js"], isInNodejs) %>
         
         <%-currentGlobal%>.DataProxy.prototype.accessProperty = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "accessProperty.js"], isInNodejs) %>
@@ -41,4 +23,21 @@ const isInNodejs = fromEnvironment === "node.js";
         <%-currentGlobal%>.DataProxy.prototype.remember = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "remember.js"], isInNodejs) %>
         <%-currentGlobal%>.DataProxy.prototype.deduplicate = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "deduplicate.js"], isInNodejs) %>
         <%-currentGlobal%>.DataProxy.prototype.byMatrix = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "byMatrix.js"], isInNodejs) %>
+    }
+
+    Include_filesystem_api: {
+        <%-currentGlobal%>.prototype.createFileSystem = <%- includeFile(["inc", "Flowsql", "prototype", "createFileSystem.js"], isInNodejs) %>
+        <%-currentGlobal%>.FileSystem = <%- includeFile(["inc", "FlowsqlFileSystem", "constructor.js"], isInNodejs) %>
+        <%-currentGlobal%>.FileSystem.Flowsql = <%-currentGlobal%>;
+        
+        <%-currentGlobal%>.FileSystem.assertion = <%-currentGlobal%>.assertion.bind(<%-currentGlobal%>);
+        <%-currentGlobal%>.FileSystem.prototype.readFile = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "readFile.js"], isInNodejs) %>
+        <%-currentGlobal%>.FileSystem.prototype.readdir = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "readdir.js"], isInNodejs) %>
+        <%-currentGlobal%>.FileSystem.prototype.writeFile = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "writeFile.js"], isInNodejs) %>
+        <%-currentGlobal%>.FileSystem.prototype.mkdir = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "mkdir.js"], isInNodejs) %>
+        <%-currentGlobal%>.FileSystem.prototype.unlink = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "unlink.js"], isInNodejs) %>
+        <%-currentGlobal%>.FileSystem.prototype.rm = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "rm.js"], isInNodejs) %>
+        <%-currentGlobal%>.FileSystem.prototype.copyFile = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "copyFile.js"], isInNodejs) %>
+        <%-currentGlobal%>.FileSystem.prototype.lstat = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "lstat.js"], isInNodejs) %>
+        
     }

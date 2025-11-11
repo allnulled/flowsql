@@ -1093,60 +1093,22 @@ function(base64) {
         FlowsqlBrowser.DataProxy.Flowsql = FlowsqlBrowser;
         
         FlowsqlBrowser.DataProxy.assertion = FlowsqlBrowser.assertion.bind(FlowsqlBrowser);
-
-        FlowsqlBrowser.DataProxy.prototype.map = async function() {
-
-};
-        FlowsqlBrowser.DataProxy.prototype.mapSync = function() {
-
-};
         FlowsqlBrowser.DataProxy.prototype.mapByEval = async function() {
-
-};
-
-        FlowsqlBrowser.DataProxy.prototype.filter = async function() {
-
-};
-        FlowsqlBrowser.DataProxy.prototype.filterSync = function() {
 
 };
         FlowsqlBrowser.DataProxy.prototype.filterByEval = async function() {
 
 };
-
-        FlowsqlBrowser.DataProxy.prototype.reduce = async function() {
-
-};
-        FlowsqlBrowser.DataProxy.prototype.reduceSync = function() {
-
-};
         FlowsqlBrowser.DataProxy.prototype.reduceByEval = async function() {
 
 };
-
-        FlowsqlBrowser.DataProxy.prototype.modify = async function() {
-
-};
-        FlowsqlBrowser.DataProxy.prototype.modifySync = function() {
-
-};
         FlowsqlBrowser.DataProxy.prototype.modifyByEval = async function() {
-
-};
-
-        FlowsqlBrowser.DataProxy.prototype.amplify = async function(callback) {
-
-};
-        FlowsqlBrowser.DataProxy.prototype.amplifySync = function() {
 
 };
         FlowsqlBrowser.DataProxy.prototype.amplifyByEval = async function() {
 
 };
         
-        FlowsqlBrowser.DataProxy.prototype.groupBy = 
-        FlowsqlBrowser.DataProxy.prototype.groupBySync = 
-        FlowsqlBrowser.DataProxy.prototype.groupByEval = 
         FlowsqlBrowser.DataProxy.prototype.groupByEvals = 
         
         FlowsqlBrowser.DataProxy.prototype.accessProperty = async function(callback) {
@@ -1167,6 +1129,57 @@ function(base64) {
   this.constructor.Flowsql.assertion(Array.isArray(matrix), "Parameter «matrix» must be an array on «DataProxy.byMatrix»");
   return this;
 };
+    }
+
+    Include_filesystem_api: {
+        FlowsqlBrowser.prototype.createFileSystem = function(dataset, memory) {
+  return new this.constructor.FileSystem(dataset, this, memory);
+};
+        FlowsqlBrowser.FileSystem = function(database, table, options = {}) {
+  this.$database = database;
+  this.$table = table;
+  this.$options = Object.assign({}, this.constructor.defaultOptions, options);
+};
+        FlowsqlBrowser.FileSystem.Flowsql = FlowsqlBrowser;
+        
+        FlowsqlBrowser.FileSystem.assertion = FlowsqlBrowser.assertion.bind(FlowsqlBrowser);
+        FlowsqlBrowser.FileSystem.prototype.readFile = function(filepath) {
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.readFile»`);
+  // @TODO...
+};
+        FlowsqlBrowser.FileSystem.prototype.readdir = function(directory) {
+  this.assertion(typeof directory === "string", `Parameter «directory» must be a string on «FlowsqlFileSystem.readdir»`);
+  // @TODO...
+};
+        FlowsqlBrowser.FileSystem.prototype.writeFile = function(filepath, content) {
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.writeFile»`);
+  this.assertion(typeof content === "string", `Parameter «content» must be a string on «FlowsqlFileSystem.writeFile»`);
+  // @TODO...
+};
+        FlowsqlBrowser.FileSystem.prototype.mkdir = function(filepath) {
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.mkdir»`);
+  // @TODO...
+};
+        FlowsqlBrowser.FileSystem.prototype.unlink = function(filepath, options = {}) {
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.rm»`);
+  this.assertion(typeof options === "object", `Parameter «options» must be a object on «FlowsqlFileSystem.rm»`);
+  // @TODO...
+};
+        FlowsqlBrowser.FileSystem.prototype.rm = function(directory, options = {}) {
+  this.assertion(typeof directory === "string", `Parameter «directory» must be a string on «FlowsqlFileSystem.rm»`);
+  this.assertion(typeof options === "object", `Parameter «options» must be a object on «FlowsqlFileSystem.rm»`);
+  // @TODO...
+};
+        FlowsqlBrowser.FileSystem.prototype.copyFile = function(pathSource, pathDestination) {
+  this.assertion(typeof pathSource === "string", `Parameter «pathSource» must be a string on «FlowsqlFileSystem.copyFile»`);
+  this.assertion(typeof pathDestination === "string", `Parameter «pathDestination» must be a string on «FlowsqlFileSystem.copyFile»`);
+  // @TODO...
+};
+        FlowsqlBrowser.FileSystem.prototype.lstat = function(nodepath) {
+  this.assertion(typeof nodepath === "string", `Parameter «nodepath» must be a string on «FlowsqlFileSystem.rm»`);
+  // @TODO...
+};
+        
     }
 
     window.FlowsqlBrowser = FlowsqlBrowser;

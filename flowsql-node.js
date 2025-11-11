@@ -1603,7 +1603,16 @@ function(table, label) {
 
 
     Include_data_proxy_api: {
-        Flowsql.prototype.createDataProxy = function(dataset, memory) {
+        Flowsql.prototype.createDataProxy = /**
+ * 
+ * ### `Flowsql.prototype.createDataProxy(dataset:Array, memory:Object):FlowsqlDataProxy`
+ * 
+ * Método que construye un `DataProxy`.
+ * 
+ * Consulta la interfaz de `DataProxy` para más información.
+ * 
+ */
+function(dataset, memory) {
   return new this.constructor.DataProxy(dataset, this, memory);
 };
         Flowsql.DataProxy = /**
@@ -1638,27 +1647,6 @@ function(dataset, database, memory = {}) {
         Flowsql.DataProxy.Flowsql = Flowsql;
         
         Flowsql.DataProxy.assertion = Flowsql.assertion.bind(Flowsql);
-
-        Flowsql.DataProxy.prototype.map = /**
- * 
- * ### `async DataProxy.prototype.map(callback):Promise<DataProxy>`
- * 
- * Método para hacer mapeos asíncronos.
- * 
- */
-async function() {
-
-};
-        Flowsql.DataProxy.prototype.mapSync = /**
- * 
- * ### `DataProxy.prototype.mapSync():DataProxy`
- * 
- * Método para...
- * 
- */
-function() {
-
-};
         Flowsql.DataProxy.prototype.mapByEval = /**
  * 
  * ### `async DataProxy.prototype.mapByEval(code:String):Promise<DataProxy>`
@@ -1669,27 +1657,6 @@ function() {
 async function() {
 
 };
-
-        Flowsql.DataProxy.prototype.filter = /**
- * 
- * ### `async DataProxy.prototype.filter(callback):Promise<DataProxy>`
- * 
- * Método para hacer filtrados asíncronos.
- * 
- */
-async function() {
-
-};
-        Flowsql.DataProxy.prototype.filterSync = /**
- * 
- * ### `DataProxy.prototype.filterSync(callback:Function):DataProxy`
- * 
- * Método para...
- * 
- */
-function() {
-
-};
         Flowsql.DataProxy.prototype.filterByEval = /**
  * 
  * ### `async DataProxy.prototype.filterByEval(code:String):Promise<DataProxy»`
@@ -1698,27 +1665,6 @@ function() {
  * 
  */
 async function() {
-
-};
-
-        Flowsql.DataProxy.prototype.reduce = /**
- * 
- * ### `async DataProxy.reduce():Promise<DataProxy»`
- * 
- * Método para...
- * 
- */
-async function() {
-
-};
-        Flowsql.DataProxy.prototype.reduceSync = /**
- * 
- * ### `DataProxy.prototype.reduceSync():DataProxy`
- * 
- * Método para...
- * 
- */
-function() {
 
 };
         Flowsql.DataProxy.prototype.reduceByEval = /**
@@ -1733,27 +1679,6 @@ function() {
 async function() {
 
 };
-
-        Flowsql.DataProxy.prototype.modify = /**
- * 
- * ### `async DataProxy.prototype.modify():Promise<DataProxy»`
- * 
- * Método para...
- * 
- */
-async function() {
-
-};
-        Flowsql.DataProxy.prototype.modifySync = /**
- * 
- * ### `DataProxy.prototype.modifySync():DataProxy`
- * 
- * Método para...
- * 
- */
-function() {
-
-};
         Flowsql.DataProxy.prototype.modifyByEval = /**
  * 
  * ### `async DataProxy.prototype.modifyByEval():Promise<DataProxy»`
@@ -1762,27 +1687,6 @@ function() {
  * 
  */
 async function() {
-
-};
-
-        Flowsql.DataProxy.prototype.amplify = /**
- * 
- * ### `async DataProxy.amplify(callback:Function):Promise<DataProxy»`
- * 
- * Método para...
- * 
- */
-async function(callback) {
-
-};
-        Flowsql.DataProxy.prototype.amplifySync = /**
- * 
- * ### `DataProxy.prototype.amplifySync(callback:Function):DataProxy`
- * 
- * Método para...
- * 
- */
-function() {
 
 };
         Flowsql.DataProxy.prototype.amplifyByEval = /**
@@ -1796,9 +1700,6 @@ async function() {
 
 };
         
-        Flowsql.DataProxy.prototype.groupBy = 
-        Flowsql.DataProxy.prototype.groupBySync = 
-        Flowsql.DataProxy.prototype.groupByEval = 
         Flowsql.DataProxy.prototype.groupByEvals = 
         
         Flowsql.DataProxy.prototype.accessProperty = /**
@@ -1846,6 +1747,135 @@ function(matrix) {
   this.constructor.Flowsql.assertion(Array.isArray(matrix), "Parameter «matrix» must be an array on «DataProxy.byMatrix»");
   return this;
 };
+    }
+
+    Include_filesystem_api: {
+        Flowsql.prototype.createFileSystem = /**
+ * 
+ * ### `Flowsql.prototype.createFileSystem(table:String):FlowsqlFileSystem`
+ * 
+ * Método que construye un `FileSystem`.
+ * 
+ * Consulta la interfaz de `FileSystem` para más información.
+ * 
+ */
+function(dataset, memory) {
+  return new this.constructor.FileSystem(dataset, this, memory);
+};
+        Flowsql.FileSystem = /**
+ * 
+ * ## FileSystem API de Flowsql
+ * 
+ * La `FileSystem API de Flowsql` permite crear una interfaz programática para interactuar con un sistema de ficheros basándose en una tabla de la base de datos.
+ * 
+ * La tabla debe cumplir con unos requisitos en el `$schema`.
+ * 
+ * ### `new FlowsqlFileSystem(database:Flowsql, table:String, options:Object): FlowsqlFileSystem`
+ * 
+ * Método constructor.
+ * 
+ */
+function(database, table, options = {}) {
+  this.$database = database;
+  this.$table = table;
+  this.$options = Object.assign({}, this.constructor.defaultOptions, options);
+};
+        Flowsql.FileSystem.Flowsql = Flowsql;
+        
+        Flowsql.FileSystem.assertion = Flowsql.assertion.bind(Flowsql);
+        Flowsql.FileSystem.prototype.readFile = /**
+ * 
+ * ### `FileSystem.prototype.readFile(filepath:String)`
+ * 
+ * Método para leer un fichero basándose en una ruta.
+ * 
+ */
+function(filepath) {
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.readFile»`);
+  // @TODO...
+};
+        Flowsql.FileSystem.prototype.readdir = /**
+ * 
+ * ### `FileSystem.prototype.readdir(directory:String)`
+ * 
+ * Método para leer un directorio basándose en una ruta.
+ * 
+ */
+function(directory) {
+  this.assertion(typeof directory === "string", `Parameter «directory» must be a string on «FlowsqlFileSystem.readdir»`);
+  // @TODO...
+};
+        Flowsql.FileSystem.prototype.writeFile = /**
+ * 
+ * ### `FileSystem.prototype.writeFile(filepath:String, content:String)`
+ * 
+ * Método para escribir en un fichero basándose en una ruta.
+ * 
+ */
+function(filepath, content) {
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.writeFile»`);
+  this.assertion(typeof content === "string", `Parameter «content» must be a string on «FlowsqlFileSystem.writeFile»`);
+  // @TODO...
+};
+        Flowsql.FileSystem.prototype.mkdir = /**
+ * 
+ * ### `FileSystem.prototype.mkdir(filepath:String)`
+ * 
+ * Método para crear un directorio basándose en una ruta.
+ * 
+ */
+function(filepath) {
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.mkdir»`);
+  // @TODO...
+};
+        Flowsql.FileSystem.prototype.unlink = /**
+ * 
+ * ### `FileSystem.prototype.rm(filepath:String, options:Object)`
+ * 
+ * Método para eliminar un directorio basándose en una ruta.
+ * 
+ */
+function(filepath, options = {}) {
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.rm»`);
+  this.assertion(typeof options === "object", `Parameter «options» must be a object on «FlowsqlFileSystem.rm»`);
+  // @TODO...
+};
+        Flowsql.FileSystem.prototype.rm = /**
+ * 
+ * ### `FileSystem.prototype.rm(directory:String, options:Object)`
+ * 
+ * Método para eliminar un directorio basándose en una ruta.
+ * 
+ */
+function(directory, options = {}) {
+  this.assertion(typeof directory === "string", `Parameter «directory» must be a string on «FlowsqlFileSystem.rm»`);
+  this.assertion(typeof options === "object", `Parameter «options» must be a object on «FlowsqlFileSystem.rm»`);
+  // @TODO...
+};
+        Flowsql.FileSystem.prototype.copyFile = /**
+ * 
+ * ### `FileSystem.prototype.copyFile(oathSource:String, pathDestination:String)`
+ * 
+ * Método para copiar un fichero de una ruta origen a una ruta destino.
+ * 
+ */
+function(pathSource, pathDestination) {
+  this.assertion(typeof pathSource === "string", `Parameter «pathSource» must be a string on «FlowsqlFileSystem.copyFile»`);
+  this.assertion(typeof pathDestination === "string", `Parameter «pathDestination» must be a string on «FlowsqlFileSystem.copyFile»`);
+  // @TODO...
+};
+        Flowsql.FileSystem.prototype.lstat = /**
+ * 
+ * ### `FileSystem.prototype.lstat(nodepath:String)`
+ * 
+ * Método para eliminar un directorio basándose en una ruta.
+ * 
+ */
+function(nodepath) {
+  this.assertion(typeof nodepath === "string", `Parameter «nodepath» must be a string on «FlowsqlFileSystem.rm»`);
+  // @TODO...
+};
+        
     }
 
 module.exports = Flowsql;

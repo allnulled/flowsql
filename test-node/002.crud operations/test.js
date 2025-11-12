@@ -4,19 +4,21 @@ module.exports = async function (Flowsql) {
 
   const resetDatabase = function () {
     require("fs").unlinkSync(__dirname + "/test.sqlite");
-    const flowsql = Flowsql.create({ filename: __dirname + "/test.sqlite", trace: false, traceSql: false });
+    const flowsql = Flowsql.create({ filename: __dirname + "/test.sqlite", trace: true, traceSql: true });
     flowsql.addTable("User", {
       columns: {
         name: { type: "string", maxLength: 255, unique: true, nullable: false, label: true },
         email: { type: "string", maxLength: 255, unique: true, nullable: false },
         password: { type: "string", maxLength: 255, nullable: false },
-        description: { type: "string", maxLength: 255, defaultBySql: "'none'", nullable: true }
+        description: { type: "string", maxLength: 255, defaultBySql: "'none'", nullable: true },
+        tags: { type: "array", tag: true, defaultBySql: "'[]'", nullable: true },
       }
     });
     flowsql.addTable("Permission", {
       columns: {
         name: { type: "string", maxLength: 255, unique: true, nullable: false, label: true },
         description: { type: "string", maxLength: 255, unique: true, nullable: true },
+        tags: { type: "array", tag: true, defaultBySql: "'[]'", nullable: true },
       }
     });
     flowsql.addTable("Group", {
@@ -24,6 +26,7 @@ module.exports = async function (Flowsql) {
         name: { type: "string", maxLength: 255, unique: true, nullable: false, label: true },
         description: { type: "string", maxLength: 255, unique: true, nullable: false },
         permissions: { type: "array-reference", referredTable: "Permission" },
+        tags: { type: "array", tag: true, defaultBySql: "'[]'", nullable: true },
       }
     });
     flowsql.addTable("Session", {
@@ -39,10 +42,10 @@ module.exports = async function (Flowsql) {
 
     const flowsql = resetDatabase();
 
-    const user1 = flowsql.insertSql("INSERT INTO `User` (name, email, password) VALUES ('admin', 'admin', 'admin@mail.com');");
-    const user2 = flowsql.insertSql("INSERT INTO `User` (name, email, password) VALUES ('user1', 'user1', 'user1@mail.com');");
-    const user3 = flowsql.insertSql("INSERT INTO `User` (name, email, password) VALUES ('user2', 'user2', 'user2@mail.com');");
-    const user4 = flowsql.insertSql("INSERT INTO `User` (name, email, password) VALUES ('user3', 'user3', 'user3@mail.com');");
+    const user1 = flowsql.insertSql("INSERT INTO `User` (name, email, password, tags) VALUES ('admin', 'admin', 'admin@mail.com', '[\"admin\"]');");
+    const user2 = flowsql.insertSql("INSERT INTO `User` (name, email, password, tags) VALUES ('user1', 'user1', 'user1@mail.com', '[\"visitor\"]');");
+    const user3 = flowsql.insertSql("INSERT INTO `User` (name, email, password, tags) VALUES ('user2', 'user2', 'user2@mail.com', '[\"visitor\"]');");
+    const user4 = flowsql.insertSql("INSERT INTO `User` (name, email, password, tags) VALUES ('user3', 'user3', 'user3@mail.com', '[\"visitor\"]');");
 
     const group1 = flowsql.insertSql("INSERT INTO `Group` (name, description) VALUES ('administrators', 'who administrates');");
     const group2 = flowsql.insertSql("INSERT INTO `Group` (name, description) VALUES ('advanced navigators', 'who navigates with advanced permissions');");
@@ -96,7 +99,8 @@ module.exports = async function (Flowsql) {
       flowsql.insertOne("User", {
         name: "admin",
         password: "admin",
-        email: "admin@mail.com"
+        email: "admin@mail.com",
+        tags: ["admin"]
       });
       flowsql.insertMany("User", [{
         name: "user1",
@@ -180,6 +184,15 @@ module.exports = async function (Flowsql) {
         const permissionToAdministrate3 = flowsql.selectByLabel("Permission", "to administrate");
         assertion(permissionToAdministrate3 === null, "permissionToAdministrate2 must be null here");
       }
+    }
+
+    Testing_crud_2: {
+      const all = await flowsql.selectMany("User");
+      console.log(all);
+      console.log(all);
+      const tagged = await flowsql.selectByTags("User", ["admin"]);
+      assertion(tagged.length !== 0, "Parameter tagged.length cannot be 0");
+      process.exit(0);
     }
 
   }

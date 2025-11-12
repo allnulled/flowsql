@@ -19,7 +19,7 @@
  * 
  */
 module.exports = {
-  columnForName: "node_name",
+  columnForPath: "node_path",
   columnForType: "node_type",
   columnForContent: "node_content",
   columnForParent: "node_parent",

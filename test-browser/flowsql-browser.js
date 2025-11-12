@@ -164,6 +164,7 @@ function(options = {}) {
   return JSON.parse(JSON.stringify(obj));
 };
     FlowsqlBrowser.arrayContainsAnyOf = function(a, b) {
+  console.log(a, b);
   if (a.length > b.length) {
     [a, b] = [b, a]; // iterar la más corta
   }
@@ -274,8 +275,12 @@ function(input) {
       this.assertion(allColumns[columnId].nullable === true, `Parameter «filters[${indexFilter}][1]» cannot be «is null|is not null» because the column is not nullable on «selectMany»`);
       this.assertion(typeof complement === "undefined", `Parameter «filters[${indexFilter}][2]» must be empty on «is null|is not null» filter on «selectMany»`);
     } else if (["has", "has not"].indexOf(operator) !== -1) {
-      this.assertion(columnType === "array-reference", `Parameter «filters[${indexFilter}]» is filtering by «has|has not» on a column that is not type «array-reference» on «selectMany»`);
-      this.assertion((typeof complement === "number") || Array.isArray(complement), `Parameter «filters[${indexFilter}][2]» must be a number or an array on «has|has not» filter on «selectMany»`);
+      if(columnType === "array") {
+        // @OK.
+      } else {
+        this.assertion(columnType === "array-reference", `Parameter «filters[${indexFilter}]» is filtering by «has|has not» on a column that is not type «array-reference» on «selectMany»`);
+        this.assertion((typeof complement === "number") || Array.isArray(complement), `Parameter «filters[${indexFilter}][2]» must be a number or an array on «has|has not» filter on «selectMany»`);
+      }
     } else if (["is like", "is not like"].indexOf(operator) !== -1) {
       this.assertion(columnType === "string", `Parameter «filters[${indexFilter}]» is filtering by «is like|is not like» on a column that is not type «string» on «selectMany»`);
       this.assertion(typeof complement === "string", `Parameter «filters[${indexFilter}][2]» must be a string on «is like|is not like» filter on «selectMany»`);
@@ -454,6 +459,22 @@ function(input) {
     let queryFilters = this._sqlForWhere(table, filters);
     mainQuery += queryFilters + ";";
     mainResults = this.fetchSql(mainQuery);
+  }
+  Expand_json_columns: {
+    const jsonColumns = Object.keys(this.$schema.tables[table].columns).filter(columnId => {
+      return this.$schema.tables[table].columns[columnId].tag === true;
+    });
+    for(let indexColumn=0; indexColumn<jsonColumns.length; indexColumn++) {
+      const jsonColumn = jsonColumns[indexColumn];
+      for(let indexRow=0; indexRow<mainResults.length; indexRow++) {
+        const row = mainResults[indexRow];
+        try {
+          row[jsonColumn] = JSON.parse(row[jsonColumn]);
+        } catch (error) {
+          console.log(`Error parsing as JSON column «${jsonColumn}» on row «${indexRow}» on «_selectMany»`);
+        }
+      }
+    }
   }
   Expand_relational_columns: {
     if (mainResults.length === 0) {
@@ -978,6 +999,23 @@ async function() {
   const matchedRows = this._selectMany(table, [[labelColumn, "=", label]], "selectByLabel");
   return matchedRows[0] || null;
 };
+    FlowsqlBrowser.prototype.selectByTags = function(table, tags) {
+  this.trace("selectByTags");
+  this.assertion(typeof table === "string", `Parameter «table» must be a string on «selectByTags»`);
+  this.assertion(table in this.$schema.tables, `Parameter «table» must be a schema table on «selectByTags»`);
+  this.assertion(Array.isArray(tags), `Parameter «tags» must be an array on «selectByTags»`);
+  const allColumns = this.$schema.tables[table].columns;
+  const columnIds = Object.keys(allColumns);
+  const tagColumns = columnIds.filter(columnId => allColumns[columnId].tag === true);
+  this.assertion(tagColumns.length !== 0, `Parameter «tag» cannot be applied because table «${table}» has not any column as «tag» on «selectByTags»`);
+  let allMatches = [];
+  for(let indexTag=0; indexTag<tagColumns.length; indexTag++) {
+    const tagColumn = tagColumns[indexTag];
+    const matchedRows = this._selectMany(table, [[tagColumn, "has", tags]], "selectByTags");
+    allMatches = allMatches.concat(matchedRows);
+  }
+  return allMatches || null;
+};
     FlowsqlBrowser.prototype.updateOne = function(table, id, values) {
   this.trace("updateOne");
   const modifiedIds = this._updateMany(table, [["id", "=", id]], values, "updateOne");
@@ -1093,6 +1131,7 @@ function(base64) {
         FlowsqlBrowser.DataProxy.Flowsql = FlowsqlBrowser;
         
         FlowsqlBrowser.DataProxy.assertion = FlowsqlBrowser.assertion.bind(FlowsqlBrowser);
+        FlowsqlBrowser.DataProxy.prototype.assertion = FlowsqlBrowser.assertion.bind(FlowsqlBrowser);
         FlowsqlBrowser.DataProxy.prototype.mapByEval = async function() {
 
 };
@@ -1111,8 +1150,24 @@ function(base64) {
         
         FlowsqlBrowser.DataProxy.prototype.groupByEvals = 
         
-        FlowsqlBrowser.DataProxy.prototype.accessProperty = async function(callback) {
-
+        FlowsqlBrowser.DataProxy.prototype.accessProperty = async function(name) {
+  if(Array.isArray(this.$dataset)) {
+    const output = [];
+    for(let indexRow=0; indexRow<this.$dataset.length; indexRow++) {
+      const row = this.$dataset[indexRow];
+      const value = row[name];
+      if(Array.isArray(value)) {
+        for(let indexItem=0; indexItem<value.length; indexItem++) {
+          const item = value[indexItem];
+          output.push(item);
+        }
+      } else {
+        output.push(value);
+      }
+    }
+    return output;
+  }
+  return this.$dataset[name];
 };
         FlowsqlBrowser.DataProxy.prototype.memorize = function(keys) {
   this.constructor.assertion(typeof keys === "object", "Parameter «keys» must be an object on «DataProxy.memorize»");
@@ -1132,17 +1187,22 @@ function(base64) {
     }
 
     Include_filesystem_api: {
-        FlowsqlBrowser.prototype.createFileSystem = function(dataset, memory) {
-  return new this.constructor.FileSystem(dataset, this, memory);
+        FlowsqlBrowser.prototype.createFileSystem = function(table, options) {
+  return new this.constructor.FileSystem(table, this.$database, options);
 };
-        FlowsqlBrowser.FileSystem = function(database, table, options = {}) {
-  this.$database = database;
+        FlowsqlBrowser.FileSystem = function(table, database, options = {}) {
   this.$table = table;
+  this.$database = database;
   this.$options = Object.assign({}, this.constructor.defaultOptions, options);
 };
         FlowsqlBrowser.FileSystem.Flowsql = FlowsqlBrowser;
         
         FlowsqlBrowser.FileSystem.assertion = FlowsqlBrowser.assertion.bind(FlowsqlBrowser);
+        FlowsqlBrowser.FileSystem.prototype.assertion = FlowsqlBrowser.assertion.bind(FlowsqlBrowser);
+        FlowsqlBrowser.FileSystem.prototype._decomposePath = function(filepath, splitter = "/") {
+  const fileparts = filepath.split(splitter);
+  return fileparts.filter(part => (typeof part === "undefined" ? "" : part).trim() !== "");
+}
         FlowsqlBrowser.FileSystem.prototype.readFile = function(filepath) {
   this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.readFile»`);
   // @TODO...
@@ -1154,15 +1214,34 @@ function(base64) {
         FlowsqlBrowser.FileSystem.prototype.writeFile = function(filepath, content) {
   this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.writeFile»`);
   this.assertion(typeof content === "string", `Parameter «content» must be a string on «FlowsqlFileSystem.writeFile»`);
-  // @TODO...
+  let output = "";
+  console.log(this.$database);
+  const matchedNodes = this.$database.selectMany(this.$options.$table, [
+    [this.$options.columnForPath, "=", filepath]
+  ]);
+  if(matchedNodes.length === 0) {
+    output = this.$database.insertOne(this.$table, {
+      [this.$options.columnForPath]: filepath,
+      [this.$options.columnForType]: "file",
+      [this.$options.columnForContent]: content,
+    });
+  } else if(matchedNodes.length === 1) {
+    output = this.$database.updateOne(this.$table, matchedNodes[0].id, {
+      [this.$options.columnForPath]: filepath,
+      [this.$options.columnForType]: "file",
+      [this.$options.columnForContent]: content,
+    });
+  } else {
+    throw new Error("Multiple values with the same path error (1)");
+  }
+  return output;
 };
         FlowsqlBrowser.FileSystem.prototype.mkdir = function(filepath) {
   this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.mkdir»`);
   // @TODO...
 };
-        FlowsqlBrowser.FileSystem.prototype.unlink = function(filepath, options = {}) {
-  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.rm»`);
-  this.assertion(typeof options === "object", `Parameter «options» must be a object on «FlowsqlFileSystem.rm»`);
+        FlowsqlBrowser.FileSystem.prototype.unlink = function(filepath) {
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.unlink»`);
   // @TODO...
 };
         FlowsqlBrowser.FileSystem.prototype.rm = function(directory, options = {}) {

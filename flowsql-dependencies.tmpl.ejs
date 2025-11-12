@@ -10,6 +10,7 @@ const isInNodejs = fromEnvironment === "node.js";
         <%-currentGlobal%>.DataProxy.Flowsql = <%-currentGlobal%>;
         
         <%-currentGlobal%>.DataProxy.assertion = <%-currentGlobal%>.assertion.bind(<%-currentGlobal%>);
+        <%-currentGlobal%>.DataProxy.prototype.assertion = <%-currentGlobal%>.assertion.bind(<%-currentGlobal%>);
         <%-currentGlobal%>.DataProxy.prototype.mapByEval = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "mapByEval.js"], isInNodejs) %>
         <%-currentGlobal%>.DataProxy.prototype.filterByEval = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "filterByEval.js"], isInNodejs) %>
         <%-currentGlobal%>.DataProxy.prototype.reduceByEval = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "reduceByEval.js"], isInNodejs) %>
@@ -31,6 +32,8 @@ const isInNodejs = fromEnvironment === "node.js";
         <%-currentGlobal%>.FileSystem.Flowsql = <%-currentGlobal%>;
         
         <%-currentGlobal%>.FileSystem.assertion = <%-currentGlobal%>.assertion.bind(<%-currentGlobal%>);
+        <%-currentGlobal%>.FileSystem.prototype.assertion = <%-currentGlobal%>.assertion.bind(<%-currentGlobal%>);
+        <%-currentGlobal%>.FileSystem.prototype._decomposePath = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "_decomposePath.js"], isInNodejs) %>
         <%-currentGlobal%>.FileSystem.prototype.readFile = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "readFile.js"], isInNodejs) %>
         <%-currentGlobal%>.FileSystem.prototype.readdir = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "readdir.js"], isInNodejs) %>
         <%-currentGlobal%>.FileSystem.prototype.writeFile = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "writeFile.js"], isInNodejs) %>

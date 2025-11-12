@@ -11,8 +11,8 @@
  * Método constructor.
  * 
  */
-module.exports = function(database, table, options = {}) {
-  this.$database = database;
+module.exports = function(table, database, options = {}) {
   this.$table = table;
+  this.$database = database;
   this.$options = Object.assign({}, this.constructor.defaultOptions, options);
 };

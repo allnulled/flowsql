@@ -19,7 +19,7 @@
         const Tests = {};
         Tests.SchemaCRUDAPI = async function (assert) {
             assert.ok(typeof FlowsqlBrowser === "function", "«FlowsqlBrowser» must be a function");
-            const flowsqlBrowser = FlowsqlBrowser.create({ trace: true, traceSql: true });
+            const flowsqlBrowser = FlowsqlBrowser.create({ trace: false, traceSql: false });
             assert.ok(flowsqlBrowser instanceof FlowsqlBrowser, "«flowsqlBrowser» must be instance of «FlowsqlBrowser»");
             await flowsqlBrowser.connect();
             assert.ok(typeof flowsqlBrowser.$schema.tables === "object", "«flowsqlBrowser.$schema.tables» must be an object");
@@ -84,7 +84,7 @@
         };
         Tests.DataCRUDAPI = async function (assert) {
             assert.ok(typeof FlowsqlBrowser === "function", "«FlowsqlBrowser» must be a function");
-            const flowsqlBrowser = FlowsqlBrowser.create({ trace: true, traceSql: true });
+            const flowsqlBrowser = FlowsqlBrowser.create({ trace: false, traceSql: false });
             assert.ok(flowsqlBrowser instanceof FlowsqlBrowser, "«flowsqlBrowser» must be instance of «FlowsqlBrowser»");
             await flowsqlBrowser.connect();
             assert.ok(typeof flowsqlBrowser.$schema.tables === "object", "«flowsqlBrowser.$schema.tables» must be an object");
@@ -164,7 +164,7 @@
         };
         Tests.PersistenceAPI = async function (assert) {
             assert.ok(typeof FlowsqlBrowser === "function", "«FlowsqlBrowser» must be a function");
-            const flowsqlBrowser = FlowsqlBrowser.create({ trace: true, traceSql: true });
+            const flowsqlBrowser = FlowsqlBrowser.create({ trace: false, traceSql: false });
             assert.ok(flowsqlBrowser instanceof FlowsqlBrowser, "«flowsqlBrowser» must be instance of «FlowsqlBrowser»");
             await flowsqlBrowser.connect();
             assert.ok(typeof flowsqlBrowser.$schema.tables === "object", "«flowsqlBrowser.$schema.tables» must be an object");
@@ -235,7 +235,7 @@
 
         Tests.DataProxyAPI = async function(assert) {
             assert.ok(typeof FlowsqlBrowser === "function", "«FlowsqlBrowser» must be a function");
-            const flowsqlBrowser = FlowsqlBrowser.create({ trace: true, traceSql: true });
+            const flowsqlBrowser = FlowsqlBrowser.create({ trace: false, traceSql: false });
             assert.ok(flowsqlBrowser instanceof FlowsqlBrowser, "«flowsqlBrowser» must be instance of «FlowsqlBrowser»");
             await flowsqlBrowser.connect();
             assert.ok(typeof flowsqlBrowser.$schema.tables === "object", "«flowsqlBrowser.$schema.tables» must be an object");
@@ -293,6 +293,31 @@
             assert.ok(typeof dataproxy1.remember === "function", "«dataproxy1.remember» must be an function");
             assert.ok(typeof dataproxy1.byMatrix === "function", "«dataproxy1.byMatrix» must be an function");
         };
+
+        Tests.FileSystemAPI = async function(assert) {
+            assert.ok(typeof FlowsqlBrowser === "function", "«FlowsqlBrowser» must be a function");
+            const flowsqlBrowser = FlowsqlBrowser.create({ trace: false, traceSql: false });
+            assert.ok(flowsqlBrowser instanceof FlowsqlBrowser, "«flowsqlBrowser» must be instance of «FlowsqlBrowser»");
+            await flowsqlBrowser.connect();
+            assert.ok(typeof flowsqlBrowser.$schema.tables === "object", "«flowsqlBrowser.$schema.tables» must be an object");
+            assert.ok(typeof flowsqlBrowser.$database === "object", "«flowsqlBrowser.$database» must be an object");
+            flowsqlBrowser.addTable("Files", {
+                columns: {
+                    node_path: { type: "string", unique: true, label: true },
+                    node_type: { type: "string" },
+                    node_content: { type: "string" },
+                    node_parent: { type: "string" },
+                }
+            });
+
+            assert.ok(typeof flowsqlBrowser.$schema.tables.Files === "object", "«flowsqlBrowser.$schema.tables.Files» must be an object");
+            
+            const filesystem1 = flowsqlBrowser.createFileSystem("Files");
+            
+            assert.ok(typeof filesystem1 === "object", "«filesystem1» must be an object");
+
+            filesystem1.writeFile("fichero1.txt", "Contenido!");
+        };
     </script>
     <script>
 
@@ -303,7 +328,8 @@
                     QUnit.test("Test de Schema CRUD API", Tests.SchemaCRUDAPI);
                     QUnit.test("Test de Data CRUD API", Tests.DataCRUDAPI);
                     QUnit.test("Test de Persistence API", Tests.PersistenceAPI);
-                    QUnit.test("Test de Data Proxy API", Tests.DataProxyAPI);
+                    QUnit.test("Test de DataProxy API", Tests.DataProxyAPI);
+                    QUnit.test("Test de FileSystem API", Tests.FileSystemAPI);
                 });
                 QUnit.start();
             } catch (error) {

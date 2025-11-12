@@ -6,6 +6,7 @@
  * 
  */
 module.exports = function(a, b) {
+  console.log(a, b);
   if (a.length > b.length) {
     [a, b] = [b, a]; // iterar la más corta
   }

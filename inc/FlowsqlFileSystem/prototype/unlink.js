@@ -1,12 +1,11 @@
 /**
  * 
- * ### `FileSystem.prototype.rm(filepath:String, options:Object)`
+ * ### `FileSystem.prototype.unlink(filepath:String)`
  * 
- * Método para eliminar un directorio basándose en una ruta.
+ * Método para eliminar un fichero basándose en una ruta.
  * 
  */
-module.exports = function(filepath, options = {}) {
-  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.rm»`);
-  this.assertion(typeof options === "object", `Parameter «options» must be a object on «FlowsqlFileSystem.rm»`);
+module.exports = function(filepath) {
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.unlink»`);
   // @TODO...
 };

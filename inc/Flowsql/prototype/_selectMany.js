@@ -50,6 +50,22 @@ module.exports = function (table, filters, byMethod = "_selectMany") {
     mainQuery += queryFilters + ";";
     mainResults = this.fetchSql(mainQuery);
   }
+  Expand_json_columns: {
+    const jsonColumns = Object.keys(this.$schema.tables[table].columns).filter(columnId => {
+      return this.$schema.tables[table].columns[columnId].tag === true;
+    });
+    for(let indexColumn=0; indexColumn<jsonColumns.length; indexColumn++) {
+      const jsonColumn = jsonColumns[indexColumn];
+      for(let indexRow=0; indexRow<mainResults.length; indexRow++) {
+        const row = mainResults[indexRow];
+        try {
+          row[jsonColumn] = JSON.parse(row[jsonColumn]);
+        } catch (error) {
+          console.log(`Error parsing as JSON column «${jsonColumn}» on row «${indexRow}» on «_selectMany»`);
+        }
+      }
+    }
+  }
   Expand_relational_columns: {
     if (mainResults.length === 0) {
       break Expand_relational_columns;

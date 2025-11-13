@@ -11,8 +11,8 @@
  * Método constructor.
  * 
  */
-module.exports = function(table, database, options = {}) {
+module.exports = function(table, flowsql, options = {}) {
   this.$table = table;
-  this.$database = database;
+  this.$flowsql = flowsql;
   this.$options = Object.assign({}, this.constructor.defaultOptions, options);
 };

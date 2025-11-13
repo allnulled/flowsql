@@ -164,7 +164,6 @@ function(options = {}) {
   return JSON.parse(JSON.stringify(obj));
 };
     FlowsqlBrowser.arrayContainsAnyOf = function(a, b) {
-  console.log(a, b);
   if (a.length > b.length) {
     [a, b] = [b, a]; // iterar la más corta
   }
@@ -397,7 +396,12 @@ function(input) {
     if(sqlFields.length) {
       sqlFields += ",";
     }
-    sqlFields += `\n  ${this.constructor.escapeValue(row[columnId])}`;
+    const columnMetadata = allColumns[columnId];
+    if(columnMetadata.type === "array") {
+      sqlFields += `\n  ${this.constructor.escapeValue(JSON.stringify(row[columnId]))}`;
+    } else {
+      sqlFields += `\n  ${this.constructor.escapeValue(row[columnId])}`;
+    }
   }
   let sql = "";
   sql += ` VALUES (${sqlFields}\n);`;
@@ -1188,11 +1192,11 @@ function(base64) {
 
     Include_filesystem_api: {
         FlowsqlBrowser.prototype.createFileSystem = function(table, options) {
-  return new this.constructor.FileSystem(table, this.$database, options);
+  return new this.constructor.FileSystem(table, this, options);
 };
-        FlowsqlBrowser.FileSystem = function(table, database, options = {}) {
+        FlowsqlBrowser.FileSystem = function(table, flowsql, options = {}) {
   this.$table = table;
-  this.$database = database;
+  this.$flowsql = flowsql;
   this.$options = Object.assign({}, this.constructor.defaultOptions, options);
 };
         FlowsqlBrowser.FileSystem.Flowsql = FlowsqlBrowser;
@@ -1215,18 +1219,17 @@ function(base64) {
   this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.writeFile»`);
   this.assertion(typeof content === "string", `Parameter «content» must be a string on «FlowsqlFileSystem.writeFile»`);
   let output = "";
-  console.log(this.$database);
-  const matchedNodes = this.$database.selectMany(this.$options.$table, [
+  const matchedNodes = this.$flowsql.selectMany(this.$options.$table, [
     [this.$options.columnForPath, "=", filepath]
   ]);
   if(matchedNodes.length === 0) {
-    output = this.$database.insertOne(this.$table, {
+    output = this.$flowsql.insertOne(this.$table, {
       [this.$options.columnForPath]: filepath,
       [this.$options.columnForType]: "file",
       [this.$options.columnForContent]: content,
     });
   } else if(matchedNodes.length === 1) {
-    output = this.$database.updateOne(this.$table, matchedNodes[0].id, {
+    output = this.$flowsql.updateOne(this.$table, matchedNodes[0].id, {
       [this.$options.columnForPath]: filepath,
       [this.$options.columnForType]: "file",
       [this.$options.columnForContent]: content,

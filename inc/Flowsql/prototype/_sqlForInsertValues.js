@@ -22,7 +22,12 @@ module.exports = function (table, row) {
     if(sqlFields.length) {
       sqlFields += ",";
     }
-    sqlFields += `\n  ${this.constructor.escapeValue(row[columnId])}`;
+    const columnMetadata = allColumns[columnId];
+    if(columnMetadata.type === "array") {
+      sqlFields += `\n  ${this.constructor.escapeValue(JSON.stringify(row[columnId]))}`;
+    } else {
+      sqlFields += `\n  ${this.constructor.escapeValue(row[columnId])}`;
+    }
   }
   let sql = "";
   sql += ` VALUES (${sqlFields}\n);`;

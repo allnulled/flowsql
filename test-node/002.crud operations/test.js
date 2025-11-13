@@ -188,11 +188,11 @@ module.exports = async function (Flowsql) {
 
     Testing_crud_2: {
       const all = await flowsql.selectMany("User");
-      console.log(all);
-      console.log(all);
       const tagged = await flowsql.selectByTags("User", ["admin"]);
-      assertion(tagged.length !== 0, "Parameter tagged.length cannot be 0");
-      process.exit(0);
+      assertion(tagged.length === 1, "Parameter tagged.length must be 1");
+      assertion(typeof tagged[0] === "object", "Parameter tagged[0] must be object");
+      assertion(typeof tagged[0].name === "string", "Parameter tagged[0].name must be string");
+      assertion(tagged[0].name === "admin", "Parameter tagged[0].name must be 'name'");
     }
 
   }

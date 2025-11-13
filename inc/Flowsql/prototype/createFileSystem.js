@@ -8,5 +8,5 @@
  * 
  */
 module.exports = function(table, options) {
-  return new this.constructor.FileSystem(table, this.$database, options);
+  return new this.constructor.FileSystem(table, this, options);
 };

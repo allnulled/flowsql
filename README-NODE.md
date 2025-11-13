@@ -73,17 +73,22 @@
    - [`Flowsql.prototype.createFileSystem(table:String, options:Object):FlowsqlFileSystem`](#flowsqlprototypecreatefilesystemtablestring-optionsobjectflowsqlfilesystem)
 - [FileSystem API de Flowsql](#filesystem-api-de-flowsql)
    - [`new FlowsqlFileSystem(database:Flowsql, table:String, options:Object): FlowsqlFileSystem`](#new-flowsqlfilesystemdatabaseflowsql-tablestring-optionsobject-flowsqlfilesystem)
+   - [`FlowsqlFilesystem.defaultOptions:Object`](#flowsqlfilesystemdefaultoptionsobject)
+   - [`FlowsqlFilesystem.normalizePath(...pathParts:Array<String>):String`](#flowsqlfilesystemnormalizepathpathpartsarraystringstring)
    - [`FlowsqlFileSystem.prototype._decomposePath(filepath:String, splitter:String = "/"):Array<String>`](#flowsqlfilesystemprototype_decomposepathfilepathstring-splitterstring-arraystring)
-   - [`FileSystem.prototype.readFile(filepath:String)`](#filesystemprototypereadfilefilepathstring)
-   - [`FileSystem.prototype.readDirectory(dirpath:String)`](#filesystemprototypereaddirectorydirpathstring)
-   - [`FileSystem.prototype.writeFile(filepath:String, content:String)`](#filesystemprototypewritefilefilepathstring-contentstring)
-   - [`FileSystem.prototype.writeDirectory(dirpath:String)`](#filesystemprototypewritedirectorydirpathstring)
-   - [`FileSystem.prototype.removeFile(filepath:String)`](#filesystemprototyperemovefilefilepathstring)
-   - [`FileSystem.prototype.removeDirectory(directory:String, options:Object)`](#filesystemprototyperemovedirectorydirectorystring-optionsobject)
-   - [`FileSystem.prototype.exists(filepath:String)`](#filesystemprototypeexistsfilepathstring)
-   - [`FileSystem.prototype.existsFile(filepath:String)`](#filesystemprototypeexistsfilefilepathstring)
-   - [`FileSystem.prototype.existsDirectory(dirpath:String)`](#filesystemprototypeexistsdirectorydirpathstring)
-   - [`FileSystem.prototype.listDirectory(dirpath:String)`](#filesystemprototypelistdirectorydirpathstring)
+   - [`FlowsqlFileSystem.prototype._copyObject(obj:Object):Array<String>`](#flowsqlfilesystemprototype_copyobjectobjobjectarraystring)
+   - [`FlowsqlFileSystem.prototype.findByPath(filepath:String):Object`](#flowsqlfilesystemprototypefindbypathfilepathstringobject)
+   - [`FlowsqlFileSystem.prototype.readFile(filepath:String)`](#flowsqlfilesystemprototypereadfilefilepathstring)
+   - [`FlowsqlFileSystem.prototype.readDirectory(dirpath:String)`](#flowsqlfilesystemprototypereaddirectorydirpathstring)
+   - [`FlowsqlFileSystem.prototype.writeFile(filepath:String, content:String)`](#flowsqlfilesystemprototypewritefilefilepathstring-contentstring)
+   - [`FlowsqlFileSystem.prototype.writeDirectory(dirpath:String)`](#flowsqlfilesystemprototypewritedirectorydirpathstring)
+   - [`FlowsqlFileSystem.prototype.removeFile(filepath:String)`](#flowsqlfilesystemprototyperemovefilefilepathstring)
+   - [`FlowsqlFileSystem.prototype.removeDirectory(directory:String, options:Object)`](#flowsqlfilesystemprototyperemovedirectorydirectorystring-optionsobject)
+   - [`FlowsqlFileSystem.prototype.exists(filepath:String)`](#flowsqlfilesystemprototypeexistsfilepathstring)
+   - [`FlowsqlFileSystem.prototype.existsFile(filepath:String)`](#flowsqlfilesystemprototypeexistsfilefilepathstring)
+   - [`FlowsqlFileSystem.prototype.existsDirectory(dirpath:String)`](#flowsqlfilesystemprototypeexistsdirectorydirpathstring)
+   - [`FlowsqlFileSystem.prototype.renameFile(filepath:String)`](#flowsqlfilesystemprototyperenamefilefilepathstring)
+   - [`FlowsqlFileSystem.prototype.renameDirectory(dirpath:String)`](#flowsqlfilesystemprototyperenamedirectorydirpathstring)
 
 
 ## Node.js API de Flowsql
@@ -707,49 +712,84 @@ La tabla debe cumplir con unos requisitos en el `$schema`.
 
 Método constructor.
 
+### `FlowsqlFilesystem.defaultOptions:Object`
+
+Objeto con las columnas especiales de la tabla.
+
+Puede customizarse pero lo recomendable es que no, ya que hay 1 por tabla, así que no haría falta tocar nada si se respetan los nombres y tipos.
+
+Concretamente, tiene esto:
+
+```js
+{
+  columnForName: "node_name",
+  columnForType: "node_type",
+  columnForContent: "node_content",
+  columnForParent: "node_parent",
+};
+```
+
+### `FlowsqlFilesystem.normalizePath(...pathParts:Array<String>):String`
+
+Método que construye una ruta a partir de sus fragmentos con `...pathParts:Array<String>`.
+
+Retorna la ruta formada en formato `String`.
+
 ### `FlowsqlFileSystem.prototype._decomposePath(filepath:String, splitter:String = "/"):Array<String>`
 
 Método que descompone en partes un path según el `splitter:String` que por defecto es el caracter "/".
 
-### `FileSystem.prototype.readFile(filepath:String)`
+### `FlowsqlFileSystem.prototype._copyObject(obj:Object):Array<String>`
+
+Método que copia un objeto usando JSON.stringify + JSON.parse.
+
+### `FlowsqlFileSystem.prototype.findByPath(filepath:String):Object`
+
+Método que encuentra un nodo según su ruta.
+
+### `FlowsqlFileSystem.prototype.readFile(filepath:String)`
 
 Método para leer un fichero basándose en una ruta.
 
-### `FileSystem.prototype.readDirectory(dirpath:String)`
+### `FlowsqlFileSystem.prototype.readDirectory(dirpath:String)`
 
 Método para leer un directorio basándose en una ruta.
 
-### `FileSystem.prototype.writeFile(filepath:String, content:String)`
+### `FlowsqlFileSystem.prototype.writeFile(filepath:String, content:String)`
 
 Método para escribir en un fichero basándose en una ruta.
 
-### `FileSystem.prototype.writeDirectory(dirpath:String)`
+### `FlowsqlFileSystem.prototype.writeDirectory(dirpath:String)`
 
 Método para crear un directorio basándose en una ruta.
 
-### `FileSystem.prototype.removeFile(filepath:String)`
+### `FlowsqlFileSystem.prototype.removeFile(filepath:String)`
 
 Método para eliminar un fichero basándose en una ruta.
 
-### `FileSystem.prototype.removeDirectory(directory:String, options:Object)`
+### `FlowsqlFileSystem.prototype.removeDirectory(directory:String, options:Object)`
 
 Método para eliminar un directorio basándose en una ruta.
 
 Puede usarse, en `options:Object`, el flag `recursive:true` para eliminar recursivamente.
 
-### `FileSystem.prototype.exists(filepath:String)`
+### `FlowsqlFileSystem.prototype.exists(filepath:String)`
 
 Método para averiguar si existe un nodo basándose en una ruta.
 
-### `FileSystem.prototype.existsFile(filepath:String)`
+### `FlowsqlFileSystem.prototype.existsFile(filepath:String)`
 
 Método para averiguar si existe un nodo y es un fichero basándose en una ruta.
 
-### `FileSystem.prototype.existsDirectory(dirpath:String)`
+### `FlowsqlFileSystem.prototype.existsDirectory(dirpath:String)`
 
 Método para averiguar si existe un nodo basándose en una ruta.
 
-### `FileSystem.prototype.listDirectory(dirpath:String)`
+### `FlowsqlFileSystem.prototype.renameFile(filepath:String)`
 
-Método para listar un directorio basándose en una ruta.
+Método para cambiar la ruta de un fichero.
+
+### `FlowsqlFileSystem.prototype.renameDirectory(dirpath:String)`
+
+Método para cambiar la ruta de un directorio.
 

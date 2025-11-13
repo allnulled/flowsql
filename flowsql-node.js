@@ -1878,15 +1878,15 @@ function(filepath) {
   this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.readFile»`);
   // @TODO...
 };
-        Flowsql.FileSystem.prototype.readdir = /**
+        Flowsql.FileSystem.prototype.readDirectory = /**
  * 
- * ### `FileSystem.prototype.readdir(directory:String)`
+ * ### `FileSystem.prototype.readDirectory(dirpath:String)`
  * 
  * Método para leer un directorio basándose en una ruta.
  * 
  */
-function(directory) {
-  this.assertion(typeof directory === "string", `Parameter «directory» must be a string on «FlowsqlFileSystem.readdir»`);
+function(dirpath) {
+  this.assertion(typeof dirpath === "string", `Parameter «dirpath» must be a string on «FlowsqlFileSystem.readDirectory»`);
   // @TODO...
 };
         Flowsql.FileSystem.prototype.writeFile = /**
@@ -1920,61 +1920,84 @@ function(filepath, content) {
   }
   return output;
 };
-        Flowsql.FileSystem.prototype.mkdir = /**
+        Flowsql.FileSystem.prototype.writeDirectory = /**
  * 
- * ### `FileSystem.prototype.mkdir(filepath:String)`
+ * ### `FileSystem.prototype.writeDirectory(dirpath:String)`
  * 
  * Método para crear un directorio basándose en una ruta.
  * 
  */
-function(filepath) {
-  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.mkdir»`);
+function(dirpath) {
+  this.assertion(typeof dirpath === "string", `Parameter «dirpath» must be a string on «FlowsqlFileSystem.writeDirectory»`);
   // @TODO...
 };
-        Flowsql.FileSystem.prototype.unlink = /**
+        Flowsql.FileSystem.prototype.removeFile = /**
  * 
- * ### `FileSystem.prototype.unlink(filepath:String)`
+ * ### `FileSystem.prototype.removeFile(filepath:String)`
  * 
  * Método para eliminar un fichero basándose en una ruta.
  * 
  */
 function(filepath) {
-  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.unlink»`);
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.removeFile»`);
   // @TODO...
 };
-        Flowsql.FileSystem.prototype.rm = /**
+        Flowsql.FileSystem.prototype.removeDirectory = /**
  * 
- * ### `FileSystem.prototype.rm(directory:String, options:Object)`
+ * ### `FileSystem.prototype.removeDirectory(directory:String, options:Object)`
  * 
  * Método para eliminar un directorio basándose en una ruta.
  * 
+ * Puede usarse, en `options:Object`, el flag `recursive:true` para eliminar recursivamente.
+ * 
  */
-function(directory, options = {}) {
-  this.assertion(typeof directory === "string", `Parameter «directory» must be a string on «FlowsqlFileSystem.rm»`);
-  this.assertion(typeof options === "object", `Parameter «options» must be a object on «FlowsqlFileSystem.rm»`);
+function(dirpath, options = {}) {
+  this.assertion(typeof dirpath === "string", `Parameter «dirpath» must be a string on «FlowsqlFileSystem.removeDirectory»`);
+  this.assertion(typeof options === "object", `Parameter «options» must be a object on «FlowsqlFileSystem.removeDirectory»`);
   // @TODO...
 };
-        Flowsql.FileSystem.prototype.copyFile = /**
+        Flowsql.FileSystem.prototype.exists = /**
  * 
- * ### `FileSystem.prototype.copyFile(oathSource:String, pathDestination:String)`
+ * ### `FileSystem.prototype.exists(filepath:String)`
  * 
- * Método para copiar un fichero de una ruta origen a una ruta destino.
+ * Método para averiguar si existe un nodo basándose en una ruta.
  * 
  */
-function(pathSource, pathDestination) {
-  this.assertion(typeof pathSource === "string", `Parameter «pathSource» must be a string on «FlowsqlFileSystem.copyFile»`);
-  this.assertion(typeof pathDestination === "string", `Parameter «pathDestination» must be a string on «FlowsqlFileSystem.copyFile»`);
+function(filepath) {
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.exists»`);
   // @TODO...
 };
-        Flowsql.FileSystem.prototype.lstat = /**
+        Flowsql.FileSystem.prototype.existsFile = /**
  * 
- * ### `FileSystem.prototype.lstat(nodepath:String)`
+ * ### `FileSystem.prototype.existsFile(filepath:String)`
  * 
- * Método para eliminar un directorio basándose en una ruta.
+ * Método para averiguar si existe un nodo y es un fichero basándose en una ruta.
  * 
  */
-function(nodepath) {
-  this.assertion(typeof nodepath === "string", `Parameter «nodepath» must be a string on «FlowsqlFileSystem.rm»`);
+function(filepath) {
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.existsFile»`);
+  // @TODO...
+};
+        Flowsql.FileSystem.prototype.existsDirectory = /**
+ * 
+ * ### `FileSystem.prototype.existsDirectory(dirpath:String)`
+ * 
+ * Método para averiguar si existe un nodo basándose en una ruta.
+ * 
+ */
+function(dirpath) {
+  this.assertion(typeof dirpath === "string", `Parameter «dirpath» must be a string on «FlowsqlFileSystem.existsDirectory»`);
+  // @TODO...
+};
+        Flowsql.FileSystem.prototype.listDirectory = /**
+ * 
+ * ### `FileSystem.prototype.listDirectory(dirpath:String)`
+ * 
+ * Método para listar un directorio basándose en una ruta.
+ * 
+ */
+function(dirpath) {
+  this.assertion(typeof dirpath === "string", `Parameter «dirpath» must be a string on «FlowsqlFileSystem.rm»`);
   // @TODO...
 };
         

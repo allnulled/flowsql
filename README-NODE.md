@@ -50,6 +50,7 @@
    - [`Flowsql.prototype.selectOne(table:String, id:String|Number):Object`](#flowsqlprototypeselectonetablestring-idstringnumberobject)
    - [`Flowsql.prototype.selectMany(table:String, filters:Array):Array`](#flowsqlprototypeselectmanytablestring-filtersarrayarray)
    - [`Flowsql.prototype.selectByLabel(table:String, label:String)`](#flowsqlprototypeselectbylabeltablestring-labelstring)
+   - [`Flowsql.prototype.selectByTags(table:String, label:String)`](#flowsqlprototypeselectbytagstablestring-labelstring)
    - [`Flowsql.prototype.updateOne(table:String, id:String|Number, values:Object)`](#flowsqlprototypeupdateonetablestring-idstringnumber-valuesobject)
    - [`Flowsql.prototype.updateMany(table:String, filters:Array, values:Object)`](#flowsqlprototypeupdatemanytablestring-filtersarray-valuesobject)
    - [`Flowsql.prototype.updateByLabel(table:String, label:String, values:Object)`](#flowsqlprototypeupdatebylabeltablestring-labelstring-valuesobject)
@@ -64,22 +65,25 @@
    - [`async DataProxy.reduceByEval(code:String):Promise<DataProxy»`](#async-dataproxyreducebyevalcodestringpromisedataproxy)
    - [`async DataProxy.prototype.modifyByEval():Promise<DataProxy»`](#async-dataproxyprototypemodifybyevalpromisedataproxy)
    - [`async DataProxy.prototype.amplifyByEval(code:String):Promise<DataProxy»`](#async-dataproxyprototypeamplifybyevalcodestringpromisedataproxy)
-   - [`async DataProxy.accessProperty(callback:Function):Promise<DataProxy»`](#async-dataproxyaccesspropertycallbackfunctionpromisedataproxy)
+   - [`async DataProxy.accessProperty(name:String):Promise<DataProxy»`](#async-dataproxyaccesspropertynamestringpromisedataproxy)
    - [`DataProxy.prototype.memorize(keys:Object):DataProxy`](#dataproxyprototypememorizekeysobjectdataproxy)
    - [`DataProxy.prototype.remember(keys:Object):any`](#dataproxyprototyperememberkeysobjectany)
    - [`DataProxy.prototype.setMemory(keys:Object):DataProxy`](#dataproxyprototypesetmemorykeysobjectdataproxy)
    - [`DataProxy.prototype.byMatrix(matrix:Array):DataProxy`](#dataproxyprototypebymatrixmatrixarraydataproxy)
-   - [`Flowsql.prototype.createFileSystem(table:String):FlowsqlFileSystem`](#flowsqlprototypecreatefilesystemtablestringflowsqlfilesystem)
+   - [`Flowsql.prototype.createFileSystem(table:String, options:Object):FlowsqlFileSystem`](#flowsqlprototypecreatefilesystemtablestring-optionsobjectflowsqlfilesystem)
 - [FileSystem API de Flowsql](#filesystem-api-de-flowsql)
    - [`new FlowsqlFileSystem(database:Flowsql, table:String, options:Object): FlowsqlFileSystem`](#new-flowsqlfilesystemdatabaseflowsql-tablestring-optionsobject-flowsqlfilesystem)
+   - [`FlowsqlFileSystem.prototype._decomposePath(filepath:String, splitter:String = "/"):Array<String>`](#flowsqlfilesystemprototype_decomposepathfilepathstring-splitterstring-arraystring)
    - [`FileSystem.prototype.readFile(filepath:String)`](#filesystemprototypereadfilefilepathstring)
-   - [`FileSystem.prototype.readdir(directory:String)`](#filesystemprototypereaddirdirectorystring)
+   - [`FileSystem.prototype.readDirectory(dirpath:String)`](#filesystemprototypereaddirectorydirpathstring)
    - [`FileSystem.prototype.writeFile(filepath:String, content:String)`](#filesystemprototypewritefilefilepathstring-contentstring)
-   - [`FileSystem.prototype.mkdir(filepath:String)`](#filesystemprototypemkdirfilepathstring)
-   - [`FileSystem.prototype.rm(filepath:String, options:Object)`](#filesystemprototypermfilepathstring-optionsobject)
-   - [`FileSystem.prototype.rm(directory:String, options:Object)`](#filesystemprototypermdirectorystring-optionsobject)
-   - [`FileSystem.prototype.copyFile(oathSource:String, pathDestination:String)`](#filesystemprototypecopyfileoathsourcestring-pathdestinationstring)
-   - [`FileSystem.prototype.lstat(nodepath:String)`](#filesystemprototypelstatnodepathstring)
+   - [`FileSystem.prototype.writeDirectory(dirpath:String)`](#filesystemprototypewritedirectorydirpathstring)
+   - [`FileSystem.prototype.removeFile(filepath:String)`](#filesystemprototyperemovefilefilepathstring)
+   - [`FileSystem.prototype.removeDirectory(directory:String, options:Object)`](#filesystemprototyperemovedirectorydirectorystring-optionsobject)
+   - [`FileSystem.prototype.exists(filepath:String)`](#filesystemprototypeexistsfilepathstring)
+   - [`FileSystem.prototype.existsFile(filepath:String)`](#filesystemprototypeexistsfilefilepathstring)
+   - [`FileSystem.prototype.existsDirectory(dirpath:String)`](#filesystemprototypeexistsdirectorydirpathstring)
+   - [`FileSystem.prototype.listDirectory(dirpath:String)`](#filesystemprototypelistdirectorydirpathstring)
 
 
 ## Node.js API de Flowsql
@@ -585,6 +589,14 @@ El parámetro `table:String` debe ser una tabla del esquema.
 
 El parámetro `label:String` será el valor que tiene que tener la fila en la columna en la cual, en el esquema, tenga la propiedad `label` en `true`.
 
+### `Flowsql.prototype.selectByTags(table:String, label:String)`
+
+Este método permite seleccionar una fila de una tabla basándose en la columna que tiene `label: true` en el esquema.
+
+El parámetro `table:String` debe ser una tabla del esquema.
+
+El parámetro `label:String` será el valor que tiene que tener la fila en la columna en la cual, en el esquema, tenga la propiedad `label` en `true`.
+
 ### `Flowsql.prototype.updateOne(table:String, id:String|Number, values:Object)`
 
 Método que actualiza una fila basándose en su id.
@@ -665,9 +677,11 @@ Método para...
 
 Método para...
 
-### `async DataProxy.accessProperty(callback:Function):Promise<DataProxy»`
+### `async DataProxy.accessProperty(name:String):Promise<DataProxy»`
 
-Método para...
+Método para cambiar el `$dataset` a una propiedad interna.
+
+Si la
 
 ### `DataProxy.prototype.memorize(keys:Object):DataProxy`
 
@@ -677,7 +691,7 @@ Método para...
 
 ### `DataProxy.prototype.byMatrix(matrix:Array):DataProxy`
 
-### `Flowsql.prototype.createFileSystem(table:String):FlowsqlFileSystem`
+### `Flowsql.prototype.createFileSystem(table:String, options:Object):FlowsqlFileSystem`
 
 Método que construye un `FileSystem`.
 
@@ -693,11 +707,15 @@ La tabla debe cumplir con unos requisitos en el `$schema`.
 
 Método constructor.
 
+### `FlowsqlFileSystem.prototype._decomposePath(filepath:String, splitter:String = "/"):Array<String>`
+
+Método que descompone en partes un path según el `splitter:String` que por defecto es el caracter "/".
+
 ### `FileSystem.prototype.readFile(filepath:String)`
 
 Método para leer un fichero basándose en una ruta.
 
-### `FileSystem.prototype.readdir(directory:String)`
+### `FileSystem.prototype.readDirectory(dirpath:String)`
 
 Método para leer un directorio basándose en una ruta.
 
@@ -705,23 +723,33 @@ Método para leer un directorio basándose en una ruta.
 
 Método para escribir en un fichero basándose en una ruta.
 
-### `FileSystem.prototype.mkdir(filepath:String)`
+### `FileSystem.prototype.writeDirectory(dirpath:String)`
 
 Método para crear un directorio basándose en una ruta.
 
-### `FileSystem.prototype.rm(filepath:String, options:Object)`
+### `FileSystem.prototype.removeFile(filepath:String)`
+
+Método para eliminar un fichero basándose en una ruta.
+
+### `FileSystem.prototype.removeDirectory(directory:String, options:Object)`
 
 Método para eliminar un directorio basándose en una ruta.
 
-### `FileSystem.prototype.rm(directory:String, options:Object)`
+Puede usarse, en `options:Object`, el flag `recursive:true` para eliminar recursivamente.
 
-Método para eliminar un directorio basándose en una ruta.
+### `FileSystem.prototype.exists(filepath:String)`
 
-### `FileSystem.prototype.copyFile(oathSource:String, pathDestination:String)`
+Método para averiguar si existe un nodo basándose en una ruta.
 
-Método para copiar un fichero de una ruta origen a una ruta destino.
+### `FileSystem.prototype.existsFile(filepath:String)`
 
-### `FileSystem.prototype.lstat(nodepath:String)`
+Método para averiguar si existe un nodo y es un fichero basándose en una ruta.
 
-Método para eliminar un directorio basándose en una ruta.
+### `FileSystem.prototype.existsDirectory(dirpath:String)`
+
+Método para averiguar si existe un nodo basándose en una ruta.
+
+### `FileSystem.prototype.listDirectory(dirpath:String)`
+
+Método para listar un directorio basándose en una ruta.
 

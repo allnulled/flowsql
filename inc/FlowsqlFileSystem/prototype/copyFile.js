@@ -1,12 +1,12 @@
 /**
  * 
- * ### `FileSystem.prototype.copyFile(oathSource:String, pathDestination:String)`
+ * ### `FileSystem.prototype.copyFile(sourcePath:String, destinationPath:String)`
  * 
  * Método para copiar un fichero de una ruta origen a una ruta destino.
  * 
  */
-module.exports = function(pathSource, pathDestination) {
-  this.assertion(typeof pathSource === "string", `Parameter «pathSource» must be a string on «FlowsqlFileSystem.copyFile»`);
-  this.assertion(typeof pathDestination === "string", `Parameter «pathDestination» must be a string on «FlowsqlFileSystem.copyFile»`);
+module.exports = function(sourcePath, destinationPath) {
+  this.assertion(typeof sourcePath === "string", `Parameter «sourcePath» must be a string on «FlowsqlFileSystem.copyFile»`);
+  this.assertion(typeof destinationPath === "string", `Parameter «destinationPath» must be a string on «FlowsqlFileSystem.copyFile»`);
   // @TODO...
 };

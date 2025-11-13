@@ -1211,8 +1211,8 @@ function(base64) {
   this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.readFile»`);
   // @TODO...
 };
-        FlowsqlBrowser.FileSystem.prototype.readdir = function(directory) {
-  this.assertion(typeof directory === "string", `Parameter «directory» must be a string on «FlowsqlFileSystem.readdir»`);
+        FlowsqlBrowser.FileSystem.prototype.readDirectory = function(dirpath) {
+  this.assertion(typeof dirpath === "string", `Parameter «dirpath» must be a string on «FlowsqlFileSystem.readDirectory»`);
   // @TODO...
 };
         FlowsqlBrowser.FileSystem.prototype.writeFile = function(filepath, content) {
@@ -1239,26 +1239,33 @@ function(base64) {
   }
   return output;
 };
-        FlowsqlBrowser.FileSystem.prototype.mkdir = function(filepath) {
-  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.mkdir»`);
+        FlowsqlBrowser.FileSystem.prototype.writeDirectory = function(dirpath) {
+  this.assertion(typeof dirpath === "string", `Parameter «dirpath» must be a string on «FlowsqlFileSystem.writeDirectory»`);
   // @TODO...
 };
-        FlowsqlBrowser.FileSystem.prototype.unlink = function(filepath) {
-  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.unlink»`);
+        FlowsqlBrowser.FileSystem.prototype.removeFile = function(filepath) {
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.removeFile»`);
   // @TODO...
 };
-        FlowsqlBrowser.FileSystem.prototype.rm = function(directory, options = {}) {
-  this.assertion(typeof directory === "string", `Parameter «directory» must be a string on «FlowsqlFileSystem.rm»`);
-  this.assertion(typeof options === "object", `Parameter «options» must be a object on «FlowsqlFileSystem.rm»`);
+        FlowsqlBrowser.FileSystem.prototype.removeDirectory = function(dirpath, options = {}) {
+  this.assertion(typeof dirpath === "string", `Parameter «dirpath» must be a string on «FlowsqlFileSystem.removeDirectory»`);
+  this.assertion(typeof options === "object", `Parameter «options» must be a object on «FlowsqlFileSystem.removeDirectory»`);
   // @TODO...
 };
-        FlowsqlBrowser.FileSystem.prototype.copyFile = function(pathSource, pathDestination) {
-  this.assertion(typeof pathSource === "string", `Parameter «pathSource» must be a string on «FlowsqlFileSystem.copyFile»`);
-  this.assertion(typeof pathDestination === "string", `Parameter «pathDestination» must be a string on «FlowsqlFileSystem.copyFile»`);
+        FlowsqlBrowser.FileSystem.prototype.exists = function(filepath) {
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.exists»`);
   // @TODO...
 };
-        FlowsqlBrowser.FileSystem.prototype.lstat = function(nodepath) {
-  this.assertion(typeof nodepath === "string", `Parameter «nodepath» must be a string on «FlowsqlFileSystem.rm»`);
+        FlowsqlBrowser.FileSystem.prototype.existsFile = function(filepath) {
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.existsFile»`);
+  // @TODO...
+};
+        FlowsqlBrowser.FileSystem.prototype.existsDirectory = function(dirpath) {
+  this.assertion(typeof dirpath === "string", `Parameter «dirpath» must be a string on «FlowsqlFileSystem.existsDirectory»`);
+  // @TODO...
+};
+        FlowsqlBrowser.FileSystem.prototype.listDirectory = function(dirpath) {
+  this.assertion(typeof dirpath === "string", `Parameter «dirpath» must be a string on «FlowsqlFileSystem.rm»`);
   // @TODO...
 };
         

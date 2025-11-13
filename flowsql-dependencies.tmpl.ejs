@@ -35,12 +35,14 @@ const isInNodejs = fromEnvironment === "node.js";
         <%-currentGlobal%>.FileSystem.prototype.assertion = <%-currentGlobal%>.assertion.bind(<%-currentGlobal%>);
         <%-currentGlobal%>.FileSystem.prototype._decomposePath = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "_decomposePath.js"], isInNodejs) %>
         <%-currentGlobal%>.FileSystem.prototype.readFile = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "readFile.js"], isInNodejs) %>
-        <%-currentGlobal%>.FileSystem.prototype.readdir = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "readdir.js"], isInNodejs) %>
+        <%-currentGlobal%>.FileSystem.prototype.readDirectory = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "readDirectory.js"], isInNodejs) %>
         <%-currentGlobal%>.FileSystem.prototype.writeFile = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "writeFile.js"], isInNodejs) %>
-        <%-currentGlobal%>.FileSystem.prototype.mkdir = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "mkdir.js"], isInNodejs) %>
-        <%-currentGlobal%>.FileSystem.prototype.unlink = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "unlink.js"], isInNodejs) %>
-        <%-currentGlobal%>.FileSystem.prototype.rm = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "rm.js"], isInNodejs) %>
-        <%-currentGlobal%>.FileSystem.prototype.copyFile = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "copyFile.js"], isInNodejs) %>
-        <%-currentGlobal%>.FileSystem.prototype.lstat = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "lstat.js"], isInNodejs) %>
+        <%-currentGlobal%>.FileSystem.prototype.writeDirectory = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "writeDirectory.js"], isInNodejs) %>
+        <%-currentGlobal%>.FileSystem.prototype.removeFile = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "removeFile.js"], isInNodejs) %>
+        <%-currentGlobal%>.FileSystem.prototype.removeDirectory = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "removeDirectory.js"], isInNodejs) %>
+        <%-currentGlobal%>.FileSystem.prototype.exists = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "exists.js"], isInNodejs) %>
+        <%-currentGlobal%>.FileSystem.prototype.existsFile = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "existsFile.js"], isInNodejs) %>
+        <%-currentGlobal%>.FileSystem.prototype.existsDirectory = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "existsDirectory.js"], isInNodejs) %>
+        <%-currentGlobal%>.FileSystem.prototype.listDirectory = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "listDirectory.js"], isInNodejs) %>
         
     }

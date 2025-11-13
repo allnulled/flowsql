@@ -1,6 +1,6 @@
 /**
  * 
- * ### `FileSystem.prototype.existsDirectory(dirpath:String)`
+ * ### `FlowsqlFileSystem.prototype.existsDirectory(dirpath:String)`
  * 
  * Método para averiguar si existe un nodo basándose en una ruta.
  * 

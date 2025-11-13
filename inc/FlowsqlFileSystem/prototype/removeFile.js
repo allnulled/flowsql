@@ -1,6 +1,6 @@
 /**
  * 
- * ### `FileSystem.prototype.removeFile(filepath:String)`
+ * ### `FlowsqlFileSystem.prototype.removeFile(filepath:String)`
  * 
  * Método para eliminar un fichero basándose en una ruta.
  * 

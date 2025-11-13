@@ -1,6 +1,6 @@
 /**
  * 
- * ### `FileSystem.prototype.listDirectory(dirpath:String)`
+ * ### `FlowsqlFileSystem.prototype.listDirectory(dirpath:String)`
  * 
  * Método para listar un directorio basándose en una ruta.
  * 

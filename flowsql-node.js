@@ -341,26 +341,50 @@ Flowsql.prototype._ensureBasicMetadata = /**
  */
 function() {
   this.trace("_ensureBasicMetadata");
-  this.runSql(`
-    CREATE TABLE IF NOT EXISTS Database_metadata (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name VARCHAR(255) UNIQUE NOT NULL,
-      value TEXT
-    );
-  `);
-  const schemaQuery = this.fetchSql(`
-    SELECT *
-    FROM Database_metadata
-    WHERE name = 'db.schema';
-  `);
-  if (schemaQuery.length !== 0) {
-    return;
+  Ensure_database_metadata: {
+    this.runSql(`
+      CREATE TABLE IF NOT EXISTS \`Database_metadata\` (
+        \`id\` INTEGER PRIMARY KEY AUTOINCREMENT,
+        \`name\` VARCHAR(255) UNIQUE NOT NULL,
+        \`value\` TEXT
+      );
+    `);
+    const schemaQuery = this.fetchSql(`
+      SELECT *
+      FROM \`Database_metadata\`
+      WHERE \`name\` = 'db.schema';
+    `);
+    if (schemaQuery.length !== 0) {
+      break Ensure_database_metadata;
+    }
+    const defaultSchema = this.constructor.escapeValue(JSON.stringify({
+      tables: {
+        Database_metadata: {},
+        Database_files: {
+          columns: {
+            node_path: {type: "string"},
+            node_type: {type: "string"},
+            node_content: {type: "string"},
+          }
+        },
+      }
+    }));
+    this.runSql(`
+      INSERT INTO \`Database_metadata\` (\`name\`, \`value\`)
+      VALUES ('db.schema', ${defaultSchema});
+    `);
   }
-  const defaultSchema = this.constructor.escapeValue(JSON.stringify({ tables: {} }));
-  this.runSql(`
-    INSERT INTO Database_metadata (name, value)
-    VALUES ('db.schema', ${defaultSchema});
-  `);
+  Ensure_database_files: {
+    this.runSql(`
+      CREATE TABLE IF NOT EXISTS \`Database_files\` (
+        \`id\` INTEGER PRIMARY KEY AUTOINCREMENT,
+        \`node_path\` VARCHAR(1000),
+        \`node_type\` VARCHAR(50),
+        \`node_content\` TEXT,
+        \`node_parent\` INTEGER REFERENCES \`Database_files\` (\`id\`)
+      );
+    `)
+  }
 };
 Flowsql.prototype._loadSchema = /**
  * 
@@ -1834,6 +1858,7 @@ function(matrix) {
 function(table, options) {
   return new this.constructor.FileSystem(table, this, options);
 };
+        
         Flowsql.FileSystem = /**
  * 
  * ## FileSystem API de Flowsql
@@ -1848,14 +1873,44 @@ function(table, options) {
  * 
  */
 function(table, flowsql, options = {}) {
+  this.constructor.assertion(typeof table === "string", `Parameter «table» must be a string on «FlowsqlFileSystem.constructor»`);
+  this.constructor.assertion(typeof flowsql === "object", `Parameter «flowsql» must be a object on «FlowsqlFileSystem.constructor»`);
+  this.constructor.assertion(typeof options === "object", `Parameter «options» must be a object on «FlowsqlFileSystem.constructor»`);
+  this.constructor.assertion(table in flowsql.$schema.tables, `Parameter «table» must be a table in the schema on «FlowsqlFileSystem.constructor»`);
   this.$table = table;
   this.$flowsql = flowsql;
   this.$options = Object.assign({}, this.constructor.defaultOptions, options);
+  return this;
 };
         Flowsql.FileSystem.Flowsql = Flowsql;
-        
+        Flowsql.FileSystem.AssertionError = Flowsql.AssertionError.bind(Flowsql);
+        Flowsql.FileSystem.defaultOptions = /**
+ * 
+ * ### `FlowsqlFilesystem.defaultOptions:Object`
+ * 
+ * Objeto con las columnas especiales de la tabla.
+ * 
+ * Puede customizarse pero lo recomendable es que no, ya que hay 1 por tabla, así que no haría falta tocar nada si se respetan los nombres y tipos.
+ * 
+ * Concretamente, tiene esto:
+ * 
+ * ```js
+ * {
+ *   columnForName: "node_name",
+ *   columnForType: "node_type",
+ *   columnForContent: "node_content",
+ *   columnForParent: "node_parent",
+ * };
+ * ```
+ * 
+ */
+{
+  columnForPath: "node_path",
+  columnForType: "node_type",
+  columnForContent: "node_content",
+};
         Flowsql.FileSystem.assertion = Flowsql.assertion.bind(Flowsql);
-        Flowsql.FileSystem.prototype.assertion = Flowsql.assertion.bind(Flowsql);
+        
         Flowsql.FileSystem.prototype._decomposePath = /**
  * 
  * ### `FlowsqlFileSystem.prototype._decomposePath(filepath:String, splitter:String = "/"):Array<String>`
@@ -1864,23 +1919,40 @@ function(table, flowsql, options = {}) {
  * 
  */
 function(filepath, splitter = "/") {
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «_decomponePath»`);
+  this.assertion(typeof splitter === "string", `Parameter «splitter» must be a string on «_decomponePath»`);
   const fileparts = filepath.split(splitter);
   return fileparts.filter(part => (typeof part === "undefined" ? "" : part).trim() !== "");
 }
+        Flowsql.FileSystem.prototype.assertion = Flowsql.prototype.assertion.bind(Flowsql);
+        Flowsql.FileSystem.prototype.findByPath = /**
+ * 
+ * ### `FlowsqlFileSystem.prototype.findByPath(filepath:String):Object`
+ *  
+ * Método que encuentra un nodo según su ruta.
+ * 
+ */
+function(filepath) {
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «findByPath»`);
+  const matched = this.$flowsql._selectMany(this.$table, [
+    [this.$options.columnForPath, "=", filepath]
+  ], "findByPath");
+  return matched[0] || null;
+}
         Flowsql.FileSystem.prototype.readFile = /**
  * 
- * ### `FileSystem.prototype.readFile(filepath:String)`
+ * ### `FlowsqlFileSystem.prototype.readFile(filepath:String)`
  * 
  * Método para leer un fichero basándose en una ruta.
  * 
  */
 function(filepath) {
-  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.readFile»`);
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.prototype.readFile»`);
   // @TODO...
 };
         Flowsql.FileSystem.prototype.readDirectory = /**
  * 
- * ### `FileSystem.prototype.readDirectory(dirpath:String)`
+ * ### `FlowsqlFileSystem.prototype.readDirectory(dirpath:String)`
  * 
  * Método para leer un directorio basándose en una ruta.
  * 
@@ -1891,49 +1963,58 @@ function(dirpath) {
 };
         Flowsql.FileSystem.prototype.writeFile = /**
  * 
- * ### `FileSystem.prototype.writeFile(filepath:String, content:String)`
+ * ### `FlowsqlFileSystem.prototype.writeFile(filepath:String, content:String)`
  * 
  * Método para escribir en un fichero basándose en una ruta.
  * 
  */
 function(filepath, content) {
-  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.writeFile»`);
-  this.assertion(typeof content === "string", `Parameter «content» must be a string on «FlowsqlFileSystem.writeFile»`);
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.prototype.writeFile»`);
+  this.assertion(typeof content === "string", `Parameter «content» must be a string on «FlowsqlFileSystem.prototype.writeFile»`);
   let output = "";
-  const matchedNodes = this.$flowsql.selectMany(this.$options.$table, [
-    [this.$options.columnForPath, "=", filepath]
-  ]);
-  if(matchedNodes.length === 0) {
+  const node = this.findByPath(filepath);
+  if(node === null) {
     output = this.$flowsql.insertOne(this.$table, {
       [this.$options.columnForPath]: filepath,
       [this.$options.columnForType]: "file",
       [this.$options.columnForContent]: content,
     });
-  } else if(matchedNodes.length === 1) {
-    output = this.$flowsql.updateOne(this.$table, matchedNodes[0].id, {
+  } else if(node.length === 1) {
+    output = this.$flowsql.updateOne(this.$table, node[0].id, {
       [this.$options.columnForPath]: filepath,
       [this.$options.columnForType]: "file",
       [this.$options.columnForContent]: content,
     });
   } else {
-    throw new Error("Multiple values with the same path error (1)");
+    throw new Error("Cannot write file because there are multiple nodes with the same node path on «FlowsqlFileSystem.prototype.writeFile»");
   }
   return output;
 };
         Flowsql.FileSystem.prototype.writeDirectory = /**
  * 
- * ### `FileSystem.prototype.writeDirectory(dirpath:String)`
+ * ### `FlowsqlFileSystem.prototype.writeDirectory(dirpath:String)`
  * 
  * Método para crear un directorio basándose en una ruta.
  * 
  */
 function(dirpath) {
-  this.assertion(typeof dirpath === "string", `Parameter «dirpath» must be a string on «FlowsqlFileSystem.writeDirectory»`);
-  // @TODO...
+  this.assertion(typeof dirpath === "string", `Parameter «dirpath» must be a string on «FlowsqlFileSystem.prototype.writeDirectory»`);
+  let output = "";
+  const node = this.findByPath(dirpath);
+  if(node === null) {
+    output = this.$flowsql.insertOne(this.$table, {
+      [this.$options.columnForPath]: dirpath,
+      [this.$options.columnForType]: "directory",
+      [this.$options.columnForContent]: "",
+    });
+  } else {
+    throw new Error("Cannot create directory because it already exists on «FlowsqlFileSystem.prototype.writeDirectory»");
+  }
+  return output;
 };
         Flowsql.FileSystem.prototype.removeFile = /**
  * 
- * ### `FileSystem.prototype.removeFile(filepath:String)`
+ * ### `FlowsqlFileSystem.prototype.removeFile(filepath:String)`
  * 
  * Método para eliminar un fichero basándose en una ruta.
  * 
@@ -1944,7 +2025,7 @@ function(filepath) {
 };
         Flowsql.FileSystem.prototype.removeDirectory = /**
  * 
- * ### `FileSystem.prototype.removeDirectory(directory:String, options:Object)`
+ * ### `FlowsqlFileSystem.prototype.removeDirectory(directory:String, options:Object)`
  * 
  * Método para eliminar un directorio basándose en una ruta.
  * 
@@ -1958,7 +2039,7 @@ function(dirpath, options = {}) {
 };
         Flowsql.FileSystem.prototype.exists = /**
  * 
- * ### `FileSystem.prototype.exists(filepath:String)`
+ * ### `FlowsqlFileSystem.prototype.exists(filepath:String)`
  * 
  * Método para averiguar si existe un nodo basándose en una ruta.
  * 
@@ -1969,7 +2050,7 @@ function(filepath) {
 };
         Flowsql.FileSystem.prototype.existsFile = /**
  * 
- * ### `FileSystem.prototype.existsFile(filepath:String)`
+ * ### `FlowsqlFileSystem.prototype.existsFile(filepath:String)`
  * 
  * Método para averiguar si existe un nodo y es un fichero basándose en una ruta.
  * 
@@ -1980,7 +2061,7 @@ function(filepath) {
 };
         Flowsql.FileSystem.prototype.existsDirectory = /**
  * 
- * ### `FileSystem.prototype.existsDirectory(dirpath:String)`
+ * ### `FlowsqlFileSystem.prototype.existsDirectory(dirpath:String)`
  * 
  * Método para averiguar si existe un nodo basándose en una ruta.
  * 
@@ -1991,7 +2072,7 @@ function(dirpath) {
 };
         Flowsql.FileSystem.prototype.listDirectory = /**
  * 
- * ### `FileSystem.prototype.listDirectory(dirpath:String)`
+ * ### `FlowsqlFileSystem.prototype.listDirectory(dirpath:String)`
  * 
  * Método para listar un directorio basándose en una ruta.
  * 

@@ -301,22 +301,18 @@
             await flowsqlBrowser.connect();
             assert.ok(typeof flowsqlBrowser.$schema.tables === "object", "«flowsqlBrowser.$schema.tables» must be an object");
             assert.ok(typeof flowsqlBrowser.$database === "object", "«flowsqlBrowser.$database» must be an object");
-            flowsqlBrowser.addTable("Files", {
-                columns: {
-                    node_path: { type: "string", unique: true, label: true },
-                    node_type: { type: "string" },
-                    node_content: { type: "string" },
-                    node_parent: { type: "string" },
-                }
-            });
-
-            assert.ok(typeof flowsqlBrowser.$schema.tables.Files === "object", "«flowsqlBrowser.$schema.tables.Files» must be an object");
             
-            const filesystem1 = flowsqlBrowser.createFileSystem("Files");
+            const filesystem1 = flowsqlBrowser.createFileSystem("Database_files");
             
             assert.ok(typeof filesystem1 === "object", "«filesystem1» must be an object");
 
             filesystem1.writeFile("fichero1.txt", "Contenido!");
+
+            filesystem1.writeDirectory("folder1");
+
+            console.log(filesystem1.readDirectory("/"));
+
+            console.log(filesystem1.readFile("fichero1.txt"));
         };
     </script>
     <script>

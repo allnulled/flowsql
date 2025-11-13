@@ -12,24 +12,48 @@
  */
 module.exports = function () {
   this.trace("_ensureBasicMetadata");
-  this.runSql(`
-    CREATE TABLE IF NOT EXISTS Database_metadata (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name VARCHAR(255) UNIQUE NOT NULL,
-      value TEXT
-    );
-  `);
-  const schemaQuery = this.fetchSql(`
-    SELECT *
-    FROM Database_metadata
-    WHERE name = 'db.schema';
-  `);
-  if (schemaQuery.length !== 0) {
-    return;
+  Ensure_database_metadata: {
+    this.runSql(`
+      CREATE TABLE IF NOT EXISTS \`Database_metadata\` (
+        \`id\` INTEGER PRIMARY KEY AUTOINCREMENT,
+        \`name\` VARCHAR(255) UNIQUE NOT NULL,
+        \`value\` TEXT
+      );
+    `);
+    const schemaQuery = this.fetchSql(`
+      SELECT *
+      FROM \`Database_metadata\`
+      WHERE \`name\` = 'db.schema';
+    `);
+    if (schemaQuery.length !== 0) {
+      break Ensure_database_metadata;
+    }
+    const defaultSchema = this.constructor.escapeValue(JSON.stringify({
+      tables: {
+        Database_metadata: {},
+        Database_files: {
+          columns: {
+            node_path: {type: "string"},
+            node_type: {type: "string"},
+            node_content: {type: "string"},
+          }
+        },
+      }
+    }));
+    this.runSql(`
+      INSERT INTO \`Database_metadata\` (\`name\`, \`value\`)
+      VALUES ('db.schema', ${defaultSchema});
+    `);
   }
-  const defaultSchema = this.constructor.escapeValue(JSON.stringify({ tables: {} }));
-  this.runSql(`
-    INSERT INTO Database_metadata (name, value)
-    VALUES ('db.schema', ${defaultSchema});
-  `);
+  Ensure_database_files: {
+    this.runSql(`
+      CREATE TABLE IF NOT EXISTS \`Database_files\` (
+        \`id\` INTEGER PRIMARY KEY AUTOINCREMENT,
+        \`node_path\` VARCHAR(1000),
+        \`node_type\` VARCHAR(50),
+        \`node_content\` TEXT,
+        \`node_parent\` INTEGER REFERENCES \`Database_files\` (\`id\`)
+      );
+    `)
+  }
 };

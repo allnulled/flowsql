@@ -28,12 +28,16 @@ const isInNodejs = fromEnvironment === "node.js";
 
     Include_filesystem_api: {
         <%-currentGlobal%>.prototype.createFileSystem = <%- includeFile(["inc", "Flowsql", "prototype", "createFileSystem.js"], isInNodejs) %>
+        
         <%-currentGlobal%>.FileSystem = <%- includeFile(["inc", "FlowsqlFileSystem", "constructor.js"], isInNodejs) %>
         <%-currentGlobal%>.FileSystem.Flowsql = <%-currentGlobal%>;
-        
+        <%-currentGlobal%>.FileSystem.AssertionError = <%-currentGlobal%>.AssertionError.bind(<%-currentGlobal%>);
+        <%-currentGlobal%>.FileSystem.defaultOptions = <%- includeFile(["inc", "FlowsqlFileSystem", "static", "defaultOptions.js"], isInNodejs) %>
         <%-currentGlobal%>.FileSystem.assertion = <%-currentGlobal%>.assertion.bind(<%-currentGlobal%>);
-        <%-currentGlobal%>.FileSystem.prototype.assertion = <%-currentGlobal%>.assertion.bind(<%-currentGlobal%>);
+        
         <%-currentGlobal%>.FileSystem.prototype._decomposePath = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "_decomposePath.js"], isInNodejs) %>
+        <%-currentGlobal%>.FileSystem.prototype.assertion = <%-currentGlobal%>.prototype.assertion.bind(<%-currentGlobal%>);
+        <%-currentGlobal%>.FileSystem.prototype.findByPath = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "findByPath.js"], isInNodejs) %>
         <%-currentGlobal%>.FileSystem.prototype.readFile = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "readFile.js"], isInNodejs) %>
         <%-currentGlobal%>.FileSystem.prototype.readDirectory = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "readDirectory.js"], isInNodejs) %>
         <%-currentGlobal%>.FileSystem.prototype.writeFile = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "writeFile.js"], isInNodejs) %>

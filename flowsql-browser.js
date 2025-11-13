@@ -176,26 +176,50 @@ function(options = {}) {
 
     FlowsqlBrowser.prototype._ensureBasicMetadata = function() {
   this.trace("_ensureBasicMetadata");
-  this.runSql(`
-    CREATE TABLE IF NOT EXISTS Database_metadata (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name VARCHAR(255) UNIQUE NOT NULL,
-      value TEXT
-    );
-  `);
-  const schemaQuery = this.fetchSql(`
-    SELECT *
-    FROM Database_metadata
-    WHERE name = 'db.schema';
-  `);
-  if (schemaQuery.length !== 0) {
-    return;
+  Ensure_database_metadata: {
+    this.runSql(`
+      CREATE TABLE IF NOT EXISTS \`Database_metadata\` (
+        \`id\` INTEGER PRIMARY KEY AUTOINCREMENT,
+        \`name\` VARCHAR(255) UNIQUE NOT NULL,
+        \`value\` TEXT
+      );
+    `);
+    const schemaQuery = this.fetchSql(`
+      SELECT *
+      FROM \`Database_metadata\`
+      WHERE \`name\` = 'db.schema';
+    `);
+    if (schemaQuery.length !== 0) {
+      break Ensure_database_metadata;
+    }
+    const defaultSchema = this.constructor.escapeValue(JSON.stringify({
+      tables: {
+        Database_metadata: {},
+        Database_files: {
+          columns: {
+            node_path: {type: "string"},
+            node_type: {type: "string"},
+            node_content: {type: "string"},
+          }
+        },
+      }
+    }));
+    this.runSql(`
+      INSERT INTO \`Database_metadata\` (\`name\`, \`value\`)
+      VALUES ('db.schema', ${defaultSchema});
+    `);
   }
-  const defaultSchema = this.constructor.escapeValue(JSON.stringify({ tables: {} }));
-  this.runSql(`
-    INSERT INTO Database_metadata (name, value)
-    VALUES ('db.schema', ${defaultSchema});
-  `);
+  Ensure_database_files: {
+    this.runSql(`
+      CREATE TABLE IF NOT EXISTS \`Database_files\` (
+        \`id\` INTEGER PRIMARY KEY AUTOINCREMENT,
+        \`node_path\` VARCHAR(1000),
+        \`node_type\` VARCHAR(50),
+        \`node_content\` TEXT,
+        \`node_parent\` INTEGER REFERENCES \`Database_files\` (\`id\`)
+      );
+    `)
+  }
 };
     FlowsqlBrowser.prototype._loadSchema = function() {
   this.trace("_loadSchema");
@@ -1194,21 +1218,42 @@ function(base64) {
         FlowsqlBrowser.prototype.createFileSystem = function(table, options) {
   return new this.constructor.FileSystem(table, this, options);
 };
+        
         FlowsqlBrowser.FileSystem = function(table, flowsql, options = {}) {
+  this.constructor.assertion(typeof table === "string", `Parameter «table» must be a string on «FlowsqlFileSystem.constructor»`);
+  this.constructor.assertion(typeof flowsql === "object", `Parameter «flowsql» must be a object on «FlowsqlFileSystem.constructor»`);
+  this.constructor.assertion(typeof options === "object", `Parameter «options» must be a object on «FlowsqlFileSystem.constructor»`);
+  this.constructor.assertion(table in flowsql.$schema.tables, `Parameter «table» must be a table in the schema on «FlowsqlFileSystem.constructor»`);
   this.$table = table;
   this.$flowsql = flowsql;
   this.$options = Object.assign({}, this.constructor.defaultOptions, options);
+  return this;
 };
         FlowsqlBrowser.FileSystem.Flowsql = FlowsqlBrowser;
-        
+        FlowsqlBrowser.FileSystem.AssertionError = FlowsqlBrowser.AssertionError.bind(FlowsqlBrowser);
+        FlowsqlBrowser.FileSystem.defaultOptions = {
+  columnForPath: "node_path",
+  columnForType: "node_type",
+  columnForContent: "node_content",
+};
         FlowsqlBrowser.FileSystem.assertion = FlowsqlBrowser.assertion.bind(FlowsqlBrowser);
-        FlowsqlBrowser.FileSystem.prototype.assertion = FlowsqlBrowser.assertion.bind(FlowsqlBrowser);
+        
         FlowsqlBrowser.FileSystem.prototype._decomposePath = function(filepath, splitter = "/") {
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «_decomponePath»`);
+  this.assertion(typeof splitter === "string", `Parameter «splitter» must be a string on «_decomponePath»`);
   const fileparts = filepath.split(splitter);
   return fileparts.filter(part => (typeof part === "undefined" ? "" : part).trim() !== "");
 }
+        FlowsqlBrowser.FileSystem.prototype.assertion = FlowsqlBrowser.prototype.assertion.bind(FlowsqlBrowser);
+        FlowsqlBrowser.FileSystem.prototype.findByPath = function(filepath) {
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «findByPath»`);
+  const matched = this.$flowsql._selectMany(this.$table, [
+    [this.$options.columnForPath, "=", filepath]
+  ], "findByPath");
+  return matched[0] || null;
+}
         FlowsqlBrowser.FileSystem.prototype.readFile = function(filepath) {
-  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.readFile»`);
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.prototype.readFile»`);
   // @TODO...
 };
         FlowsqlBrowser.FileSystem.prototype.readDirectory = function(dirpath) {
@@ -1216,32 +1261,41 @@ function(base64) {
   // @TODO...
 };
         FlowsqlBrowser.FileSystem.prototype.writeFile = function(filepath, content) {
-  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.writeFile»`);
-  this.assertion(typeof content === "string", `Parameter «content» must be a string on «FlowsqlFileSystem.writeFile»`);
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.prototype.writeFile»`);
+  this.assertion(typeof content === "string", `Parameter «content» must be a string on «FlowsqlFileSystem.prototype.writeFile»`);
   let output = "";
-  const matchedNodes = this.$flowsql.selectMany(this.$options.$table, [
-    [this.$options.columnForPath, "=", filepath]
-  ]);
-  if(matchedNodes.length === 0) {
+  const node = this.findByPath(filepath);
+  if(node === null) {
     output = this.$flowsql.insertOne(this.$table, {
       [this.$options.columnForPath]: filepath,
       [this.$options.columnForType]: "file",
       [this.$options.columnForContent]: content,
     });
-  } else if(matchedNodes.length === 1) {
-    output = this.$flowsql.updateOne(this.$table, matchedNodes[0].id, {
+  } else if(node.length === 1) {
+    output = this.$flowsql.updateOne(this.$table, node[0].id, {
       [this.$options.columnForPath]: filepath,
       [this.$options.columnForType]: "file",
       [this.$options.columnForContent]: content,
     });
   } else {
-    throw new Error("Multiple values with the same path error (1)");
+    throw new Error("Cannot write file because there are multiple nodes with the same node path on «FlowsqlFileSystem.prototype.writeFile»");
   }
   return output;
 };
         FlowsqlBrowser.FileSystem.prototype.writeDirectory = function(dirpath) {
-  this.assertion(typeof dirpath === "string", `Parameter «dirpath» must be a string on «FlowsqlFileSystem.writeDirectory»`);
-  // @TODO...
+  this.assertion(typeof dirpath === "string", `Parameter «dirpath» must be a string on «FlowsqlFileSystem.prototype.writeDirectory»`);
+  let output = "";
+  const node = this.findByPath(dirpath);
+  if(node === null) {
+    output = this.$flowsql.insertOne(this.$table, {
+      [this.$options.columnForPath]: dirpath,
+      [this.$options.columnForType]: "directory",
+      [this.$options.columnForContent]: "",
+    });
+  } else {
+    throw new Error("Cannot create directory because it already exists on «FlowsqlFileSystem.prototype.writeDirectory»");
+  }
+  return output;
 };
         FlowsqlBrowser.FileSystem.prototype.removeFile = function(filepath) {
   this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.removeFile»`);

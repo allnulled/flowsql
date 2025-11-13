@@ -1,6 +1,6 @@
 /**
  * 
- * ### `FileSystem.prototype.readDirectory(dirpath:String)`
+ * ### `FlowsqlFileSystem.prototype.readDirectory(dirpath:String)`
  * 
  * Método para leer un directorio basándose en una ruta.
  * 

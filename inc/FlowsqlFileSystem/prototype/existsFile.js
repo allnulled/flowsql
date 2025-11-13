@@ -1,6 +1,6 @@
 /**
  * 
- * ### `FileSystem.prototype.existsFile(filepath:String)`
+ * ### `FlowsqlFileSystem.prototype.existsFile(filepath:String)`
  * 
  * Método para averiguar si existe un nodo y es un fichero basándose en una ruta.
  * 

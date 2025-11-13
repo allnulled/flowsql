@@ -1,6 +1,6 @@
 /**
  * 
- * ### `FileSystem.defaultOptions:Object`
+ * ### `FlowsqlFilesystem.defaultOptions:Object`
  * 
  * Objeto con las columnas especiales de la tabla.
  * 
@@ -9,7 +9,7 @@
  * Concretamente, tiene esto:
  * 
  * ```js
- * module.exports = {
+ * {
  *   columnForName: "node_name",
  *   columnForType: "node_type",
  *   columnForContent: "node_content",
@@ -22,5 +22,4 @@ module.exports = {
   columnForPath: "node_path",
   columnForType: "node_type",
   columnForContent: "node_content",
-  columnForParent: "node_parent",
 };

@@ -1,6 +1,6 @@
 /**
  * 
- * ### `FileSystem.prototype.copyFile(sourcePath:String, destinationPath:String)`
+ * ### `FlowsqlFileSystem.prototype.copyFile(sourcePath:String, destinationPath:String)`
  * 
  * Método para copiar un fichero de una ruta origen a una ruta destino.
  * 

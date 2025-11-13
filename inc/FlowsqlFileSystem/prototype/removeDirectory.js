@@ -1,6 +1,6 @@
 /**
  * 
- * ### `FileSystem.prototype.removeDirectory(directory:String, options:Object)`
+ * ### `FlowsqlFileSystem.prototype.removeDirectory(directory:String, options:Object)`
  * 
  * Método para eliminar un directorio basándose en una ruta.
  * 

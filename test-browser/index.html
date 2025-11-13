@@ -325,6 +325,12 @@
             assert.ok(Array.isArray(list3), "«list3» must be an array");
             assert.ok(list3.length === 1, "«list3.length» must be 1");
             assert.ok(list3[0].node_path === "/folder1/carpeta1", "«list3[0].node_path» must be '/folder1/carpeta1'");
+            filesystem1.renameDirectory("/folder1/carpeta1", "/carpeta0001");
+            filesystem1.writeFile("/folder1/fichero1.txt", "ok");
+            filesystem1.renameFile("/folder1/fichero1.txt", "/fichero0001.txt");
+            const list4 = filesystem1.readDirectory("/");
+            assert.ok(Array.isArray(list4), "«list4» must be an array");
+            assert.ok(list4.length === 2, "«list4.length» must be 2");
         };
     </script>
     <script>

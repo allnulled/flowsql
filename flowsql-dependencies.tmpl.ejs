@@ -48,5 +48,8 @@ const isInNodejs = fromEnvironment === "node.js";
         <%-currentGlobal%>.FileSystem.prototype.removeDirectory = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "removeDirectory.js"], isInNodejs) %>
         <%-currentGlobal%>.FileSystem.prototype.exists = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "exists.js"], isInNodejs) %>
         <%-currentGlobal%>.FileSystem.prototype.existsFile = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "existsFile.js"], isInNodejs) %>
+        <%-currentGlobal%>.FileSystem.prototype.existsDirectory = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "existsDirectory.js"], isInNodejs) %>
+        <%-currentGlobal%>.FileSystem.prototype.renameFile = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "renameFile.js"], isInNodejs) %>
+        <%-currentGlobal%>.FileSystem.prototype.renameDirectory = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "renameDirectory.js"], isInNodejs) %>
         
     }

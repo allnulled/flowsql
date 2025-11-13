@@ -4,7 +4,7 @@ module.exports = async function (Flowsql) {
 
   const resetDatabase = function () {
     require("fs").unlinkSync(__dirname + "/test.sqlite");
-    const flowsql = Flowsql.create({ filename: __dirname + "/test.sqlite", trace: true, traceSql: true });
+    const flowsql = Flowsql.create({ filename: __dirname + "/test.sqlite", trace: false, traceSql: false });
     flowsql.addTable("User", {
       columns: {
         name: { type: "string", maxLength: 255, unique: true, nullable: false, label: true },

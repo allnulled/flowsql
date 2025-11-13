@@ -6,8 +6,8 @@
  * 
  */
 module.exports = function(filepath, splitter = "/") {
-  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «_decomponePath»`);
-  this.assertion(typeof splitter === "string", `Parameter «splitter» must be a string on «_decomponePath»`);
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «_decomposePath»`);
+  this.assertion(typeof splitter === "string", `Parameter «splitter» must be a string on «_decomposePath»`);
   const fileparts = filepath.split(splitter);
   return fileparts.filter(part => (typeof part === "undefined" ? "" : part).trim() !== "");
 }

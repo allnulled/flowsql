@@ -7,8 +7,8 @@
  */
 module.exports = function(filepath) {
   this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «findByPath»`);
-  const matched = this.$flowsql._selectMany(this.$table, [
+  const matched = this.$flowsql.selectMany(this.$table, [
     [this.$options.columnForPath, "=", filepath]
-  ], "findByPath");
+  ]);
   return matched[0] || null;
 }

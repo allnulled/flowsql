@@ -10,8 +10,9 @@ module.exports = function(dirpath) {
   let output = "";
   const node = this.findByPath(dirpath);
   if(node === null) {
+    const normalizedDirpath = this.constructor.normalizePath(dirpath);
     output = this.$flowsql.insertOne(this.$table, {
-      [this.$options.columnForPath]: dirpath,
+      [this.$options.columnForPath]: normalizedDirpath,
       [this.$options.columnForType]: "directory",
       [this.$options.columnForContent]: "",
     });

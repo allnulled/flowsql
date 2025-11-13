@@ -7,5 +7,12 @@
  */
 module.exports = function(filepath) {
   this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.existsFile»`);
-  // @TODO...
+  const node = this.findByPath(filepath);
+  if(node === null) {
+    return false;
+  }
+  if(node[this.$options.columnForType] !== "file") {
+    return false;
+  }
+  return true;
 };

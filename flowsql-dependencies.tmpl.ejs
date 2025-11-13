@@ -34,8 +34,10 @@ const isInNodejs = fromEnvironment === "node.js";
         <%-currentGlobal%>.FileSystem.AssertionError = <%-currentGlobal%>.AssertionError.bind(<%-currentGlobal%>);
         <%-currentGlobal%>.FileSystem.defaultOptions = <%- includeFile(["inc", "FlowsqlFileSystem", "static", "defaultOptions.js"], isInNodejs) %>
         <%-currentGlobal%>.FileSystem.assertion = <%-currentGlobal%>.assertion.bind(<%-currentGlobal%>);
+        <%-currentGlobal%>.FileSystem.normalizePath = <%- includeFile(["inc", "FlowsqlFileSystem", "static", "normalizePath.js"], isInNodejs) %>
         
         <%-currentGlobal%>.FileSystem.prototype._decomposePath = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "_decomposePath.js"], isInNodejs) %>
+        <%-currentGlobal%>.FileSystem.prototype._copyObject = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "_copyObject.js"], isInNodejs) %>
         <%-currentGlobal%>.FileSystem.prototype.assertion = <%-currentGlobal%>.prototype.assertion.bind(<%-currentGlobal%>);
         <%-currentGlobal%>.FileSystem.prototype.findByPath = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "findByPath.js"], isInNodejs) %>
         <%-currentGlobal%>.FileSystem.prototype.readFile = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "readFile.js"], isInNodejs) %>
@@ -46,7 +48,5 @@ const isInNodejs = fromEnvironment === "node.js";
         <%-currentGlobal%>.FileSystem.prototype.removeDirectory = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "removeDirectory.js"], isInNodejs) %>
         <%-currentGlobal%>.FileSystem.prototype.exists = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "exists.js"], isInNodejs) %>
         <%-currentGlobal%>.FileSystem.prototype.existsFile = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "existsFile.js"], isInNodejs) %>
-        <%-currentGlobal%>.FileSystem.prototype.existsDirectory = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "existsDirectory.js"], isInNodejs) %>
-        <%-currentGlobal%>.FileSystem.prototype.listDirectory = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "listDirectory.js"], isInNodejs) %>
         
     }

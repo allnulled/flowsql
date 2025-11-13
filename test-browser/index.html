@@ -296,23 +296,35 @@
 
         Tests.FileSystemAPI = async function(assert) {
             assert.ok(typeof FlowsqlBrowser === "function", "«FlowsqlBrowser» must be a function");
-            const flowsqlBrowser = FlowsqlBrowser.create({ trace: false, traceSql: false });
+            ////////////////////////////////////////////////////////////////////
+            const flowsqlBrowser = FlowsqlBrowser.create({ trace: true, traceSql: true });
+            window.flowsqlBrowser = flowsqlBrowser;
             assert.ok(flowsqlBrowser instanceof FlowsqlBrowser, "«flowsqlBrowser» must be instance of «FlowsqlBrowser»");
             await flowsqlBrowser.connect();
             assert.ok(typeof flowsqlBrowser.$schema.tables === "object", "«flowsqlBrowser.$schema.tables» must be an object");
             assert.ok(typeof flowsqlBrowser.$database === "object", "«flowsqlBrowser.$database» must be an object");
-            
+            ////////////////////////////////////////////////////////////////////
             const filesystem1 = flowsqlBrowser.createFileSystem("Database_files");
-            
+            window.filesystem1 = filesystem1;
             assert.ok(typeof filesystem1 === "object", "«filesystem1» must be an object");
-
             filesystem1.writeFile("fichero1.txt", "Contenido!");
-
             filesystem1.writeDirectory("folder1");
-
-            console.log(filesystem1.readDirectory("/"));
-
-            console.log(filesystem1.readFile("fichero1.txt"));
+            filesystem1.writeDirectory("folder1/carpeta1");
+            const list1 = filesystem1.readDirectory("/");
+            assert.ok(Array.isArray(list1), "«list1» must be an array");
+            assert.ok(list1.length === 2, "«list1.length» must be 2");
+            const content1 = filesystem1.readFile("/fichero1.txt");
+            assert.ok(typeof content1 === "string", "«content1» must be a string");
+            assert.ok(content1 === "Contenido!", "«content1» must be 'Contenido!'");
+            filesystem1.removeFile("/fichero1.txt");
+            filesystem1.removeDirectory("/folder1");
+            const list2 = filesystem1.readDirectory("/");
+            assert.ok(Array.isArray(list2), "«list2» must be an array");
+            assert.ok(list2.length === 0, "«list2.length» must be 0");
+            const list3 = filesystem1.readDirectory("/folder1");
+            assert.ok(Array.isArray(list3), "«list3» must be an array");
+            assert.ok(list3.length === 1, "«list3.length» must be 1");
+            assert.ok(list3[0].node_path === "/folder1/carpeta1", "«list3[0].node_path» must be '/folder1/carpeta1'");
         };
     </script>
     <script>

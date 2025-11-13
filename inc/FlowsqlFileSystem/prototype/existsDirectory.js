@@ -7,5 +7,12 @@
  */
 module.exports = function(dirpath) {
   this.assertion(typeof dirpath === "string", `Parameter «dirpath» must be a string on «FlowsqlFileSystem.existsDirectory»`);
-  // @TODO...
+  const node = this.findByPath(filepath);
+  if(node === null) {
+    return false;
+  }
+  if(node[this.$options.columnForType] !== "directory") {
+    return false;
+  }
+  return true;
 };

@@ -1910,6 +1910,27 @@ function(table, flowsql, options = {}) {
   columnForContent: "node_content",
 };
         Flowsql.FileSystem.assertion = Flowsql.assertion.bind(Flowsql);
+        Flowsql.FileSystem.normalizePath = /**
+ * 
+ * ### `FlowsqlFilesystem.normalizePath(...pathParts:Array<String>):String`
+ * 
+ * Método que construye una ruta a partir de sus fragmentos con `...pathParts:Array<String>`.
+ * 
+ * Retorna la ruta formada en formato `String`.
+ *  
+ */
+function(...subpaths) {
+  let output = "";
+  for(let indexSubpath=0; indexSubpath<subpaths.length; indexSubpath++) {
+    const subpath = subpaths[indexSubpath];
+    this.assertion(typeof subpath === "string", `Parameter «subpaths» on index «${indexSubpath}» must be a string on «FlowsqlFileSystem.normalizePath»`);
+    output += "/" + subpath.replace(/^\//g, "");
+  }
+  if(output === "") {
+    output = "/";
+  }
+  return output.replace(/\/\/+/g, "/");
+};
         
         Flowsql.FileSystem.prototype._decomposePath = /**
  * 
@@ -1919,10 +1940,21 @@ function(table, flowsql, options = {}) {
  * 
  */
 function(filepath, splitter = "/") {
-  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «_decomponePath»`);
-  this.assertion(typeof splitter === "string", `Parameter «splitter» must be a string on «_decomponePath»`);
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «_decomposePath»`);
+  this.assertion(typeof splitter === "string", `Parameter «splitter» must be a string on «_decomposePath»`);
   const fileparts = filepath.split(splitter);
   return fileparts.filter(part => (typeof part === "undefined" ? "" : part).trim() !== "");
+}
+        Flowsql.FileSystem.prototype._copyObject = /**
+ * 
+ * ### `FlowsqlFileSystem.prototype._copyObject(obj:Object):Array<String>`
+ *  
+ * Método que copia un objeto usando JSON.stringify + JSON.parse.
+ * 
+ */
+function(obj) {
+  this.assertion(typeof obj === "object", `Parameter «obj» must be a object on «_copyObject»`);
+  return JSON.parse(JSON.stringify(obj));
 }
         Flowsql.FileSystem.prototype.assertion = Flowsql.prototype.assertion.bind(Flowsql);
         Flowsql.FileSystem.prototype.findByPath = /**
@@ -1934,9 +1966,9 @@ function(filepath, splitter = "/") {
  */
 function(filepath) {
   this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «findByPath»`);
-  const matched = this.$flowsql._selectMany(this.$table, [
+  const matched = this.$flowsql.selectMany(this.$table, [
     [this.$options.columnForPath, "=", filepath]
-  ], "findByPath");
+  ]);
   return matched[0] || null;
 }
         Flowsql.FileSystem.prototype.readFile = /**
@@ -1948,7 +1980,13 @@ function(filepath) {
  */
 function(filepath) {
   this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.prototype.readFile»`);
-  // @TODO...
+  const matched = this.$flowsql.selectMany(this.$table, [
+    [this.$options.columnForPath, "=", this.constructor.normalizePath(filepath)]
+  ]);
+  if(matched.length === 1) {
+    return matched[0][this.$options.columnForContent];
+  }
+  return undefined;
 };
         Flowsql.FileSystem.prototype.readDirectory = /**
  * 
@@ -1959,7 +1997,21 @@ function(filepath) {
  */
 function(dirpath) {
   this.assertion(typeof dirpath === "string", `Parameter «dirpath» must be a string on «FlowsqlFileSystem.readDirectory»`);
-  // @TODO...
+  const matched = this.$flowsql.selectMany(this.$table, [
+    [this.$options.columnForPath, "is like", this.constructor.normalizePath(dirpath, "%")]
+  ]);
+  const immediateMatched = matched.filter(row => {
+    const nodePath = row[this.$options.columnForPath];
+    const dirSubpath = (dirpath + "/").replace(/\/\/+/g, "/");
+    const isDirSubpath = nodePath.startsWith(dirSubpath);
+    if(!isDirSubpath) {
+      return false;
+    }
+    const slashMatches = nodePath.replace(dirSubpath, "").match(/\//g);
+    const isImmediateChild = slashMatches === null;
+    return isImmediateChild;
+  });
+  return immediateMatched;
 };
         Flowsql.FileSystem.prototype.writeFile = /**
  * 
@@ -1972,16 +2024,17 @@ function(filepath, content) {
   this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.prototype.writeFile»`);
   this.assertion(typeof content === "string", `Parameter «content» must be a string on «FlowsqlFileSystem.prototype.writeFile»`);
   let output = "";
-  const node = this.findByPath(filepath);
+  const normalizedFilepath = this.constructor.normalizePath(filepath);
+  const node = this.findByPath(normalizedFilepath);
   if(node === null) {
     output = this.$flowsql.insertOne(this.$table, {
-      [this.$options.columnForPath]: filepath,
+      [this.$options.columnForPath]: normalizedFilepath,
       [this.$options.columnForType]: "file",
       [this.$options.columnForContent]: content,
     });
   } else if(node.length === 1) {
     output = this.$flowsql.updateOne(this.$table, node[0].id, {
-      [this.$options.columnForPath]: filepath,
+      [this.$options.columnForPath]: normalizedFilepath,
       [this.$options.columnForType]: "file",
       [this.$options.columnForContent]: content,
     });
@@ -2002,8 +2055,9 @@ function(dirpath) {
   let output = "";
   const node = this.findByPath(dirpath);
   if(node === null) {
+    const normalizedDirpath = this.constructor.normalizePath(dirpath);
     output = this.$flowsql.insertOne(this.$table, {
-      [this.$options.columnForPath]: dirpath,
+      [this.$options.columnForPath]: normalizedDirpath,
       [this.$options.columnForType]: "directory",
       [this.$options.columnForContent]: "",
     });
@@ -2020,8 +2074,20 @@ function(dirpath) {
  * 
  */
 function(filepath) {
-  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.removeFile»`);
-  // @TODO...
+  this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.prototype.removeFile»`);
+  const matched = this.$flowsql.selectMany(this.$table, [
+    [this.$options.columnForPath, "=", this.constructor.normalizePath(filepath)]
+  ]);
+  if(matched.length === 0) {
+    throw new Error(`Cannot remove file because no file was found by «${filepath}» on «FlowsqlFileSystem.prototype.removeFile»`);
+  } else if(matched.length !== 1) {
+    throw new Error(`Cannot remove file because multiple files with the same path. This error should not happen and it means that your schema is not defining 'unique:true' on the «${this.$options.columnForPath}» column of the «filesystem» table «${this.$table}» arised on «FlowsqlFileSystem.prototype.removeFile»`)
+  }
+  const row = matched[0];
+  if(row[this.$options.columnForType] !== "file") {
+    throw new Error(`Cannot remove file because the node is not a file on «${row[this.$options.columnForPath]}» on «FlowsqlFileSystem.prototype.removeFile»`);
+  }
+  return this.$flowsql.deleteOne(this.$table, row.id);
 };
         Flowsql.FileSystem.prototype.removeDirectory = /**
  * 
@@ -2034,8 +2100,27 @@ function(filepath) {
  */
 function(dirpath, options = {}) {
   this.assertion(typeof dirpath === "string", `Parameter «dirpath» must be a string on «FlowsqlFileSystem.removeDirectory»`);
-  this.assertion(typeof options === "object", `Parameter «options» must be a object on «FlowsqlFileSystem.removeDirectory»`);
-  // @TODO...
+  this.assertion(typeof options === "object", `Parameter «options» must be an object on «FlowsqlFileSystem.removeDirectory»`);
+  const matched = this.$flowsql.selectMany(this.$table, [
+    [this.$options.columnForPath, "=", this.constructor.normalizePath(dirpath)]
+  ]);
+  if(matched.length === 0) {
+    throw new Error(`Cannot remove directory because no directory was found by «${dirpath}» on «FlowsqlFileSystem.prototype.removeDirectory»`);
+  } else if(matched.length !== 1) {
+    throw new Error(`Cannot remove directory because multiple nodes with the same path. This error should not happen and it means that your schema is not defining 'unique:true' on the «${this.$options.columnForPath}» column of the «filesystem» table «${this.$table}» arised on «FlowsqlFileSystem.prototype.removeDirectory»`)
+  }
+  const row = matched[0];
+  if(row[this.$options.columnForType] !== "directory") {
+    throw new Error(`Cannot remove directory because it is not a directory on «${row[this.$options.columnForPath]}» on «FlowsqlFileSystem.prototype.removeDirectory»`);
+  }
+  const isRecursive = options.recursive === true;
+  if(!isRecursive) {
+    return this.$flowsql.deleteOne(this.$table, row.id);
+  } else {
+    return this.$flowsql.deleteMany(this.$table, [
+      [this.$options.columnForPath, "is like", dirpath + "%"]
+    ]);
+  }
 };
         Flowsql.FileSystem.prototype.exists = /**
  * 
@@ -2046,7 +2131,8 @@ function(dirpath, options = {}) {
  */
 function(filepath) {
   this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.exists»`);
-  // @TODO...
+  const node = this.findByPath(filepath);
+  return node !== null;
 };
         Flowsql.FileSystem.prototype.existsFile = /**
  * 
@@ -2057,29 +2143,14 @@ function(filepath) {
  */
 function(filepath) {
   this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.existsFile»`);
-  // @TODO...
-};
-        Flowsql.FileSystem.prototype.existsDirectory = /**
- * 
- * ### `FlowsqlFileSystem.prototype.existsDirectory(dirpath:String)`
- * 
- * Método para averiguar si existe un nodo basándose en una ruta.
- * 
- */
-function(dirpath) {
-  this.assertion(typeof dirpath === "string", `Parameter «dirpath» must be a string on «FlowsqlFileSystem.existsDirectory»`);
-  // @TODO...
-};
-        Flowsql.FileSystem.prototype.listDirectory = /**
- * 
- * ### `FlowsqlFileSystem.prototype.listDirectory(dirpath:String)`
- * 
- * Método para listar un directorio basándose en una ruta.
- * 
- */
-function(dirpath) {
-  this.assertion(typeof dirpath === "string", `Parameter «dirpath» must be a string on «FlowsqlFileSystem.rm»`);
-  // @TODO...
+  const node = this.findByPath(filepath);
+  if(node === null) {
+    return false;
+  }
+  if(node[this.$options.columnForType] !== "file") {
+    return false;
+  }
+  return true;
 };
         
     }

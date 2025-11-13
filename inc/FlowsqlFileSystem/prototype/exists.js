@@ -7,5 +7,6 @@
  */
 module.exports = function(filepath) {
   this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.exists»`);
-  // @TODO...
+  const node = this.findByPath(filepath);
+  return node !== null;
 };

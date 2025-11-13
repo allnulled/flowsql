@@ -9,16 +9,17 @@ module.exports = function(filepath, content) {
   this.assertion(typeof filepath === "string", `Parameter «filepath» must be a string on «FlowsqlFileSystem.prototype.writeFile»`);
   this.assertion(typeof content === "string", `Parameter «content» must be a string on «FlowsqlFileSystem.prototype.writeFile»`);
   let output = "";
-  const node = this.findByPath(filepath);
+  const normalizedFilepath = this.constructor.normalizePath(filepath);
+  const node = this.findByPath(normalizedFilepath);
   if(node === null) {
     output = this.$flowsql.insertOne(this.$table, {
-      [this.$options.columnForPath]: filepath,
+      [this.$options.columnForPath]: normalizedFilepath,
       [this.$options.columnForType]: "file",
       [this.$options.columnForContent]: content,
     });
   } else if(node.length === 1) {
     output = this.$flowsql.updateOne(this.$table, node[0].id, {
-      [this.$options.columnForPath]: filepath,
+      [this.$options.columnForPath]: normalizedFilepath,
       [this.$options.columnForType]: "file",
       [this.$options.columnForContent]: content,
     });

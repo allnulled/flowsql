@@ -89,19 +89,24 @@
    - [`FlowsqlFileSystem.prototype.existsDirectory(dirpath:String)`](#flowsqlfilesystemprototypeexistsdirectorydirpathstring)
    - [`FlowsqlFileSystem.prototype.renameFile(filepath:String)`](#flowsqlfilesystemprototyperenamefilefilepathstring)
    - [`FlowsqlFileSystem.prototype.renameDirectory(dirpath:String)`](#flowsqlfilesystemprototyperenamedirectorydirpathstring)
+- [Query APIU](#query-apiu)
    - [`Flowsql.prototype.createQuery(table:String, filters:Array):FlowsqlQuery`](#flowsqlprototypecreatequerytablestring-filtersarrayflowsqlquery)
+- [Query API de Flowsql](#query-api-de-flowsql)
    - [`FlowsqlQuery.constructor(flowsql, table, filters):FlowsqlQuery`](#flowsqlqueryconstructorflowsql-table-filtersflowsqlquery)
    - [`FlowsqlQuery.defaultOptions:Object`](#flowsqlquerydefaultoptionsobject)
    - [`FlowsqlQuery.prototype.setParameters(parameters:Object):FlowsqlQuery`](#flowsqlqueryprototypesetparametersparametersobjectflowsqlquery)
    - [`FlowsqlQuery.prototype.run():Promise<any>`](#flowsqlqueryprototyperunpromiseany)
+- [Firewall API de Flowsql](#firewall-api-de-flowsql)
    - [`FlowsqlQuery.constructor(flowsql, table, filters):FlowsqlQuery`](#flowsqlqueryconstructorflowsql-table-filtersflowsqlquery)
    - [`FlowsqlQuery.defaultOptions:Object`](#flowsqlquerydefaultoptionsobject)
    - [`FlowsqlFirewall.prototype.setSource(source:String):FlowsqlFirewall`](#flowsqlfirewallprototypesetsourcesourcestringflowsqlfirewall)
    - [`FlowsqlFirewall.prototype.trigger():Promise<any>`](#flowsqlfirewallprototypetriggerpromiseany)
+- [Server API de Flowsql](#server-api-de-flowsql)
    - [`FlowsqlServer.constructor(flowsql:Object, options:Object):FlowsqlServer`](#flowsqlserverconstructorflowsqlobject-optionsobjectflowsqlserver)
    - [`FlowsqlServer.defaultOptions:Object`](#flowsqlserverdefaultoptionsobject)
    - [`FlowsqlServer.prototype.start():FlowsqlServer`](#flowsqlserverprototypestartflowsqlserver)
    - [`FlowsqlServer.prototype.stop():FlowsqlServer`](#flowsqlserverprototypestopflowsqlserver)
+- [Client API de Flowsql](#client-api-de-flowsql)
    - [`FlowsqlClient.constructor(options:Object):FlowsqlClient`](#flowsqlclientconstructoroptionsobjectflowsqlclient)
    - [`FlowsqlClient.defaultOptions:Object`](#flowsqlclientdefaultoptionsobject)
 
@@ -808,11 +813,15 @@ Método para cambiar la ruta de un fichero.
 
 Método para cambiar la ruta de un directorio.
 
+## Query APIU
+
 ### `Flowsql.prototype.createQuery(table:String, filters:Array):FlowsqlQuery`
 
 Método que construye una `Query`.
 
 Consulta la interfaz de `Query` para más información.
+
+## Query API de Flowsql
 
 ### `FlowsqlQuery.constructor(flowsql, table, filters):FlowsqlQuery`
 
@@ -834,6 +843,8 @@ Método para correr la `Query.run`.
 
 Este método consiste en...
 
+## Firewall API de Flowsql
+
 ### `FlowsqlQuery.constructor(flowsql, table, filters):FlowsqlQuery`
 
 Método constructor de objetos `Query`.
@@ -854,6 +865,8 @@ Método para correr la `Firewall.trigger`.
 
 Este método consiste en...
 
+## Server API de Flowsql
+
 ### `FlowsqlServer.constructor(flowsql:Object, options:Object):FlowsqlServer`
 
 Método constructor de objetos `Server`.
@@ -873,6 +886,8 @@ Este método consiste en...
 Método para parar la escucha de un objeto `Server`.
 
 Este método consiste en...
+
+## Client API de Flowsql
 
 ### `FlowsqlClient.constructor(options:Object):FlowsqlClient`
 

@@ -1,5 +1,7 @@
 /**
  * 
+ * ## Firewall API de Flowsql
+ * 
  * ### `FlowsqlQuery.constructor(flowsql, table, filters):FlowsqlQuery`
  * 
  * Método constructor de objetos `Query`.

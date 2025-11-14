@@ -2283,6 +2283,8 @@ function(dirpath, newDirpath) {
     Include_query_api: {
         FlowsqlNodejs.prototype.createQuery = /**
  * 
+ * ## Query APIU
+ * 
  * ### `Flowsql.prototype.createQuery(table:String, filters:Array):FlowsqlQuery`
  * 
  * Método que construye una `Query`.
@@ -2295,6 +2297,8 @@ function(table, filters) {
 };
         
         FlowsqlNodejs.Query = /**
+ * 
+ * ## Query API de Flowsql
  * 
  * ### `FlowsqlQuery.constructor(flowsql, table, filters):FlowsqlQuery`
  * 
@@ -2351,6 +2355,8 @@ function() {
     Include_firewall_api: {
         FlowsqlNodejs.Firewall = /**
  * 
+ * ## Firewall API de Flowsql
+ * 
  * ### `FlowsqlQuery.constructor(flowsql, table, filters):FlowsqlQuery`
  * 
  * Método constructor de objetos `Query`.
@@ -2406,6 +2412,8 @@ function() {
     Include_server_api: {
         FlowsqlNodejs.Server = /**
  * 
+ * ## Server API de Flowsql
+ * 
  * ### `FlowsqlServer.constructor(flowsql:Object, options:Object):FlowsqlServer`
  * 
  * Método constructor de objetos `Server`.
@@ -2459,6 +2467,8 @@ function() {
 
     Include_client_api: {
         FlowsqlNodejs.Client = /**
+ * 
+ * ## Client API de Flowsql
  * 
  * ### `FlowsqlClient.constructor(options:Object):FlowsqlClient`
  * 

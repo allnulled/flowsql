@@ -1,5 +1,7 @@
 /**
  * 
+ * ## Query APIU
+ * 
  * ### `Flowsql.prototype.createQuery(table:String, filters:Array):FlowsqlQuery`
  * 
  * Método que construye una `Query`.

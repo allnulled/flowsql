@@ -117,3 +117,5 @@ Esto lo hace llamando a 3 funciones:
  - `atob(base64)`
  - `new SQL.Database(binaryData)`
 
+@type {any}
+

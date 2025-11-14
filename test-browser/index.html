@@ -332,13 +332,6 @@
             assert.ok(Array.isArray(list4), "«list4» must be an array");
             assert.ok(list4.length === 2, "«list4.length» must be 2");
         };
-        Tests.FirewallAPI = async function (assert) {
-            assert.ok(typeof FlowsqlBrowser.Firewall === "function", "«FlowsqlBrowser.Firewall» must be a function");
-        };
-        Tests.FirewallParserAPI = async function (assert) {
-            assert.ok(typeof FirewallParser === "object", "«FirewallParser» must be an object");
-            assert.ok(typeof FirewallParser.parse === "function", "«FirewallParser» must be a function");
-        };
         Tests.QueryAPI = async function (assert) {
             assert.ok(typeof FlowsqlBrowser.Query === "function", "«FlowsqlBrowser.Query» must be a function");
         };
@@ -347,6 +340,13 @@
         };
         Tests.ServerAPI = async function (assert) {
             assert.ok(typeof FlowsqlBrowser.Server === "function", "«FlowsqlBrowser.Server» must be a function");
+        };
+        Tests.FirewallAPI = async function (assert) {
+            assert.ok(typeof FlowsqlBrowser.Firewall === "function", "«FlowsqlBrowser.Firewall» must be a function");
+        };
+        Tests.FirewallParserAPI = async function (assert) {
+            assert.ok(typeof FirewallParser === "object", "«FirewallParser» must be an object");
+            assert.ok(typeof FirewallParser.parse === "function", "«FirewallParser» must be a function");
         };
     </script>
     <script>
@@ -360,11 +360,11 @@
                     QUnit.test("Test de Persistence API", Tests.PersistenceAPI);
                     QUnit.test("Test de DataProxy API", Tests.DataProxyAPI);
                     QUnit.test("Test de FileSystem API", Tests.FileSystemAPI);
-                    QUnit.test("Test de Firewall API", Tests.FirewallAPI);
-                    QUnit.test("Test de FirewallParser API", Tests.FirewallParserAPI);
                     QUnit.test("Test de Query API", Tests.QueryAPI);
                     QUnit.test("Test de Client API", Tests.ClientAPI);
                     QUnit.test("Test de Server API", Tests.ServerAPI);
+                    QUnit.test("Test de Firewall API", Tests.FirewallAPI);
+                    QUnit.test("Test de FirewallParser API", Tests.FirewallParserAPI);
                 });
                 QUnit.start();
             } catch (error) {

@@ -89,6 +89,21 @@
    - [`FlowsqlFileSystem.prototype.existsDirectory(dirpath:String)`](#flowsqlfilesystemprototypeexistsdirectorydirpathstring)
    - [`FlowsqlFileSystem.prototype.renameFile(filepath:String)`](#flowsqlfilesystemprototyperenamefilefilepathstring)
    - [`FlowsqlFileSystem.prototype.renameDirectory(dirpath:String)`](#flowsqlfilesystemprototyperenamedirectorydirpathstring)
+   - [`Flowsql.prototype.createQuery(table:String, filters:Array):FlowsqlQuery`](#flowsqlprototypecreatequerytablestring-filtersarrayflowsqlquery)
+   - [`FlowsqlQuery.constructor(flowsql, table, filters):FlowsqlQuery`](#flowsqlqueryconstructorflowsql-table-filtersflowsqlquery)
+   - [`FlowsqlQuery.defaultOptions:Object`](#flowsqlquerydefaultoptionsobject)
+   - [`FlowsqlQuery.prototype.setParameters(parameters:Object):FlowsqlQuery`](#flowsqlqueryprototypesetparametersparametersobjectflowsqlquery)
+   - [`FlowsqlQuery.prototype.run():Promise<any>`](#flowsqlqueryprototyperunpromiseany)
+   - [`FlowsqlQuery.constructor(flowsql, table, filters):FlowsqlQuery`](#flowsqlqueryconstructorflowsql-table-filtersflowsqlquery)
+   - [`FlowsqlQuery.defaultOptions:Object`](#flowsqlquerydefaultoptionsobject)
+   - [`FlowsqlFirewall.prototype.setSource(source:String):FlowsqlFirewall`](#flowsqlfirewallprototypesetsourcesourcestringflowsqlfirewall)
+   - [`FlowsqlFirewall.prototype.trigger():Promise<any>`](#flowsqlfirewallprototypetriggerpromiseany)
+   - [`FlowsqlServer.constructor(flowsql:Object, options:Object):FlowsqlServer`](#flowsqlserverconstructorflowsqlobject-optionsobjectflowsqlserver)
+   - [`FlowsqlServer.defaultOptions:Object`](#flowsqlserverdefaultoptionsobject)
+   - [`FlowsqlServer.prototype.start():FlowsqlServer`](#flowsqlserverprototypestartflowsqlserver)
+   - [`FlowsqlServer.prototype.stop():FlowsqlServer`](#flowsqlserverprototypestopflowsqlserver)
+   - [`FlowsqlClient.constructor(options:Object):FlowsqlClient`](#flowsqlclientconstructoroptionsobjectflowsqlclient)
+   - [`FlowsqlClient.defaultOptions:Object`](#flowsqlclientdefaultoptionsobject)
 
 
 ## Node.js API de Flowsql
@@ -792,4 +807,80 @@ Método para cambiar la ruta de un fichero.
 ### `FlowsqlFileSystem.prototype.renameDirectory(dirpath:String)`
 
 Método para cambiar la ruta de un directorio.
+
+### `Flowsql.prototype.createQuery(table:String, filters:Array):FlowsqlQuery`
+
+Método que construye una `Query`.
+
+Consulta la interfaz de `Query` para más información.
+
+### `FlowsqlQuery.constructor(flowsql, table, filters):FlowsqlQuery`
+
+Método constructor de objetos `Query`.
+
+### `FlowsqlQuery.defaultOptions:Object`
+
+Opciones por defecto del constructor `FlowsqlQuery`.
+
+### `FlowsqlQuery.prototype.setParameters(parameters:Object):FlowsqlQuery`
+
+Método para preparar los parámetros de la `Query`.
+
+Este método consiste en...
+
+### `FlowsqlQuery.prototype.run():Promise<any>`
+
+Método para correr la `Query.run`.
+
+Este método consiste en...
+
+### `FlowsqlQuery.constructor(flowsql, table, filters):FlowsqlQuery`
+
+Método constructor de objetos `Query`.
+
+### `FlowsqlQuery.defaultOptions:Object`
+
+Opciones por defecto del constructor `FlowsqlQuery`.
+
+### `FlowsqlFirewall.prototype.setSource(source:String):FlowsqlFirewall`
+
+Método para preparar el código fuente del `Firewall`.
+
+Este método consiste en...
+
+### `FlowsqlFirewall.prototype.trigger():Promise<any>`
+
+Método para correr la `Firewall.trigger`.
+
+Este método consiste en...
+
+### `FlowsqlServer.constructor(flowsql:Object, options:Object):FlowsqlServer`
+
+Método constructor de objetos `Server`.
+
+### `FlowsqlServer.defaultOptions:Object`
+
+Opciones por defecto del constructor `FlowsqlServer`.
+
+### `FlowsqlServer.prototype.start():FlowsqlServer`
+
+Método para levantar la escucha de un objeto `Server`.
+
+Este método consiste en...
+
+### `FlowsqlServer.prototype.stop():FlowsqlServer`
+
+Método para parar la escucha de un objeto `Server`.
+
+Este método consiste en...
+
+### `FlowsqlClient.constructor(options:Object):FlowsqlClient`
+
+Método constructor de objetos `Client`. Sirven para lanzar queries al objeto `Server` vía net.
+
+### `FlowsqlClient.defaultOptions:Object`
+
+Opciones por defecto del constructor `FlowsqlClient`.
+
+@type {any}
 

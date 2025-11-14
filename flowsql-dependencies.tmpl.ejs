@@ -1,11 +1,11 @@
 <% 
 
-const currentGlobal = fromEnvironment === "browser" ? "FlowsqlBrowser" : "Flowsql";
+const currentGlobal = fromEnvironment === "browser" ? "FlowsqlBrowser" : "FlowsqlNodejs";
 const isInNodejs = fromEnvironment === "node.js";
 
 %>
     Include_data_proxy_api: {
-        <%-currentGlobal%>.prototype.createDataProxy = <%- includeFile(["inc", "Flowsql", "prototype", "createDataProxy.js"], isInNodejs) %>
+        <%-currentGlobal%>.prototype.createDataProxy = <%- includeFile(["inc", "FlowsqlNodejs", "prototype", "createDataProxy.js"], isInNodejs) %>
         <%-currentGlobal%>.DataProxy = <%- includeFile(["inc", "FlowsqlDataProxy", "constructor.js"], isInNodejs) %>
         <%-currentGlobal%>.DataProxy.Flowsql = <%-currentGlobal%>;
         
@@ -26,8 +26,8 @@ const isInNodejs = fromEnvironment === "node.js";
         <%-currentGlobal%>.DataProxy.prototype.byMatrix = <%- includeFile(["inc", "FlowsqlDataProxy", "prototype", "byMatrix.js"], isInNodejs) %>
     }
 
-    Include_filesystem_api: {
-        <%-currentGlobal%>.prototype.createFileSystem = <%- includeFile(["inc", "Flowsql", "prototype", "createFileSystem.js"], isInNodejs) %>
+    Include_file_system_api: {
+        <%-currentGlobal%>.prototype.createFileSystem = <%- includeFile(["inc", "FlowsqlNodejs", "prototype", "createFileSystem.js"], isInNodejs) %>
         
         <%-currentGlobal%>.FileSystem = <%- includeFile(["inc", "FlowsqlFileSystem", "constructor.js"], isInNodejs) %>
         <%-currentGlobal%>.FileSystem.Flowsql = <%-currentGlobal%>;
@@ -36,9 +36,9 @@ const isInNodejs = fromEnvironment === "node.js";
         <%-currentGlobal%>.FileSystem.assertion = <%-currentGlobal%>.assertion.bind(<%-currentGlobal%>);
         <%-currentGlobal%>.FileSystem.normalizePath = <%- includeFile(["inc", "FlowsqlFileSystem", "static", "normalizePath.js"], isInNodejs) %>
         
+        <%-currentGlobal%>.FileSystem.prototype.assertion = <%-currentGlobal%>.prototype.assertion.bind(<%-currentGlobal%>);
         <%-currentGlobal%>.FileSystem.prototype._decomposePath = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "_decomposePath.js"], isInNodejs) %>
         <%-currentGlobal%>.FileSystem.prototype._copyObject = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "_copyObject.js"], isInNodejs) %>
-        <%-currentGlobal%>.FileSystem.prototype.assertion = <%-currentGlobal%>.prototype.assertion.bind(<%-currentGlobal%>);
         <%-currentGlobal%>.FileSystem.prototype.findByPath = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "findByPath.js"], isInNodejs) %>
         <%-currentGlobal%>.FileSystem.prototype.readFile = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "readFile.js"], isInNodejs) %>
         <%-currentGlobal%>.FileSystem.prototype.readDirectory = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "readDirectory.js"], isInNodejs) %>
@@ -51,5 +51,57 @@ const isInNodejs = fromEnvironment === "node.js";
         <%-currentGlobal%>.FileSystem.prototype.existsDirectory = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "existsDirectory.js"], isInNodejs) %>
         <%-currentGlobal%>.FileSystem.prototype.renameFile = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "renameFile.js"], isInNodejs) %>
         <%-currentGlobal%>.FileSystem.prototype.renameDirectory = <%- includeFile(["inc", "FlowsqlFileSystem", "prototype", "renameDirectory.js"], isInNodejs) %>
-        
     }
+
+    Include_query_api: {
+        <%-currentGlobal%>.prototype.createQuery = <%- includeFile(["inc", "FlowsqlNodejs", "prototype", "createQuery.js"], isInNodejs) %>
+        
+        <%-currentGlobal%>.Query = <%- includeFile(["inc", "FlowsqlQuery", "constructor.js"], isInNodejs) %>
+        <%-currentGlobal%>.Query.Flowsql = <%-currentGlobal%>;
+        <%-currentGlobal%>.Query.AssertionError = <%-currentGlobal%>.AssertionError.bind(<%-currentGlobal%>);
+        <%-currentGlobal%>.Query.defaultOptions = <%- includeFile(["inc", "FlowsqlQuery", "static", "defaultOptions.js"], isInNodejs) %>
+        <%-currentGlobal%>.Query.assertion = <%-currentGlobal%>.assertion.bind(<%-currentGlobal%>);
+        
+        <%-currentGlobal%>.Query.prototype.assertion = <%-currentGlobal%>.prototype.assertion.bind(<%-currentGlobal%>);
+        <%-currentGlobal%>.Query.prototype.setParameters = <%- includeFile(["inc", "FlowsqlQuery", "prototype", "setParameters.js"], isInNodejs) %>
+        <%-currentGlobal%>.Query.prototype.run = <%- includeFile(["inc", "FlowsqlQuery", "prototype", "run.js"], isInNodejs) %>
+    }
+
+    Include_firewall_api: {
+        <%-currentGlobal%>.Firewall = <%- includeFile(["inc", "FlowsqlFirewall", "constructor.js"], isInNodejs) %>
+        <%-currentGlobal%>.Firewall.Flowsql = <%-currentGlobal%>;
+        <%-currentGlobal%>.Firewall.AssertionError = <%-currentGlobal%>.AssertionError.bind(<%-currentGlobal%>);
+        <%-currentGlobal%>.Firewall.defaultOptions = <%- includeFile(["inc", "FlowsqlFirewall", "static", "defaultOptions.js"], isInNodejs) %>
+        <%-currentGlobal%>.Firewall.assertion = <%-currentGlobal%>.assertion.bind(<%-currentGlobal%>);
+        
+        <%-currentGlobal%>.Firewall.prototype.assertion = <%-currentGlobal%>.prototype.assertion.bind(<%-currentGlobal%>);
+        <%-currentGlobal%>.Firewall.prototype.setSource = <%- includeFile(["inc", "FlowsqlFirewall", "prototype", "setSource.js"], isInNodejs) %>
+        <%-currentGlobal%>.Firewall.prototype.trigger = <%- includeFile(["inc", "FlowsqlFirewall", "prototype", "trigger.js"], isInNodejs) %>
+    }
+
+    Include_server_api: {
+        <%-currentGlobal%>.Server = <%- includeFile(["inc", "FlowsqlServer", "constructor.js"], isInNodejs) %>
+        <%-currentGlobal%>.Server.Flowsql = <%-currentGlobal%>;
+        <%-currentGlobal%>.Server.AssertionError = <%-currentGlobal%>.AssertionError.bind(<%-currentGlobal%>);
+        <%-currentGlobal%>.Server.defaultOptions = <%- includeFile(["inc", "FlowsqlServer", "static", "defaultOptions.js"], isInNodejs) %>
+        <%-currentGlobal%>.Server.assertion = <%-currentGlobal%>.assertion.bind(<%-currentGlobal%>);
+        
+        <%-currentGlobal%>.Server.prototype.assertion = <%-currentGlobal%>.prototype.assertion.bind(<%-currentGlobal%>);
+        <%-currentGlobal%>.Server.prototype.start = <%- includeFile(["inc", "FlowsqlServer", "prototype", "start.js"], isInNodejs) %>
+        <%-currentGlobal%>.Server.prototype.stop = <%- includeFile(["inc", "FlowsqlServer", "prototype", "stop.js"], isInNodejs) %>
+    }
+
+    Include_client_api: {
+        <%-currentGlobal%>.Client = <%- includeFile(["inc", "FlowsqlClient", "constructor.js"], isInNodejs) %>
+        <%-currentGlobal%>.Client.Flowsql = <%-currentGlobal%>;
+        <%-currentGlobal%>.Client.AssertionError = <%-currentGlobal%>.AssertionError.bind(<%-currentGlobal%>);
+        <%-currentGlobal%>.Client.defaultOptions = <%- includeFile(["inc", "FlowsqlClient", "static", "defaultOptions.js"], isInNodejs) %>
+        <%-currentGlobal%>.Client.assertion = <%-currentGlobal%>.assertion.bind(<%-currentGlobal%>);
+        
+        <%-currentGlobal%>.Client.prototype.assertion = <%-currentGlobal%>.prototype.assertion.bind(<%-currentGlobal%>);
+    }
+
+    Include_firewall_source: {
+        <%- includeFile(["inc", "FlowsqlFirewall", "parser", "firewall.js"], false) %>
+    }
+

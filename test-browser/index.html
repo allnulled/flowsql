@@ -233,7 +233,7 @@
             assert.ok(allT1.length === 3, "«allT1.length» must be 3");
         };
 
-        Tests.DataProxyAPI = async function(assert) {
+        Tests.DataProxyAPI = async function (assert) {
             assert.ok(typeof FlowsqlBrowser === "function", "«FlowsqlBrowser» must be a function");
             const flowsqlBrowser = FlowsqlBrowser.create({ trace: false, traceSql: false });
             assert.ok(flowsqlBrowser instanceof FlowsqlBrowser, "«flowsqlBrowser» must be instance of «FlowsqlBrowser»");
@@ -275,9 +275,9 @@
             assert.ok(typeof flowsqlBrowser.$schema.tables.Tabla_1 === "object", "«flowsqlBrowser.$schema.tables.Tabla_1» must be an object");
             assert.ok(typeof flowsqlBrowser.$schema.tables.Tabla_2 === "object", "«flowsqlBrowser.$schema.tables.Tabla_2» must be an object");
             assert.ok(typeof flowsqlBrowser.$schema.tables.Tabla_3 === "object", "«flowsqlBrowser.$schema.tables.Tabla_3» must be an object");
-            
+
             const dataproxy1 = flowsqlBrowser.createDataProxy([]);
-            
+
             assert.ok(typeof dataproxy1 === "object", "«dataproxy1» must be an object");
             assert.ok(typeof dataproxy1.$memory === "object", "«dataproxy1.$memory» must be an object");
             assert.ok(typeof dataproxy1.$dataset === "object", "«dataproxy1.$dataset» must be an object");
@@ -294,7 +294,7 @@
             assert.ok(typeof dataproxy1.byMatrix === "function", "«dataproxy1.byMatrix» must be an function");
         };
 
-        Tests.FileSystemAPI = async function(assert) {
+        Tests.FileSystemAPI = async function (assert) {
             assert.ok(typeof FlowsqlBrowser === "function", "«FlowsqlBrowser» must be a function");
             ////////////////////////////////////////////////////////////////////
             const flowsqlBrowser = FlowsqlBrowser.create({ trace: true, traceSql: true });
@@ -332,6 +332,22 @@
             assert.ok(Array.isArray(list4), "«list4» must be an array");
             assert.ok(list4.length === 2, "«list4.length» must be 2");
         };
+        Tests.FirewallAPI = async function (assert) {
+            assert.ok(typeof FlowsqlBrowser.Firewall === "function", "«FlowsqlBrowser.Firewall» must be a function");
+        };
+        Tests.FirewallParserAPI = async function (assert) {
+            assert.ok(typeof FirewallParser === "object", "«FirewallParser» must be an object");
+            assert.ok(typeof FirewallParser.parse === "function", "«FirewallParser» must be a function");
+        };
+        Tests.QueryAPI = async function (assert) {
+            assert.ok(typeof FlowsqlBrowser.Query === "function", "«FlowsqlBrowser.Query» must be a function");
+        };
+        Tests.ClientAPI = async function (assert) {
+            assert.ok(typeof FlowsqlBrowser.Client === "function", "«FlowsqlBrowser.Client» must be a function");
+        };
+        Tests.ServerAPI = async function (assert) {
+            assert.ok(typeof FlowsqlBrowser.Server === "function", "«FlowsqlBrowser.Server» must be a function");
+        };
     </script>
     <script>
 
@@ -344,6 +360,11 @@
                     QUnit.test("Test de Persistence API", Tests.PersistenceAPI);
                     QUnit.test("Test de DataProxy API", Tests.DataProxyAPI);
                     QUnit.test("Test de FileSystem API", Tests.FileSystemAPI);
+                    QUnit.test("Test de Firewall API", Tests.FirewallAPI);
+                    QUnit.test("Test de FirewallParser API", Tests.FirewallParserAPI);
+                    QUnit.test("Test de Query API", Tests.QueryAPI);
+                    QUnit.test("Test de Client API", Tests.ClientAPI);
+                    QUnit.test("Test de Server API", Tests.ServerAPI);
                 });
                 QUnit.start();
             } catch (error) {

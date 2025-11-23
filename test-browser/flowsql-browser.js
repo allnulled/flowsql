@@ -1142,77 +1142,6 @@ function(base64) {
 };
     
     
-    Include_data_proxy_api: {
-        FlowsqlBrowser.prototype.createDataProxy = function(dataset, memory) {
-  return new this.constructor.DataProxy(dataset, this, memory);
-};
-        FlowsqlBrowser.DataProxy = function(dataset, database, memory = {}) {
-  this.constructor.assertion(Array.isArray(dataset), "Parameter «dataset» must be an array on «DataProxy»");
-  this.constructor.assertion(typeof database === "object", "Parameter «database» must be an object on «DataProxy»");
-  this.constructor.assertion(database instanceof this.constructor.Flowsql, "Parameter «database» must be a child of «DataProxy.Flowsql» on «DataProxy»");
-  this.constructor.assertion(typeof memory === "object", "Parameter «memory» must be an object on «DataProxy»");
-  this.$database = database;
-  this.$dataset = dataset;
-  this.$memory = memory;
-  return this;
-};
-        FlowsqlBrowser.DataProxy.Flowsql = FlowsqlBrowser;
-        
-        FlowsqlBrowser.DataProxy.assertion = FlowsqlBrowser.assertion.bind(FlowsqlBrowser);
-        FlowsqlBrowser.DataProxy.prototype.assertion = FlowsqlBrowser.assertion.bind(FlowsqlBrowser);
-        FlowsqlBrowser.DataProxy.prototype.mapByEval = async function() {
-
-};
-        FlowsqlBrowser.DataProxy.prototype.filterByEval = async function() {
-
-};
-        FlowsqlBrowser.DataProxy.prototype.reduceByEval = async function() {
-
-};
-        FlowsqlBrowser.DataProxy.prototype.modifyByEval = async function() {
-
-};
-        FlowsqlBrowser.DataProxy.prototype.amplifyByEval = async function() {
-
-};
-        
-        FlowsqlBrowser.DataProxy.prototype.groupByEvals = 
-        
-        FlowsqlBrowser.DataProxy.prototype.accessProperty = async function(name) {
-  if(Array.isArray(this.$dataset)) {
-    const output = [];
-    for(let indexRow=0; indexRow<this.$dataset.length; indexRow++) {
-      const row = this.$dataset[indexRow];
-      const value = row[name];
-      if(Array.isArray(value)) {
-        for(let indexItem=0; indexItem<value.length; indexItem++) {
-          const item = value[indexItem];
-          output.push(item);
-        }
-      } else {
-        output.push(value);
-      }
-    }
-    return output;
-  }
-  return this.$dataset[name];
-};
-        FlowsqlBrowser.DataProxy.prototype.memorize = function(keys) {
-  this.constructor.assertion(typeof keys === "object", "Parameter «keys» must be an object on «DataProxy.memorize»");
-  return this;
-};
-        FlowsqlBrowser.DataProxy.prototype.remember = function(id) {
-  
-};
-        FlowsqlBrowser.DataProxy.prototype.deduplicate = function(keys) {
-  this.constructor.assertion(typeof keys === "object", "Parameter «keys» must be an object on «DataProxy.setMemory»");
-  return this;
-};
-        FlowsqlBrowser.DataProxy.prototype.byMatrix = function(matrix) {
-  this.constructor.Flowsql.assertion(Array.isArray(matrix), "Parameter «matrix» must be an array on «DataProxy.byMatrix»");
-  return this;
-};
-    }
 
     Include_file_system_api: {
         FlowsqlBrowser.prototype.createFileSystem = function(table, options) {
@@ -1498,33 +1427,6 @@ function(base64) {
 };
     }
 
-    Include_query_api: {
-        FlowsqlBrowser.prototype.createQuery = function(table, filters) {
-  return new this.constructor.Query(this, table, filters);
-};
-        
-        FlowsqlBrowser.Query = function(flowsql, table, parameters) {
-  this.$flowsql = flowsql;
-  this.$table = table;
-  this.$parameters = parameters;
-  return this;
-};
-        FlowsqlBrowser.Query.Flowsql = FlowsqlBrowser;
-        FlowsqlBrowser.Query.AssertionError = FlowsqlBrowser.AssertionError.bind(FlowsqlBrowser);
-        FlowsqlBrowser.Query.defaultOptions = {
-
-};
-        FlowsqlBrowser.Query.assertion = FlowsqlBrowser.assertion.bind(FlowsqlBrowser);
-        
-        FlowsqlBrowser.Query.prototype.assertion = FlowsqlBrowser.prototype.assertion.bind(FlowsqlBrowser);
-        FlowsqlBrowser.Query.prototype.setParameters = function() {
-
-};
-        FlowsqlBrowser.Query.prototype.run = function() {
-
-};
-    }
-
     Include_firewall_api: {
         FlowsqlBrowser.Firewall = function(flowsql, table, parameters) {
   this.$flowsql = flowsql;
@@ -1546,44 +1448,6 @@ function(base64) {
         FlowsqlBrowser.Firewall.prototype.trigger = function() {
 
 };
-    }
-
-    Include_server_api: {
-        FlowsqlBrowser.Server = function(flowsql, options) {
-  this.$flowsql = flowsql;
-  this.$options = options;
-  return this;
-};
-        FlowsqlBrowser.Server.Flowsql = FlowsqlBrowser;
-        FlowsqlBrowser.Server.AssertionError = FlowsqlBrowser.AssertionError.bind(FlowsqlBrowser);
-        FlowsqlBrowser.Server.defaultOptions = {
-
-};
-        FlowsqlBrowser.Server.assertion = FlowsqlBrowser.assertion.bind(FlowsqlBrowser);
-        
-        FlowsqlBrowser.Server.prototype.assertion = FlowsqlBrowser.prototype.assertion.bind(FlowsqlBrowser);
-        FlowsqlBrowser.Server.prototype.start = function() {
-
-};
-        FlowsqlBrowser.Server.prototype.stop = function() {
-
-};
-    }
-
-    Include_client_api: {
-        FlowsqlBrowser.Client = function(options) {
-  this.$flowsql = flowsql;
-  this.$options = options;
-  return this;
-};
-        FlowsqlBrowser.Client.Flowsql = FlowsqlBrowser;
-        FlowsqlBrowser.Client.AssertionError = FlowsqlBrowser.AssertionError.bind(FlowsqlBrowser);
-        FlowsqlBrowser.Client.defaultOptions = {
-
-};
-        FlowsqlBrowser.Client.assertion = FlowsqlBrowser.assertion.bind(FlowsqlBrowser);
-        
-        FlowsqlBrowser.Client.prototype.assertion = FlowsqlBrowser.prototype.assertion.bind(FlowsqlBrowser);
     }
 
     Include_firewall_source: {

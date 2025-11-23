@@ -18,9 +18,9 @@ La API se divide en 2 ficheros diferentes, 1 para cada entorno:
 - 🖥 Versión servidor:
    - 🌐 `Flowsql`
    - 📝 `flowsql-node.js` para `node.js`
-   - 📚 documentación en: [README-NODE.md](./README-NODE.md)
-- 🖥️ Versión navegador, que contiene solamente la parte en que sobreescribe a la versión servidor:
+   - 📚 Documentación en: [README-NODE.md](./README-NODE.md)
+- 🖥️ Versión navegador:
    - 🌐 `FlowsqlBrowser`
    - 📝 `flowsql-browser.js` para `browser` 
-   - 📚 documentación en: [README-BROWSER.md](./README-BROWSER.md)
+   - 📚 Documentación en: [README-BROWSER.md](./README-BROWSER.md)
 
